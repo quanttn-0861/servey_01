@@ -130,7 +130,7 @@ class User extends Authenticatable
 
     public function setGenderAttribute($value)
     {
-        $this->attributes['gender'] = $value ?: config('users.gender.male');
+        $this->attributes['gender'] = $value ?: null;
     }
 
     public function requestAdmin()
@@ -182,7 +182,11 @@ class User extends Authenticatable
             return trans('profile.female');
         }
 
-        return trans('profile.other');;
+        if ($this->gender == config('users.gender.other_gender')) {
+            return trans('profile.other');
+        }
+
+        return null;
     }
 
     public function checkLoginWsm()

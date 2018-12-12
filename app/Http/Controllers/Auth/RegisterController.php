@@ -37,7 +37,7 @@ class RegisterController extends Controller
             'level' => config('users.level.user'),
             'status' => config('users.status.active'),
             'image' => config('setting.image_user_default'),
-            'gender' => config('users.gender.male'),
+            'gender' => null,
         ];
         $user = $this->userRepository->firstOrCreate($input);
 
