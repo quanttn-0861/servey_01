@@ -112,7 +112,14 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'phone' => 'phone',
+        'name' => 'name',
+        'image' => 'image',
+        'birthday' => 'birthday',
+        'address' => 'address',
+        'gender' => 'gender',
+    ],
     'msg' => [
         'required' => 'This field is required.',
         'remote' => 'Please fix this field.',
