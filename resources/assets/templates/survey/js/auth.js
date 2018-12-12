@@ -16,7 +16,14 @@ $(document).ready(function () {
             }
         })
         .fail(function (data) {
-            $('.login-messages').text(Lang.get('auth.failed'));
+            if (data.responseJSON.email) {
+                $('.login-messages').text(Lang.get('auth.failed_email'));
+            }
+
+            if (data.responseJSON.password) {
+                $('.login-messages-password').text(Lang.get('auth.failed_password'));
+            }
+
             $('input[type=password]').val('');
         });
     });
