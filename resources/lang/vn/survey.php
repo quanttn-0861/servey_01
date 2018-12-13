@@ -27,5 +27,5 @@ return [
     'delete' => 'Xóa',
     'close' => 'Đóng',
     'open' => 'Mở',
-    'coppy' => 'Bản Sao',
+    'copy' => 'Bản Sao',
 ];
