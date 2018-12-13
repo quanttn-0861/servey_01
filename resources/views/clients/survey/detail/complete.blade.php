@@ -8,7 +8,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         {{ Html::favicon(asset('templates/survey/images/icon/favicon.ico')) }}
-        
+
         <!-- Plugins CSS -->
         {!! Html::style(asset(config('settings.plugins') . 'bootstrap/dist/css/bootstrap.min.css')) !!}
         {!! Html::style(elixir(config('settings.public_template') . 'css/preview.css')) !!}

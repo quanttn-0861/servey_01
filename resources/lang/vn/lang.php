@@ -246,6 +246,7 @@ return [
     'export' => 'Tải xuống',
     'export_error' => 'Lỗi khi tải xuống!',
     'create_other' => 'Tạo khảo sát khác',
+    'not_permission_to_doing_this_survey' => 'Bạn không được phép thực hiện khảo sát này!',
 
     /*
         date time format
@@ -268,7 +269,7 @@ return [
     /*
         manage survey
     */
-   
+
    'manage_survey' => 'Quản lý survey',
    'confirm_close_to_edit' => 'Khảo sát đang mở, bạn phải đóng khảo sát trước khi sửa!',
    'close_survey_success' => 'Đóng survey thành công!',
