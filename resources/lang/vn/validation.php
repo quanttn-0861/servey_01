@@ -112,7 +112,14 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'phone' => 'số điện thoại',
+        'name' => 'tên',
+        'image' => 'ảnh',
+        'birthday' => 'ngày sinh',
+        'address' => 'địa chỉ',
+        'gender' => 'giới tính',
+    ],
     'msg' => [
         'required' => 'Thông tin bắt buộc',
         'remote' => 'Hãy sửa trừờng này.',
