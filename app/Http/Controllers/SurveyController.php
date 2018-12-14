@@ -707,6 +707,8 @@ class SurveyController extends Controller
     /* store result -new- */
     public function storeResult(ResultRequest $request)
     {
+        $dataJSON = [];
+
         if (!$request->ajax()) {
             return response()->json([
                 'success' => false,
@@ -716,22 +718,32 @@ class SurveyController extends Controller
         DB::beginTransaction();
 
         try {
+            $survey = $this->surveyRepository->getSurveyFromToken($request->json()->get('survey_token'));
+
+            if (Carbon::now()->gt(Carbon::parse($survey->end_time))
+                || Carbon::now()->lt(Carbon::parse($survey->start_time))) {
+                throw new Exception('Do not permit to do this survey', 403);
+            }
+
             $this->resultRepository->storeResult($request->json(), $this->surveyRepository);
             $request->session()->forget('current_section_survey');
 
             DB::commit();
 
-            return response()->json([
-                'success' => true,
-            ]);
+            $dataJSON['success'] = true;
         } catch (Exception $e) {
             DB::rollback();
-
-            return response()->json([
+            $dataJSON = [
                 'success' => false,
                 'message' => trans('lang.send_result_failed'),
-            ]);
+            ];
+
+            if ($e->getCode() == 403) {
+                $dataJSON['success'] = true;
+            }
         }
+
+        return response()->json($dataJSON);
     }
 
     // write new
@@ -791,9 +803,12 @@ class SurveyController extends Controller
     {
         try {
             $survey = $this->surveyRepository->getSurveyFromToken($token);
+            $content = (Carbon::now()->gt(Carbon::parse($survey->end_time))
+                || Carbon::now()->lt(Carbon::parse($survey->start_time))) ?
+                    trans('lang.not_permission_to_doing_this_survey') : null;
             $title = $survey->title;
 
-            return view('clients.survey.detail.complete', compact('title'));
+            return view('clients.survey.detail.complete', compact('title', 'content'));
         } catch (Exception $e) {
             return redirect()->route('404');
         }

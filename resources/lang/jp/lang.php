@@ -246,6 +246,7 @@ return [
     'export' => 'Download',
     'export_error' => 'Export error!',
     'create_other' => 'Create other survey',
+    'not_permission_to_doing_this_survey' => 'You do not have permission to doing this survey!',
 
     /*
         date time format
@@ -268,7 +269,7 @@ return [
     /*
         manage survey
     */
-   
+
    'manage_survey' => 'Manage survey',
    'confirm_close_to_edit' => 'The survey is opening, you must close the survey before editing!',
    'close_survey_success' => 'Close survey successful!',
@@ -317,7 +318,7 @@ return [
     /*
         Required login
     */
-        
+
     'require_login_wsm_to_answer' => 'Survey require login wsm to answer!',
     'require_login_to_answer' => 'Survey require login to answer!',
     'send_result_failed' => 'Send result failed! Try again!',
