@@ -25,6 +25,7 @@
                             'placeholder' => trans('lang.password_placeholder'),
                         ]) }}
                         {{ Form::label('password', trans('lang.password'), ['data-error' => ' ', 'data-success' => ' ', ]) }}
+                        <span class="help-block login-messages-password"></span>
                         <p class="font-small blue-text d-flex justify-content-end">@lang('lang.forgot')
                             <a data-toggle="modal" data-dismiss="modal" data-target="#modalForgotPassword" href="#" class="blue-text ml-1">
                                 @lang('lang.password')&#63;
