@@ -425,9 +425,9 @@ $(document).ready(function() {
 
         selector.find('.required-question').each(function() {
             var selectorQuestion = $(this).closest('.li-question-review.form-line');
-
-            if (selectorQuestion.find('.answer-text').length &&
-                !selectorQuestion.find('.answer-text').val()) {
+            if (selectorQuestion.has('answer-text') &&
+                !selectorQuestion.find('.answer-text').val().trim().length
+            ) {
                 selectorQuestion.find('.input-answer-other').addClass('change-css-required');
                 selectorQuestion.find('.magic-box-preview').addClass('change-css-required');
                 $(selectorQuestion).find('.notice-required').show();
