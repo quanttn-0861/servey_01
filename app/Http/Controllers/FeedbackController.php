@@ -46,9 +46,16 @@ class FeedbackController extends Controller
 
         try {
             $feedbackData =  $request->only('name', 'email', 'content');
+
+            if (Auth::check()) {
+                if (Auth::user()->name != trim($feedbackData['name']) || Auth::user()->email != trim($feedbackData['email'])) {
+                    throw new Exception("Permission denied", 403);
+                }
+            }
+
             $this->feedbackRepository->create($feedbackData);
             DB::commit();
-            
+
             return response()->json([
                 'success' => true,
                 'message' => trans('lang.send_feedback_success', ['name' => $feedbackData['name']]),

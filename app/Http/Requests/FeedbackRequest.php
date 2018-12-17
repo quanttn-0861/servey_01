@@ -26,7 +26,7 @@ class FeedbackRequest extends FormRequest
         return [
             'content' => 'required',
             'name' => 'required|max:255',
-            'email' => 'required|max:255',
+            'email' => 'required|max:255|regex:/^[a-zA-Z0-9]([\.-]?[a-zA-Z0-9])*@[a-zA-Z0-9]([\.-]?[a-zA-Z0-9-_])*(\.[a-zA-Z0-9]{2,4})+$/',
         ];
     }
 
@@ -46,6 +46,9 @@ class FeedbackRequest extends FormRequest
                 'attribute' => trans('lang.email'),
             ]),
             'email.max' => trans('validation.max.string', [
+                'attribute' => trans('lang.email'),
+            ]),
+            'email.regex' => trans('validation.email', [
                 'attribute' => trans('lang.email'),
             ]),
         ];
