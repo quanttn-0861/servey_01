@@ -147,4 +147,5 @@ return [
         'duplicate_question_title' => 'There is a question that coincides with this question',
         'duplicate_answer_title' => 'There was an answer that matched this answer',
     ],
+    'password_without_spaces_and_require_letter_number_special_character' => 'Your password can not be started and ends with a space and require has letters, numbers, special characters.',
 ];
