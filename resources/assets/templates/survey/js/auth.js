@@ -45,7 +45,14 @@ $(document).ready(function () {
             var errors = JSON.parse(data.responseText);
             $('.name-messages').text(errors.name);
             $('.email-messages').text(errors.email);
+
+            if ($.inArray(Lang.get('validation.confirmed', {'attribute' : 'password'}), errors.password) >= 0) {
+                var errorsPasswordConfirmation = errors.password.slice(-1);
+                errors.password = errors.password.slice(0, -1);
+            }
+
             $('.password-messages').text(errors.password);
+            $('.password-confirmation-messages').text(errorsPasswordConfirmation);
             $('input[type=password]').val('');
         });
     });
