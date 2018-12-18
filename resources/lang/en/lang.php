@@ -34,7 +34,7 @@ return [
     'email_placeholder' => 'someone@example.com',
     'not_a_member' => 'Not a member&#63;',
     'forgot' => 'Forgot',
-    'or_sign_in_with' => 'or sign in with',
+    'or_sign_in_with' => 'or login with',
     'name' => 'Name',
     'password_confirmation' => 'Password confirmation',
     'email_reset_password' => 'Email reset password',

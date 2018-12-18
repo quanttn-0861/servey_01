@@ -3,7 +3,7 @@
         <div class="modal-content form-elegant">
             <div class="modal-header text-center">
                 <h3 class="modal-title w-100 dark-grey-text font-weight-bold my-3" id="myModalLabel">
-                    <strong>@lang('lang.sign_up')</strong>
+                    <strong>@lang('lang.register')</strong>
                 </h3>
                 <button type="button" class="close btn-close-form" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -43,7 +43,7 @@
                         {{ Form::label('password_confirmation', trans('lang.password'), ['data-error' => ' ', 'data-success' => ' ', ]) }}
                     </div>
                     <div class="text-center mb-3">
-                        {{ Form::button(trans('lang.sign_up'), ['type' => 'submit', 'class' => 'btn blue-gradient btn-block btn-rounded z-depth-1a', ]) }}
+                        {{ Form::button(trans('lang.register'), ['type' => 'submit', 'class' => 'btn blue-gradient btn-block btn-rounded z-depth-1a', ]) }}
                     </div>
                 {{ Form::close() }}
                 <p class="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2"> @lang('lang.or_sign_in_with')</p>
@@ -62,7 +62,7 @@
                 <p class="font-small grey-text d-flex justify-content-end">
                     @lang('lang.already_has_an_account')
                     <a href="#" data-toggle="modal" data-dismiss="modal" data-target="#modalLogin" class="blue-text ml-1">
-                        @lang('lang.sign_in')
+                        @lang('lang.login')
                     </a>
                 </p>
             </div>

@@ -40,7 +40,7 @@
             <div class="modal-footer mx-5 pt-3 mb-1">
                 <p class="font-small grey-text d-flex justify-content-end">@lang('lang.not_a_member')
                     <a href="#" data-toggle="modal" data-dismiss="modal" data-target="#modalRegister" class="blue-text ml-1">
-                        @lang('lang.sign_up')
+                        @lang('lang.register')
                     </a>
                 </p>
             </div>
