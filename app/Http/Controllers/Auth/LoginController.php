@@ -68,7 +68,9 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         $this->guard()->logout();
+        $locale = $request->session()->get('locale');
         $request->session()->flush();
+        $request->session()->put('locale', $locale);
         $request->session()->regenerate();
 
         return redirect()->action('SurveyController@index');
