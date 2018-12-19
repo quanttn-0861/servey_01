@@ -79,4 +79,8 @@ $(document).ready(function () {
             $('.email-reset-messages').text(errors.email);
         });
     });
+
+    $(document).on('focus', '.reset-password-email', function () {
+        $('.send-mail-fail').addClass('hidden');
+    });
 });
