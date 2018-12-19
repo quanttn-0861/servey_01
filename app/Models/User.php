@@ -8,10 +8,12 @@ use Carbon\Carbon;
 use File;
 use App\Notifications\ResetPasswordNotification;
 use Storage;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
