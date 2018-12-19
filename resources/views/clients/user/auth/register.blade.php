@@ -16,7 +16,7 @@
                             'class' => 'form-control validate',
                             'placeholder' => trans('lang.name_placeholder'),
                         ]) }}
-                        {{ Form::label('name', trans('lang.name'), ['data-error' => ' ', 'data-success' => ' ', ]) }}
+                        {{ Form::label('name', trans('lang.name') . '(*)', ['data-error' => ' ', 'data-success' => ' ', ]) }}
                         <span class="help-block name-messages"></span>
                     </div>
                     <div class="md-form mb-5">
@@ -24,7 +24,7 @@
                             'class' => 'form-control validate',
                             'placeholder' => trans('lang.email_placeholder'),
                         ]) }}
-                        {{ Form::label('email', trans('lang.email'), ['data-error' => ' ', 'data-success' => ' ', ]) }}
+                        {{ Form::label('email', trans('lang.email') . '(*)', ['data-error' => ' ', 'data-success' => ' ', ]) }}
                         <span class="help-block email-messages"></span>
                     </div>
                     <div class="md-form mb-5">
@@ -32,7 +32,7 @@
                             'class' => 'form-control validate',
                             'placeholder' => trans('lang.password_placeholder'),
                         ]) }}
-                        {{ Form::label('password', trans('lang.password'), ['data-error' => ' ', 'data-success' => ' ', ]) }}
+                        {{ Form::label('password', trans('lang.password') . '(*)', ['data-error' => ' ', 'data-success' => ' ', ]) }}
                         <span class="help-block password-messages"></span>
                     </div>
                     <div class="md-form mb-3">
@@ -40,7 +40,7 @@
                             'class' => 'form-control validate',
                             'placeholder' => trans('lang.password_placeholder'),
                         ]) }}
-                        {{ Form::label('password_confirmation', trans('lang.password_confirmation'), ['data-error' => ' ', 'data-success' => ' ', ]) }}
+                        {{ Form::label('password_confirmation', trans('lang.password_confirmation') . '(*)', ['data-error' => ' ', 'data-success' => ' ', ]) }}
                         <span class="help-block password-confirmation-messages"></span>
                     </div>
                     <div class="text-center mb-3">

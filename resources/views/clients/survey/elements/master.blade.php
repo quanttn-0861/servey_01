@@ -8,7 +8,7 @@
             {!! Form::textarea("title[section_$sectionId][question_$questionId]", '', [
                 'class' => 'form-control input-area auto-resize question-input active',
                 'data-autoresize',
-                'placeholder' => trans('lang.question'),
+                'placeholder' => trans('lang.question') . '(*)',
                 'rows' => 1,
             ]) !!}
             {!! Form::hidden("media[section_$sectionId][question_$questionId]", isset($imageURL) ? $imageURL : '', ['class' => 'image-question-hidden']) !!}
