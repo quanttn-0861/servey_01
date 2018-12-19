@@ -41,7 +41,7 @@ return [
     'reset_password' => 'Đặt lại mật khẩu',
     'already_has_an_account' => 'Đã có tài khoản?',
     'name_placeholder' => 'Ví dụ: Nguyen Van A',
-    'password_placeholder' => '**********************',
+    'password_placeholder' => 'Nhập mật khẩu của bạn.',
     'survey_description_slider' => 'Khảo sát một cách hiệu quả, tạo nên sự thành công cho mục tiêu của bạn.',
     'survey_title_slider' => 'Bắt đầu cùng',
     'surveys' => 'Surveys',

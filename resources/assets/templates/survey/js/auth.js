@@ -11,7 +11,7 @@ $(document).ready(function () {
             if (data) {
                 location.reload();
             } else {
-                $('.login-messages').text(Lang.get('auth.failed'));
+                $('.login-messages-password').text(Lang.get('auth.failed'));
                 $('input[type=password]').val('');
             }
         })
