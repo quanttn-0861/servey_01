@@ -3211,7 +3211,7 @@ input[name="quantity-answer"]::-webkit-outer-spin-button, input[type="number"]::
 }
 
 .option-image-section .option-menu-dropdown {
-    width: 150px;
+    width: 160px;
     text-align: left;
     background-color: #fff;
     box-shadow: 0 1px 1px 0 rgba(0,0,0,0.14), 0 2px 1px -1px rgba(0,0,0,0.12), 0 1px 3px 0 rgba(0,0,0,0.2);

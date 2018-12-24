@@ -13,7 +13,7 @@ jQuery(document).ready(function () {
         var isUpdate = false;
         var oldSurveyData = getSections($('form.survey-form').serializeArray());
         var isUpdate = true;
-        
+
         var sectionsUpdate = {};
         var questionsUpdate = {};
         var answersUpdate = {};
@@ -21,7 +21,7 @@ jQuery(document).ready(function () {
         var sectionsCreate = [];
         var questionsCreate = [];
         var answersCreate = [];
-        
+
         var sectionsUpdateId = [];
         var questionsUpdateId = [];
         var answersUpdateId = [];
@@ -462,9 +462,9 @@ jQuery(document).ready(function () {
 
                     questionsUpdate[questionId] = tempData;
                     questionsUpdateId.push(questionId);
-                } else if (question.status == 2) {       // if is create         
+                } else if (question.status == 2) {       // if is create
                     var oldSection = collect(oldSurveyData).where('id', sectionId);
-                    
+
                     if (!oldSection.isEmpty()) {
                         question.section_id = sectionId;
                         question.order = orderQuestion;
@@ -499,7 +499,7 @@ jQuery(document).ready(function () {
             var description = data.find(item => item.name === `description[section_${sectionId}]`);
             section.description = description !== undefined ? description.value : '';
             section.questions = getQuestions(data, element, sectionId);
-            
+
             // get update status of section in edit-page and get sections update data
             if (surveyData.data('page') == 'edit' && isUpdate) {
                 section.status = getUpdateStatusOfSection(section);
@@ -586,14 +586,14 @@ jQuery(document).ready(function () {
 
         invitedEmail.subject = subject;
         invitedEmail.message = $('#invite-setting').attr('msg');
-        
+
         emails = $('#invite-setting').attr('invite-data');
         invitedEmail.emails = emails.split('/').filter(Boolean);
         invitedEmail.send_mail_to_wsm = $('#invite-setting').attr('all');
 
         if (surveyData.data('page') == 'edit') {
             emailsAnswer = $('#invite-setting').attr('answer-data');
-            invitedEmail.answer_emails = emailsAnswer.split('/').filter(Boolean);            
+            invitedEmail.answer_emails = emailsAnswer.split('/').filter(Boolean);
         }
 
         return invitedEmail;
@@ -648,7 +648,7 @@ jQuery(document).ready(function () {
 
                     return;
                 }
-                
+
                 answers.push($(this).find('.image-answer-hidden').prev().val());
             });
         }
@@ -1009,7 +1009,7 @@ jQuery(document).ready(function () {
     } );
 
     var form = $(".survey-form");
-    
+
     if (surveyData.data('page') === 'create' || $('#update-survey-draft').length) {
         var validator = form.validate({
             debug: false,
@@ -1094,7 +1094,7 @@ jQuery(document).ready(function () {
             $('#end-time').data('datetimepicker').clear();
 
             return;
-        }   
+        }
 
         var dateSelect = new Date(e.date);
         var dateNow = new Date();
@@ -1105,7 +1105,7 @@ jQuery(document).ready(function () {
             // start-time must after time now 30 min
             dateSelect =  new Date(dateNow.getTime() + 30 * 1000 * 60);
             $(this).data('datetimepicker').date(dateSelect);
-            
+
             return;
         }
     });
@@ -2139,7 +2139,7 @@ jQuery(document).ready(function () {
         if (surveyData.data('page') == 'create') {
             removeImage(url, imageURL);
         }
-        
+
         $(this).closest('.section-show-image-insert').remove();
     });
 
@@ -2508,7 +2508,7 @@ jQuery(document).ready(function () {
     $('.div-show-all-email').on('click', '.delete-label-email', function () {
         var labelEmail = $(this).closest('.label-show-email');
         var email = $(labelEmail).data('email');
-        
+
         if (labelEmail.hasClass('active')) {
             removeEmailAnswered(email, labelEmail);
         } else {
@@ -2536,7 +2536,7 @@ jQuery(document).ready(function () {
 
         if (surveyData.data('page') == 'edit') {
             var mailsAnswer = $('#invite-setting').attr('answer-data').split('/');
-            
+
             if ($.inArray(email, mailsAnswer) != -1) {
                 isAnswer = 'active';
             }
@@ -2618,7 +2618,7 @@ jQuery(document).ready(function () {
     }
 
     function isEmail(email) {
-        var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        var regex = /^[a-zA-Z0-9]([\.-]?[a-zA-Z0-9])*@[a-zA-Z0-9]([\.-]?[a-zA-Z0-9-_])*(\.[a-zA-Z0-9]{2,4})+$/;
 
         return regex.test(email);
     }
@@ -3284,14 +3284,14 @@ jQuery(document).ready(function () {
                     window.onbeforeunload = null;
                     $(window).attr('location', data.redirect);
                 }
-                
+
                 if (check) {
                     if ($('#option-update-modal').length) {
                         showUpdateModal();
                     } else {
                         $('#update-survey-draft-to-open').next('#edit-survey-btn').click();
                     }
-                    
+
                 }
             })
             .fail(function (data) {
@@ -3653,7 +3653,7 @@ jQuery(document).ready(function () {
             if ($(this).hasClass('input-email-message')) {
                 return;
             }
-            
+
             autoResizeTextarea();
             $(this).focus();
             $(this).keyup();
@@ -3812,7 +3812,7 @@ jQuery(document).ready(function () {
             sectionsUpdate = {};
             questionsUpdate = {};
             answersUpdate = {};
-            
+
             sectionsCreate = [];
             questionsCreate = [];
             answersCreate = [];
@@ -3848,11 +3848,11 @@ jQuery(document).ready(function () {
             var oldSectionsId = oldSections.pluck('id').all();
             var oldQuestionsId = [];
             var oldAnswersId = [];
-            
+
             oldSections.each(section => {
                 var questionsId = collect(section.questions).pluck('id').all();
                 oldQuestionsId = [... new Set(oldQuestionsId.concat(questionsId))];
-                
+
                 var oldQuestions = collect(section.questions);
 
                 oldQuestions.each(question => {
@@ -3880,7 +3880,7 @@ jQuery(document).ready(function () {
             $('#export-form').submit();
         }
 
-        $('#export-form').on('keydown', '.result-file-name', function(event) {            
+        $('#export-form').on('keydown', '.result-file-name', function(event) {
             if (event.keyCode == 13) {
                 event.preventDefault();
             }
@@ -3919,7 +3919,7 @@ jQuery(document).ready(function () {
             } else {
                 $('#option-update-modal .only-send-update').hide();
             }
-            
+
             $('#option-update-modal .container-radio-setting-survey input').first().prop('checked', true);
             $('#option-update-modal').modal('show');
         }
@@ -3957,7 +3957,7 @@ jQuery(document).ready(function () {
                     $(this).closest('.option-update-content').attr('val', $(this).attr('val'));
                 }
             });
-            
+
             setTimeout(function() {
                 $('#send-update-btn').next('#edit-survey-btn').click();
             }, 200);
@@ -4033,7 +4033,7 @@ jQuery(document).ready(function () {
 
                         return;
                     }
-                    
+
                     hideLoaderAnimation();
                     alertDanger({message: data.message});
                 }
