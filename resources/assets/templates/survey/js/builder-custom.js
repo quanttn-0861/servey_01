@@ -1018,10 +1018,6 @@ jQuery(document).ready(function () {
                     required: true,
                     maxlength: 255
                 },
-                end_time: {
-                    more_than_30_minutes: true,
-                    after_start_time: true
-                },
                 start_time: {
                     start_time_after_now: true
                 },
@@ -1130,7 +1126,7 @@ jQuery(document).ready(function () {
         var diffdateNow = Math.round((startDate - dateSelect) / (1000 * 60));
 
         // if end-time select <= start-time
-        if (diffdateNow >= 0) {
+        if (diffdateNow >= -30) {
             // end-time must after start-time now 30 min
             dateSelect =  new Date(startDate.getTime() + 30 * 1000 * 60);
             $(this).data('datetimepicker').date(dateSelect);
