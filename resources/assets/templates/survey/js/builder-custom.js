@@ -1104,6 +1104,16 @@ jQuery(document).ready(function () {
 
             return;
         }
+
+        var endDate = $('#end-time').val();
+        endDate = endDate.split('/')[1] + '-' + endDate.split('/')[0] + endDate.substring(5);
+        endDate = new Date(endDate);
+        var diffEndDate = Math.round((dateSelect - endDate) / (1000 * 60));
+
+        // if start-time select > end-time
+        if (endDate != '' && diffEndDate > -30) {
+            $('#end-time').data('datetimepicker').date(new Date());
+        }
     });
 
     // select end-time
