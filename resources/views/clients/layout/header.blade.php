@@ -48,7 +48,7 @@
                                     {{ Html::link(route('home'), trans('lang.home'), ['class' => 'nav-link']) }}
                                 </li>
                                 <li class="nav-item">
-                                    {{ Html::link('#', trans('lang.feedback'), [
+                                    {{ Html::link('javascript:void(0)', trans('lang.feedback'), [
                                         'class' => 'nav-link',
                                         'data-toggle' => 'modal',
                                         'data-target' => '#modal-feedback',
@@ -56,14 +56,14 @@
                                 </li>
                                 @if (!Auth::guard()->check())
                                     <li class="nav-item">
-                                        {{ Html::link('#', trans('lang.login'), [
+                                        {{ Html::link('javascript:void(0)', trans('lang.login'), [
                                             'class' => 'nav-link',
                                             'data-toggle' => 'modal',
                                             'data-target' => '#modalLogin',
                                         ]) }}
                                     </li>
                                     <li class="nav-item">
-                                        {{ Html::link('#', trans('lang.register'), [
+                                        {{ Html::link('javascript:void(0)', trans('lang.register'), [
                                             'class' => 'nav-link',
                                             'data-toggle' => 'modal',
                                             'data-target' => '#modalRegister'
