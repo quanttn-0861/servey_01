@@ -59,7 +59,7 @@ class SurveyManagementController extends Controller
             $user = Auth::user();
             Session::put('page_profile_active', config('settings.page_profile_active.list_survey'));
             $surveys = $this->surveyRepository->getAuthSurveys(config('settings.survey.members.owner'));
-            
+
             return view('clients.profile.list-survey', compact('user', 'surveys'));
         } catch (Exception $e) {
             return view('clients.layout.404');
@@ -79,7 +79,7 @@ class SurveyManagementController extends Controller
             $this->delete($survey);
 
             DB::commit();
-            
+
             return back()->with('success', trans('lang.delete_survey_success'));
         } catch (Exception $e) {
             DB::rollback();
@@ -135,8 +135,12 @@ class SurveyManagementController extends Controller
     public function managementSurvey(Request $request, $tokenManage)
     {
         try {
-            $survey = $this->surveyRepository->getSurveyFromTokenManage($tokenManage); 
+            $survey = $this->surveyRepository->getSurveyFromTokenManage($tokenManage);
             $results = $this->getOverview($survey);
+
+            if (Auth::user()->cannot('manage', $survey)) {
+                return view('clients.layout.403');
+            }
 
             return view('clients.survey.management.index', compact([
                 'results',
@@ -145,6 +149,6 @@ class SurveyManagementController extends Controller
         } catch (Exception $e) {
             return view('clients.layout.404');
         }
-        
+
     }
 }
