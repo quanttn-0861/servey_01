@@ -3,7 +3,7 @@
         <div class="modal-content form-elegant">
             <div class="modal-header text-center">
                 <h3 class="modal-title w-100 dark-grey-text font-weight-bold my-3" id="myModalLabel">
-                    <strong>@lang('lang.sign_in')</strong>
+                    <strong>@lang('lang.login')</strong>
                 </h3>
                 <button type="button" class="close btn-close-form" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
@@ -26,14 +26,14 @@
                         ]) }}
                         {{ Form::label('password', trans('lang.password'), ['data-error' => ' ', 'data-success' => ' ', ]) }}
                         <span class="help-block login-messages-password"></span>
-                        <p class="font-small blue-text d-flex justify-content-end">@lang('lang.forgot')
+                        <p class="font-small blue-text d-flex justify-content-end">
                             <a data-toggle="modal" data-dismiss="modal" data-target="#modalForgotPassword" href="#" class="blue-text ml-1">
-                                @lang('lang.password')&#63;
+                                @lang('lang.forgot') @lang('lang.password')&#63;
                             </a>
                         </p>
                     </div>
                     <div class="text-center mb-3">
-                        {{ Form::button(trans('lang.sign_in'), ['type' => 'submit', 'class' => 'btn blue-gradient btn-block btn-rounded z-depth-1a', 'id' => 'btn-signin']) }}
+                        {{ Form::button(trans('lang.login'), ['type' => 'submit', 'class' => 'btn blue-gradient btn-block btn-rounded z-depth-1a', 'id' => 'btn-signin']) }}
                     </div>
                 {{ Form::close() }}
                 <p class="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2">
@@ -54,7 +54,7 @@
                 <p class="font-small grey-text d-flex justify-content-end">
                     @lang('lang.not_a_member')
                     <a href="#" data-dismiss="modal" data-toggle="modal" data-target="#modalRegister" class="blue-text ml-1">
-                        @lang('lang.sign_up')
+                        @lang('lang.register')
                     </a>
                 </p>
             </div>
