@@ -2711,10 +2711,12 @@ jQuery(document).ready(function () {
         $('.input-upload-image').trigger('click');
 
         $(document).on('change', '.input-upload-image', function () {
-            var formData = new FormData();
-            var url = $(this).data('url');
-            formData.append('image', this.files[0]);
-            uploadImage(formData, url);
+            if ($(this).val().length) {
+                var formData = new FormData();
+                var url = $(this).data('url');
+                formData.append('image', this.files[0]);
+                uploadImage(formData, url);
+            }
         });
     });
 
