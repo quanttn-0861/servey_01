@@ -40,7 +40,8 @@
                             'class' => 'form-control validate',
                             'placeholder' => trans('lang.password_placeholder'),
                         ]) }}
-                        {{ Form::label('password_confirmation', trans('lang.password'), ['data-error' => ' ', 'data-success' => ' ', ]) }}
+                        {{ Form::label('password_confirmation', trans('lang.password_confirmation'), ['data-error' => ' ', 'data-success' => ' ', ]) }}
+                        <span class="help-block password-confirmation-messages"></span>
                     </div>
                     <div class="text-center mb-3">
                         {{ Form::button(trans('lang.register'), ['type' => 'submit', 'class' => 'btn blue-gradient btn-block btn-rounded z-depth-1a', ]) }}
