@@ -41,7 +41,7 @@ return [
     'reset_password' => 'Reset password',
     'already_has_an_account' => 'Already has an account&#63;',
     'name_placeholder' => 'Example: Harry Potter',
-    'password_placeholder' => '**********************',
+    'password_placeholder' => 'Enter your password.',
     'survey_description_slider' => 'Effective survey creates the success for your goals.',
     'survey_title_slider' => 'Let\'s start with',
     'surveys' => 'Surveys',
