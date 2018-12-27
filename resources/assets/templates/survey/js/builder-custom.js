@@ -185,7 +185,13 @@ jQuery(document).ready(function () {
     function setScrollButtonTopByScroll(selector) {
         var currentScrollTop = $(this).scrollTop();
         var elementPosition = currentScrollTop + 5;
-        setScrollButtonTop(selector, elementPosition);
+        var height = $(document).height();
+        var diffScroll = height - currentScrollTop;
+        var width = $(this).innerWidth();
+
+        if ((diffScroll > 900 && width > 1200) || (diffScroll > 1000 && width < 1200)) {
+            setScrollButtonTop(selector, elementPosition);
+        }
     }
 
     // auto resize textarea
