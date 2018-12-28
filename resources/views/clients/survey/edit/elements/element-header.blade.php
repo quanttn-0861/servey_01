@@ -8,7 +8,7 @@
             {!! Form::textarea("title[section_$sectionId][question_$question->id]", $question->title, [
                 'class' => 'form-control input-area auto-resize question-input active',
                 'data-autoresize',
-                'placeholder' => trans('lang.question'),
+                'placeholder' => trans('lang.question') . '(*)',
                 'rows' => 1,
             ]) !!}
             {!! Form::hidden("media[section_$sectionId][question_$question->id]",
@@ -85,7 +85,7 @@
             ]) !!}
         </div>
     </div>
-    @if ($question->media->count()) 
+    @if ($question->media->count())
         @include('clients.survey.edit.elements.image-question', [
             'imageURL' => $question->media->first()->url
         ])

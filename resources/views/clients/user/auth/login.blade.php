@@ -16,7 +16,7 @@
                             'class' => 'form-control validate',
                             'placeholder' => trans('lang.email_placeholder'),
                         ]) }}
-                        {{ Form::label('email', trans('lang.email'), ['data-error' => ' ', 'data-success' => ' ', ]) }}
+                        {{ Form::label('email', trans('lang.email') . '(*)', ['data-error' => ' ', 'data-success' => ' ', ]) }}
                         <span class="help-block login-messages"></span>
                     </div>
                     <div class="md-form pb-3">
@@ -24,7 +24,7 @@
                             'class' => 'form-control validate',
                             'placeholder' => trans('lang.password_placeholder'),
                         ]) }}
-                        {{ Form::label('password', trans('lang.password'), ['data-error' => ' ', 'data-success' => ' ', ]) }}
+                        {{ Form::label('password', trans('lang.password') . '(*)', ['data-error' => ' ', 'data-success' => ' ', ]) }}
                         <span class="help-block login-messages-password"></span>
                         <p class="font-small blue-text d-flex justify-content-end">
                             <a data-toggle="modal" data-dismiss="modal" data-target="#modalForgotPassword" href="#" class="blue-text ml-1">
