@@ -169,6 +169,8 @@ return [
     'can_not_remove_last_section' => 'Không thể xóa! Khảo sát phải có ít nhất 1 phần!',
     'can_not_remove_last_question' => 'Không thể xóa! Khảo sát phải có ít nhất 1 câu hỏi!',
     'wrong_data' => 'Thất bại! Dữ liệu sai! Hãy thử lại!',
+    'redirect_option_content' => 'Tùy chọn chuyển hướng :index',
+    'add_redirect_option' => 'Thêm tùy chọn chuyển hướng',
 
     /*
     | 404 page
@@ -221,6 +223,7 @@ return [
     'add_image' => 'Thêm hình ảnh',
     'add_video' => 'Thêm video',
     'add_section' => 'Thêm phần',
+    'add_redirect_question' => 'Thêm câu hỏi chuyển hướng',
     'setting' => 'Cài đặt',
     'other' => 'Khác:',
     'preview' => 'Xem trưóc',

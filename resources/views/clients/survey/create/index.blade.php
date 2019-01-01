@@ -59,6 +59,14 @@
                                 <i class="fa fa-fw fa-bars text-dark"></i>
                             </button>
                         </div>
+                        <div class="survey-action" data-placement="right"
+                            data-trigger="hover" data-toggle="tooltip" 
+                            title="@lang('lang.add_redirect_question')">
+                            <button type="button" class="btn btn-outline-light text-dark" id="add-redirect-question-btn"
+                                data-url="{{ route('ajax-fetch-redirect-question') }}">
+                                <i class="fa fa-fw fa-sitemap text-dark"></i>
+                            </button>
+                        </div>
                         <div class="survey-action"
                             id="setting-btn"
                             data-placement="right"

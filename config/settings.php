@@ -219,6 +219,7 @@ return [
         'title' => 7,
         'image' => 8,
         'video' => 9,
+        'redirect' => 10,
     ],
     'survey_setting' => [
         'default' => 0,

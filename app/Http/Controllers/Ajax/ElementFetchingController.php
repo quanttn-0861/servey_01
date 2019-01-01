@@ -91,7 +91,7 @@ class ElementFetchingController extends Controller
         $imageURL = $request->imageURL;
 
         $image = $imageURL ? view('clients.survey.elements.image-question', compact('imageURL'))->render() : '';
-        
+
         return response()->json([
             'success' => true,
             'html' => view('clients.survey.elements.long-answer', compact(
@@ -288,6 +288,29 @@ class ElementFetchingController extends Controller
             'success' => true,
             'html' => view('clients.survey.elements.image-answer', compact('imageURL'))->render(),
             'imageURL' => $imageURL,
+        ]);
+    }
+
+    public function fetchRedirectQuestion(Request $request)
+    {
+        if (!$request->ajax()) {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+
+        $data = $request->only(
+            'numberOfSections',
+            'sectionId',
+            'questionId',
+            'redirectSectionData'
+        );
+
+        $data['optionId'] = config('settings.survey.option.first');
+
+        return response()->json([
+            'success' => true,
+            'html' => view('clients.survey.elements.section-redirect-question')->with($data)->render(),
         ]);
     }
 }

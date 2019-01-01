@@ -169,6 +169,8 @@ return [
     'creator' => 'Creator: ',
     'date_create' => 'Date create: ',
     'time_finish' => 'Time finish: ',
+    'redirect_option_content' => 'Redirect option :index',
+    'add_redirect_option' => 'Add redirect option',
 
     /*
     | 404 page
@@ -221,6 +223,7 @@ return [
     'add_image' => 'Add image',
     'add_video' => 'Add video',
     'add_section' => 'Add section',
+    'add_redirect_question' => 'Add redirect question',
     'setting' => 'Setting',
     'other' => 'Other:',
     'preview' => 'Preview',

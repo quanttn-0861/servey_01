@@ -1771,7 +1771,14 @@ jQuery(document).ready(function () {
         .done(function (data) {
             if (data.success) {
                 var element = $('<div></div>').html(data.html).children().first();
-                $('.survey-form').append(element);
+                var redirectSectionElement = $('li.sort.question-active').closest('.redirect-section-block');
+
+                if (redirectSectionElement.length) {
+                    redirectSectionElement.append(element);
+                } else {
+                    $('.survey-form').append(element);
+                }
+
                 surveyData.data('number-section', numberOfSections + 1);
                 $('.total-section').html(numberOfSections + 1);
                 formSortable();
@@ -1793,6 +1800,105 @@ jQuery(document).ready(function () {
                 addValidationRuleForQuestion(questionId);
                 addValidationRuleForAnswer(answerId);
 
+
+                // auto resize for new textarea
+                autoResizeTextarea();
+
+                // scroll to section
+                if (numberOfSections) {
+                    scrollToSection(sectionId);
+                }
+            }
+        });
+    });
+
+    function makeRedirectSectionData()
+    {
+        return {
+            answerRedirectId: refreshAnswerId(),
+            sectionId: refreshSectionId(),
+            questionId: refreshQuestionId(),
+            answerId: refreshQuestionId(),
+        }
+    }
+
+    function makeRandomRedirectColor() {
+        var color = '#fff';
+        var check = true;
+
+        while (check) {
+            color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+            check = false;
+
+            $('.redirect-choice .radio-choice-icon').each(function () {
+                if ($(this).attr('color') == color) {
+                    check = true;
+
+                    return;
+                }
+            });
+        }
+
+        return color;
+    }
+
+    $('#add-redirect-question-btn').click(function (e) {
+        e.preventDefault();
+
+        var numberOfSections = surveyData.data('number-section');
+        var sectionId = refreshSectionId();
+        var questionId = refreshQuestionId();
+        var redirectSectionData = [];
+        redirectSectionData.push(makeRedirectSectionData());
+        redirectSectionData.push(makeRedirectSectionData());
+
+        $.ajax({
+            method: 'POST',
+            url: $(this).data('url'),
+            data : {
+                numberOfSections: numberOfSections,
+                sectionId: sectionId,
+                questionId: questionId,
+                redirectSectionData: redirectSectionData
+            }
+        })
+        .done(function (data) {
+            if (data.success) {
+                var element = $('<div></div>').html(data.html).children().first();
+
+                $('.survey-form').append(element);
+                surveyData.data('number-section', numberOfSections + 1);
+                $('.total-section').html(numberOfSections + 1);
+                formSortable();
+
+                element.find('li.sort').first().click();
+
+                // add multiple sortable event
+                multipleChoiceSortable(`question_${questionId}`);
+
+                $(`#section_${sectionId} textarea:regex(name, ^title\\[section_.*\\])`).each(function () {
+                    $(this).rules('add', {
+                        required: true,
+                        maxlength: 255,
+                    });
+                });
+
+                // add validation rules for section and question
+                addValidationRuleForSection(sectionId);
+                addValidationRuleForQuestion(questionId);
+
+                // add validation rules for answer and section redirect
+                redirectSectionData.forEach(function (redirectSection) {
+                    addValidationRuleForAnswer(redirectSection.answerRedirectId);
+                    addValidationRuleForSection(redirectSection.sectionId);
+                    addValidationRuleForQuestion(redirectSection.questionId);
+                    addValidationRuleForAnswer(redirectSection.answerId);
+
+                    var color = makeRandomRedirectColor();
+                    $(`.redirect-choice-${redirectSection.answerRedirectId}`).css('color', color).attr('color', color);
+                    $(`.redirect-section-${redirectSection.answerRedirectId}`).css('border-color', color);
+                    $(`.redirect-section-label-${redirectSection.answerRedirectId}`).css('border-color', color).css('background', color);
+                });
 
                 // auto resize for new textarea
                 autoResizeTextarea();

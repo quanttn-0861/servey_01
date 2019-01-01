@@ -3888,3 +3888,52 @@ input[name="quantity-answer"]::-webkit-outer-spin-button, input[type="number"]::
 .send-to-all-block {
     text-align: right;
 }
+
+/* Redirect question */
+
+.redirect-question-block {
+    border: 1px solid;
+    border-radius: 4px;
+    padding: 18px;
+    max-width: 667px;
+    margin: 0 auto;
+    margin-top: 40px;
+}
+
+.redirect-question-block > ul.form-wrapper {
+    margin-top: 0;
+}
+
+.redirect-section-block ul.form-wrapper:nth-child(2) {
+    margin-top: 15px !important;
+}
+
+.redirect-section-block {
+    position: relative;
+    margin-top: 45px;
+    border: 2px dashed;
+    border-radius: 4px;
+    padding: 15px;
+}
+
+.redirect-section-block .redirect-section-label {
+    width: 230px;
+    position: absolute;
+    background-color: #e2e1e1;
+    padding: 10px 15px;
+    border: 1px solid #b1b1b1;
+    border-radius: 6px;
+    color: #fff;
+    top: -22px;
+    left: 14px;
+    margin: 0;
+    font-weight: bold;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.question-required-checkbox .toggle.disabled {
+    pointer-events: none;
+}
