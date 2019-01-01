@@ -207,6 +207,9 @@ Route::group(['namespace' => 'Ajax', 'prefix' => 'ajax'], function () {
     Route::post('fetch-element/redirect-question', 'ElementFetchingController@fetchRedirectQuestion')
         ->name('ajax-fetch-redirect-question');
 
+    Route::post('fetch-element/redirect-section', 'ElementFetchingController@fetchRedirectSection')
+        ->name('ajax-fetch-redirect-section');
+
     Route::post('fetch-element/image-answer', 'ElementFetchingController@fetchImageAnswer')
         ->name('ajax-fetch-image-answer');
 

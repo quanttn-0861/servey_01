@@ -303,14 +303,61 @@ class ElementFetchingController extends Controller
             'numberOfSections',
             'sectionId',
             'questionId',
-            'redirectSectionData'
+            'redirectSectionData',
+            'imageURL'
+        );
+
+        $data['answerIds'] = array_pluck($data['redirectSectionData'], 'answerRedirectId');
+        $data['isRedirectQuestion'] = true;
+        $viewRedirectQuestion = view('clients.survey.elements.redirect')->with($data)->render();
+        $viewRedirectSections = [];
+
+        foreach ($data['redirectSectionData'] as $key => $redirectSection) {
+            $viewRedirectSections[] = view('clients.survey.elements.section-redirect')->with([
+                'answerRedirectId' => $redirectSection['answerRedirectId'],
+                'answerRedirectContent' => trans('lang.redirect_option_content', ['index' => $key + 1]),
+                'sectionId' => $redirectSection['sectionId'],
+                'questionId' => $redirectSection['questionId'],
+                'answerId' => $redirectSection['answerId'],
+                'optionId' => config('settings.survey.option.first'),
+                'numberOfSections' => $data['numberOfSections'],
+            ])->render();
+        }
+
+        $image = $data['imageURL'] 
+            ? view('clients.survey.elements.image-question')->with(['imageURL' => $data['imageURL']])->render() 
+            : null;
+
+        return response()->json([
+            'success' => true,
+            'view_question' => $viewRedirectQuestion,
+            'view_sections' => $viewRedirectSections,
+            'image' => $image,
+        ]);
+    }
+
+    public function fetchRedirectSection(Request $request)
+    {
+        if (!$request->ajax()) {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+
+        $data = $request->only(
+            'answerRedirectId',
+            'answerRedirectContent',
+            'sectionId',
+            'questionId',
+            'answerId',
+            'numberOfSections'
         );
 
         $data['optionId'] = config('settings.survey.option.first');
 
         return response()->json([
             'success' => true,
-            'html' => view('clients.survey.elements.section-redirect-question')->with($data)->render(),
+            'html' => view('clients.survey.elements.section-redirect')->with($data)->render(),
         ]);
     }
 }

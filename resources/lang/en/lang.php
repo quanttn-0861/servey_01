@@ -137,6 +137,7 @@ return [
     'time_answer' => 'Time',
     'checkboxes' => 'Checkboxes',
     'date' => 'Date',
+    'redirect' => 'Redirect',
     'month' => 'Month',
     'section' => 'Section',
     'duplicate_section' => 'Duplicate section',
@@ -171,6 +172,11 @@ return [
     'time_finish' => 'Time finish: ',
     'redirect_option_content' => 'Redirect option :index',
     'add_redirect_option' => 'Add redirect option',
+    'redirect_message' => [
+        'confirm_remove_option_and_section_redirect' => 'Are you sure want to remove this redirect option and all redirect sections corresponding?',
+        'can_not_add_redirect' => 'You can not add redirect question in redirect section!',
+        'only_can_contain_one_redirect' => 'Each section only can contain one redirect question!',
+    ],
 
     /*
     | 404 page
@@ -223,7 +229,6 @@ return [
     'add_image' => 'Add image',
     'add_video' => 'Add video',
     'add_section' => 'Add section',
-    'add_redirect_question' => 'Add redirect question',
     'setting' => 'Setting',
     'other' => 'Other:',
     'preview' => 'Preview',

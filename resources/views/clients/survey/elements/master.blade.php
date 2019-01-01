@@ -16,7 +16,7 @@
         <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 col-2 question-image-block">
             {{ Html::link('#', '', ['class' => 'question-image-btn fa fa-image', 'data-url' => route('ajax-fetch-image-question')]) }}
         </div>
-        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-8 question-dropdown-block">
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-10 question-dropdown-block">
             <div class="survey-select">
                 <div class="survey-select-styled">
                     <span class="answer-icon multi-choice-answer-icon"></span>
@@ -49,6 +49,11 @@
                         <span class="answer-icon time-answer-icon"></span>
                         <span class="option-menu-content">@lang('lang.time_answer')</span>
                     </li>
+                    <hr/>
+                    <li data-type="{{ config('settings.question_type.redirect') }}" data-url="{{ route('ajax-fetch-redirect-question') }}" class="clearfix">
+                        <span class="fa fa-fw fa-sitemap redirect-icon"></span>
+                        <span class="option-menu-content">@lang('lang.redirect')</span>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -68,24 +73,35 @@
     </div>
     <div class="form-row question-action-group">
         <div class="question-survey-btn">
-            <a href="#" class="copy-element"><i class="fa fa-clone"></i></a>
+            @if (empty($isRedirectQuestion))
+                <a href="#" class="copy-element"><i class="fa fa-clone"></i></a>
+            @endif
             <a href="#" class="remove-element"><i class="fa fa-trash"></i></a>
             <p>@lang('lang.required')</p>
             <div class="question-required-checkbox">
                 <label>
-                    {{ Form::hidden("require[section_$sectionId][question_$questionId]",
+                    {{ Form::hidden(
+                        "require[section_$sectionId][question_$questionId]",
                         config('settings.question_require.no_require'),
-                        ['class' => 'checkbox-question-required']) }}
-                    <span class="toggle"><span class="ripple"></span></span>
+                        [   
+                            'class' => 'checkbox-question-required',
+                            !empty($isRedirectQuestion) ? 'checked' : null,
+                        ]
+                    ) }}
+                    <span class="toggle {{ !empty($isRedirectQuestion) ? 'active disabled' : null }}">
+                        <span class="ripple"></span>
+                    </span>
                 </label>
             </div>
             <div class="option-menu-group">
                 <a href="#" class="fa fa-ellipsis-v option-menu"></a>
                 <ul class="option-menu-dropdown">
-                    <li class="copy-element">
-                        <i class="fa fa-clone"></i>
-                        <span class="option-menu-content">@lang('lang.duplicate_item')</span>
-                    </li>
+                    @if (empty($isRedirectQuestion))
+                        <li class="copy-element">
+                            <i class="fa fa-clone"></i>
+                            <span class="option-menu-content">@lang('lang.duplicate_item')</span>
+                        </li>
+                    @endif
                     <li class="remove-element">
                         <i class="fa fa-trash"></i>
                         <span class="option-menu-content">@lang('lang.remove_item')</span>

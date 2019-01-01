@@ -144,6 +144,7 @@ return [
     'checkboxes' => 'Hộp kiểm',
     'date' => 'Ngày',
     'month' => 'Tháng',
+    'redirect' => 'Chuyển hướng',
     'section' => 'Phần',
     'duplicate_section' => 'Sao chép phần',
     'move_section' => 'Di chuyển phần',
@@ -171,6 +172,11 @@ return [
     'wrong_data' => 'Thất bại! Dữ liệu sai! Hãy thử lại!',
     'redirect_option_content' => 'Tùy chọn chuyển hướng :index',
     'add_redirect_option' => 'Thêm tùy chọn chuyển hướng',
+    'redirect_message' => [
+        'confirm_remove_option_and_section_redirect' => 'Bạn có chắc chắn muốn xóa tùy chọn chuyển hướng này và tất cả các phần chuyển hướng tương ứng?',
+        'can_not_add_redirect' => 'Bạn không thể thêm câu hỏi chuyển hưóng trong phần chuyển hưóng!',
+        'only_can_contain_one_redirect' => 'Mỗi phần chỉ có thể chứa một câu hỏi chuyển hưóng!',
+    ],
 
     /*
     | 404 page
@@ -223,7 +229,6 @@ return [
     'add_image' => 'Thêm hình ảnh',
     'add_video' => 'Thêm video',
     'add_section' => 'Thêm phần',
-    'add_redirect_question' => 'Thêm câu hỏi chuyển hướng',
     'setting' => 'Cài đặt',
     'other' => 'Khác:',
     'preview' => 'Xem trưóc',

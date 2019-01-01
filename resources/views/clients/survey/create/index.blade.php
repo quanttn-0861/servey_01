@@ -55,16 +55,9 @@
                             data-trigger="hover"
                             data-toggle="tooltip" title="@lang('lang.add_section')">
                             <button type="button" class="btn btn-outline-light text-dark" id="add-section-btn"
-                                data-url="{{ route('ajax-fetch-section') }}">
+                                data-url="{{ route('ajax-fetch-section') }}"
+                                data-redirect-section-url="{{ route('ajax-fetch-redirect-section') }}">
                                 <i class="fa fa-fw fa-bars text-dark"></i>
-                            </button>
-                        </div>
-                        <div class="survey-action" data-placement="right"
-                            data-trigger="hover" data-toggle="tooltip" 
-                            title="@lang('lang.add_redirect_question')">
-                            <button type="button" class="btn btn-outline-light text-dark" id="add-redirect-question-btn"
-                                data-url="{{ route('ajax-fetch-redirect-question') }}">
-                                <i class="fa fa-fw fa-sitemap text-dark"></i>
                             </button>
                         </div>
                         <div class="survey-action"
