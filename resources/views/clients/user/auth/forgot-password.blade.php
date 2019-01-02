@@ -13,7 +13,7 @@
                 {{ Form::open(['route' => 'send-mail-reset-password', 'method' => 'POST', 'id' => 'formResetPassword']) }}
                     <div class="md-form mb-5">
                         {{ Form::email('email', old('email'), [
-                            'class' => 'form-control validate',
+                            'class' => 'form-control validate reset-password-email',
                             'placeholder' => trans('lang.email_placeholder'),
                         ]) }}
                         <label for="elegantFormModalInput1" >@lang('lang.email')</label>
