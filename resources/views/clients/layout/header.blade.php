@@ -127,7 +127,7 @@
                                         </ul>
                                     </li>
                                     <li class="nav-item user-dropdown last">
-                                        <a class="nav-link dropdown-toggle user-nav-show" href="#" id="navbarDropdownProfile"
+                                        <a class="nav-link dropdown-toggle user-nav-show" href="javascript:void(0)" id="navbarDropdownProfile"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <span class="user-profile">
                                                 {{ Html::image(Auth::user()->image_path, '', ['class' => 'user-images']) }}
