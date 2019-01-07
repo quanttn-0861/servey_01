@@ -87,17 +87,6 @@ trait SurveyProcesser
         return $url;
     }
 
-    public function reloadPage($key, $numOfSection, $section_order)
-    {
-        if (isset($_SERVER['HTTP_CACHE_CONTROL']) && $_SERVER['HTTP_CACHE_CONTROL'] === config('settings.detect_page_refresh')) {
-            Session::put($key, $section_order);
-        } elseif (!Session::has($key) ||
-            Session::get($key) > $numOfSection ||
-            Session::get($key) < $section_order) {
-                Session::put($key, $section_order);
-        }
-    }
-
     public function getUserFromInvite($invite)
     {
         return [
@@ -294,7 +283,7 @@ trait SurveyProcesser
     public function updateQuestionMedia($question, $data, $userId)
     {
         $questionMedia['url'] = $this->cutUrlImage($data['media']);
-        
+
         if (!empty($questionMedia['url'])) {
             if ($question->media()->count()) {
                 // if question has media and media no change
@@ -326,7 +315,7 @@ trait SurveyProcesser
     public function updateAnswerMedia($answer, $data, $userId)
     {
         $answerMedia['url'] = $this->cutUrlImage($data['media']);
-        
+
         if (!empty($answerMedia['url'])) {
             if ($answer->media()->count()) {
                 // if answer has media and media no change
@@ -388,7 +377,7 @@ trait SurveyProcesser
         $inviter = $survey->invite;
         $message = '';
         $subject = '';
-        
+
         // refresh invite_mails and answer_mail
         if (!empty($inviter)) {
             $message = $inviter->message;
@@ -414,12 +403,12 @@ trait SurveyProcesser
                 $updateData['send_update_mails'] = $inviter->send_update_mails . $this->formatInviteMailsString($answerMails);
             }
 
-            $survey->invite()->update($updateData);  
+            $survey->invite()->update($updateData);
         }
 
         // update or create option update survey
         $optionUpdateSetting = $survey->settings()->where('key', config('settings.setting_type.option_update_survey.key'))->first();
-        
+
         if (empty($optionUpdateSetting)) {
             $survey->settings()->create([
                 'key' => config('settings.setting_type.option_update_survey.key'),

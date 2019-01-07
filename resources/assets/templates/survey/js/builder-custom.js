@@ -505,6 +505,7 @@ jQuery(document).ready(function () {
             var description = data.find(item => item.name === `description[section_${sectionId}]`);
             section.description = description !== undefined ? description.value : '';
             section.questions = getQuestions(data, element, sectionId);
+            section.redirect_id = null; // temp default redirect id value
 
             // get update status of section in edit-page and get sections update data
             if (surveyData.data('page') == 'edit' && isUpdate) {

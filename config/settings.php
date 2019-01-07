@@ -335,5 +335,10 @@ return [
             'by_name' => 1,
             'by_email' => 2,
         ]
-    ]
+    ],
+    'index_section' => [
+        'start' => 0,
+        'middle' => 1,
+        'end' => 2,
+    ],
 ];

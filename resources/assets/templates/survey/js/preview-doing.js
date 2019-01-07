@@ -34,7 +34,7 @@ $(document).ready(function() {
     }
 
     autoAlignChoiceAndCheckboxIcon();
-    
+
     $('.datepicker-preview').each(function() {
         var dateFormat = $(this).attr('data-dateformat');
 
@@ -60,7 +60,7 @@ $(document).ready(function() {
             $(this).css('border', '2px solid #43add1');
         }
     });
-    
+
     $(document).on('click', '.img-radio-preview', function(event) {
         event.preventDefault();
         var selector = $(this).next('label').children('input');
@@ -68,6 +68,7 @@ $(document).ready(function() {
         if (!selector.prop('checked')) {
             $(selector).prop('checked', true);
             $(this).css('border', '2px solid #43add1');
+            $(this).closest('.li-question-review').find('.notice-required').hide();
         }
 
         //turn off radio others
@@ -83,7 +84,7 @@ $(document).ready(function() {
             }
         })
     });
-    
+
     $(document).on('change', '.checkbox-answer-preview', function(event) {
         event.preventDefault();
         var selector = $(this).parent('.container-checkbox-setting-survey')
@@ -97,7 +98,7 @@ $(document).ready(function() {
             }
         }
     });
-    
+
     $(document).on('change', '.radio-answer-preview', function(event) {
         event.preventDefault();
         if ($(this).prop('checked')) {
@@ -182,7 +183,6 @@ $(document).ready(function() {
         }
 
         showLoaderSection();
-        
         if ($(selector).attr('data-next')) {
             $(selector).hide();
             $(`#${$(selector).attr('data-next')}`).show();
@@ -482,9 +482,44 @@ $(document).ready(function() {
 
         return true;
     }
+
+    $('.answer-redirect').click(function() {
+        if ($(this).prop('checked') &&
+            $(this).closest('.li-question-review').find('.question-redirect').length) {
+            $(this).closest('.li-question-review').find('.notice-required').hide();
+        }
+    })
+
     $(document).on('click', '.btn-action-preview-survey', function(event) {
-        showLoaderSection();
-        hideLoaderSection();
+        event.preventDefault();
+        var currentRedirectId = $('input:hidden[name=redirect_id]').val();
+        var answerRedirectId = 0;
+        var location = '';
+
+        if ($(this).hasClass('btn-action-next') && $('.content-section-preview').find('.question-redirect').length) {
+            var checkQuestionRequire = false;
+
+            $('.answer-redirect').each(function () {
+                if ($(this).prop('checked')) {
+                    checkQuestionRequire = true;
+                    answerRedirectId = $(this).attr('redirect-id');
+
+                    return;
+                }
+            });
+
+            if (!checkQuestionRequire) {
+                $('.content-section-preview').find('.notice-required').show();
+            } else {
+                showLoaderSection();
+                hideLoaderSection();
+                window.location = `${$(this).attr('href')}?answer_redirect_id=${answerRedirectId}`;
+            }
+        } else {
+            showLoaderSection();
+            hideLoaderSection();
+            window.location = `${$(this).attr('href')}?current_redirect_id=${currentRedirectId}`;
+        }
     });
 
     function checkCheckbox(selector) {

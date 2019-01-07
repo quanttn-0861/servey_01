@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Survey;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Cookie;
 use Session;
 use App\Traits\SurveyProcesser;
 use Exception;
@@ -21,7 +22,7 @@ class PreviewSurveyController extends Controller
         }
 
         $data = $request->data;
-        $request->Session()->put('data-preview', $data);
+        $request->Session()->put('data_preview', $data);
 
         return response()->json([
             'success' => true,
@@ -29,43 +30,35 @@ class PreviewSurveyController extends Controller
         ]);
     }
 
-    public function preview()
+    public function preview(Request $request)
     {
         try {
-            if (Session::has('current_section')) {
-                Session::forget('current_section');
+            $survey = json_decode(Session::get('data_preview'));
+            $sectionId = Cookie::has('section_id') ? Cookie::get('section_id') : null;
+            $redirectIds = Cookie::has('redirect_ids') ? Cookie::get('redirect_ids') : [null];
+
+            if ($request->server->get('HTTP_CACHE_CONTROL') === config('settings.detect_page_refresh')) {
+                Cookie::queue(Cookie::forget('redirect_ids'));
+                Cookie::queue(Cookie::forget('section_id'));
+                $sectionId = null;
+                $redirectIds = [null];
             }
 
-            if (!Session::has('data-preview')) {
-                throw new Exception("Not found data", 1);
+            $sections = collect($survey->sections)->whereIn('redirect_id', $redirectIds);
+            $section = !$sectionId ? $sections->first() : $sections->where('id', $sectionId)->first();
+            $checkIndexSection = config('settings.index_section.middle');
+            $sectionIds = $sections->pluck('id')->all();
+
+            if($sectionId && $sectionId == end($sectionIds)) {
+                $checkIndexSection = config('settings.index_section.end');
+            } elseif ($sectionId == $sectionIds[0]) {
+                $checkIndexSection = config('settings.index_section.start');
             }
-
-            return redirect()->route('survey.create.show');
-        } catch (Exception $e) {
-            return redirect()->route('404');
-        }
-    }
-
-    public function show()
-    {
-        try {
-            if (!Session::has('data-preview')) {
-                throw new Exception("Not found data", 1);
-            }
-            
-            $survey = json_decode(Session::get('data-preview'));
-            $numOfSection = count($survey->sections);
-
-            $this->reloadPage('current_section', $numOfSection, config('settings.number_0'));
-
-            $currentSection = Session::get('current_section');
-            $section = $survey->sections[$currentSection];
 
             return view('clients.survey.create.preview', compact([
                     'survey',
-                    'numOfSection',
                     'section',
-                    'currentSection',
+                    'checkIndexSection',
                 ])
             );
         } catch (Exception $e) {
@@ -73,19 +66,53 @@ class PreviewSurveyController extends Controller
         }
     }
 
-    public function nextSection()
+    public function nextSection(Request $request, $id)
     {
-        $currentSection = Session::get('current_section');
-        Session::put('current_section', ++ $currentSection);
+        try {
+            $survey = json_decode(Session::get('data_preview'));
+            $sections = collect($survey->sections);
+            $answerRedirectId = $request->answer_redirect_id ? $request->answer_redirect_id : null;
+            $redirectIds = Cookie::has('redirect_ids') ? Cookie::get('redirect_ids') : [null];
 
-        return redirect()->route('survey.create.show');
+            if ($answerRedirectId) {
+                array_push($redirectIds, $answerRedirectId);
+                Cookie::queue(Cookie::make('redirect_ids', $redirectIds, 60));
+            }
+
+            $sections = $sections->whereIn('redirect_id', $redirectIds);
+            $sectionIds = $sections->pluck('id')->all();
+            $index = array_search($id, $sectionIds);
+            $sectionId = $sectionIds[$index + 1];
+            Cookie::queue(Cookie::make('section_id', $sectionId, 60));
+
+            return redirect()->route('survey.create.preview');
+        } catch (Exception $e) {
+            return redirect()->route('404');
+        }
     }
 
-    public function previousSection()
+    public function previousSection(Request $request, $id)
     {
-        $currentSection = Session::get('current_section');
-        Session::put('current_section', -- $currentSection);
+        try {
+            $survey = json_decode(Session::get('data_preview'));
+            $sections = collect($survey->sections);
+            $currentRedirectId = $request->current_redirect_id ? $request->current_redirect_id : null;
+            $redirectIds = Cookie::has('redirect_ids') ? Cookie::get('redirect_ids') : [null];
+            $sections = $sections->whereIn('redirect_id', $redirectIds);
+            $sectionIds = $sections->pluck('id')->all();
+            $index = array_search($id, $sectionIds);
+            $sectionId = $sectionIds[$index - 1];
+            Cookie::queue(Cookie::make('section_id', $sectionId, 60));
+            $sectionRedirectIds = !is_null($currentRedirectId) ? $sections->where('redirect_id', $currentRedirectId)->pluck('id')->all() : [];
 
-        return redirect()->route('survey.create.show');
+            if (count($sectionRedirectIds) && $sectionRedirectIds[0] == $id) {
+                array_pop($redirectIds);
+                Cookie::queue(Cookie::make('redirect_ids', $redirectIds, 60));
+            }
+
+            return redirect()->route('survey.create.preview');
+        } catch (Exception $e) {
+            return redirect()->route('404');
+        }
     }
 }

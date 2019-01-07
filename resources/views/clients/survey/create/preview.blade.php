@@ -15,7 +15,7 @@
         <!-- Content Wrapper  -->
         <div class="content-wrapper">
             <!-- /Scroll buttons -->
-            {!! Form::open() !!}
+            {!! Form::open(['class' => 'form-preview']) !!}
                 <ul class="clearfix form-wrapper content-margin-top-preview ul-preview">
                     <li class="form-line">
                         <div class="form-group">
@@ -54,7 +54,7 @@
                                     @include ('clients.survey.create.elements-preview.image')
                                 @else
                                     <span class="index-question">{{ ++ $indexQuestion}}</span>
-                                    <h4 class="title-question">
+                                    <h4 class="title-question {{ $question->type == config('settings.question_type.redirect')? 'question-redirect' : ''}}">
                                         {!! nl2br(e($question->title)) !!}
                                         @if ($question->require)
                                             <span class="notice-required-question"> *</span>
@@ -75,7 +75,8 @@
                                     @elseif ($question->type === config('settings.question_type.long_answer'))
                                         @include ('clients.survey.create.elements-preview.long')
                                     <!-- multi choice -->
-                                    @elseif ($question->type === config('settings.question_type.multiple_choice'))
+                                    @elseif ($question->type === config('settings.question_type.multiple_choice')
+                                        || $question->type == config('settings.question_type.redirect'))
                                         @include ('clients.survey.create.elements-preview.multichoice')
                                     <!-- check boxes -->
                                     @elseif ($question->type === config('settings.question_type.checkboxes'))
@@ -87,20 +88,23 @@
                                     @elseif ($question->type === config('settings.question_type.time'))
                                         @include ('clients.survey.create.elements-preview.time')
                                     @endif
+                                    @if ($question->type == config('settings.question_type.redirect'))
+                                        <div class="notice-required">@lang('lang.question_required')</div>
+                                    @endif
                                 @endif
                             </li>
                         @endforeach
 
+                        {{ Form::hidden('redirect_id', $section->redirect_id) }}
+
                         <li class="li-question-review form-line">
-                            @if ($numOfSection > config('settings.number_1'))
-                                @if (config('settings.number_0') !== $currentSection)
-                                    <a href="{{ route('survey.create.preview.previous') }}"
-                                        class="btn-action-preview btn-action-preview-survey">@lang('lang.previous')</a>
-                                @endif
-                                @if ($numOfSection - config('settings.number_1') !== $currentSection)
-                                    <a href="{{ route('survey.create.preview.next') }}"
-                                        class="btn-action-preview btn-action-preview-survey">@lang('lang.next')</a>
-                                @endif
+                            @if ($checkIndexSection != config('settings.index_section.start'))
+                                <a href="{{ route('survey.create.preview.previous', $section->id) }}"
+                                    class="btn-action-preview btn-action-preview-survey">@lang('lang.previous')</a>
+                            @endif
+                            @if ($checkIndexSection != config('settings.index_section.end'))
+                                <a href="{{ route('survey.create.preview.next', $section->id) }}"
+                                    class="btn-action-preview btn-action-preview-survey btn-action-next">@lang('lang.next')</a>
                             @endif
                         </li>
                     </ul>

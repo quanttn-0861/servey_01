@@ -348,17 +348,12 @@ Route::group(['middleware' => 'profile'], function () {
             'as' => 'survey.create.preview',
         ]);
 
-        Route::get('surveys-show', [
-            'uses' => 'PreviewSurveyController@show',
-            'as' => 'survey.create.show',
-        ]);
-
-        Route::get('next-preview', [
+        Route::get('next-preview/{id}', [
             'uses' => 'PreviewSurveyController@nextSection',
             'as' => 'survey.create.preview.next'
         ]);
 
-        Route::get('previous-preview', [
+        Route::get('previous-preview/{id}', [
             'uses' => 'PreviewSurveyController@previousSection',
             'as' => 'survey.create.preview.previous'
         ]);
