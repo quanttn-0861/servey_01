@@ -15,6 +15,7 @@ class Section extends Model
         'survey_id',
         'order',
         'update',
+        'redirect_id',
     ];
 
     protected $dates = ['deleted_at'];

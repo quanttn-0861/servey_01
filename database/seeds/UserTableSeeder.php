@@ -54,11 +54,102 @@ class UserTableSeeder extends Seeder
                 'number_invite' => User::where('id', '!=', $user->id)->count(),
             ]);
 
+            // create sections with redirect question
+            $section = factory(Section::class)->create([
+                'survey_id' => $survey->id,
+            ]);
+
+            $question = factory(Question::class)->create([
+                'section_id' => $section->id,
+                'required' => 1,
+            ]);
+
+            $settings = $question->settings()->create([
+                'key' => config('settings.question_type.redirect'),
+                'value' => config('settings.setting_type.question_type.key'),
+            ]);
+
+            factory(Answer::class, 2)->create([
+                'question_id' => $question->id,
+            ])->each(function ($answer) use ($faker, $user, $survey){
+                $answer->settings()->create([
+                    'key' => $faker->numberBetween(1, 2),
+                    'value' => config('settings.setting_type.answer_type.key'),
+                ]);
+
+                $section = factory(Section::class)->create([
+                    'survey_id' => $survey->id,
+                    'redirect_id' => $answer->id
+                ]);
+
+                factory(Question::class, 2)->create([
+                    'section_id' => $section->id,
+                ])->each(function ($question) use ($faker, $user) {
+                    $settings = $question->settings()->create([
+                        'key' => $faker->numberBetween(1, 9),
+                        'value' => config('settings.setting_type.question_type.key'),
+                    ]);
+
+                    if (in_array($settings->key, [
+                        config('settings.question_type.multiple_choice'),
+                        config('settings.question_type.checkboxes'),
+                    ])) {
+                        factory(Answer::class, 2)->create([
+                            'question_id' => $question->id,
+                        ])->each(function ($answer) use ($faker){
+                            $answer->settings()->create([
+                                'key' => $faker->numberBetween(1, 2),
+                                'value' => config('settings.setting_type.answer_type.key'),
+                            ]);
+                        });
+                    }
+                });
+            });
+
+            factory(Question::class, 2)->create([
+                'section_id' => $section->id,
+            ])->each(function ($question) use ($faker, $user) {
+                $settings = $question->settings()->create([
+                    'key' => $faker->numberBetween(1, 9),
+                    'value' => config('settings.setting_type.question_type.key'),
+                ]);
+
+                if (in_array($settings->key, [
+                    config('settings.question_type.multiple_choice'),
+                    config('settings.question_type.checkboxes'),
+                ])) {
+                    factory(Answer::class, 2)->create([
+                        'question_id' => $question->id,
+                    ])->each(function ($answer) use ($faker){
+                        $answer->settings()->create([
+                            'key' => $faker->numberBetween(1, 2),
+                            'value' => config('settings.setting_type.answer_type.key'),
+                        ]);
+                    });
+                }
+
+                if ($settings->key == config('settings.question_type.image')) {
+                    $question->media()->create([
+                        'user_id' => $user->id,
+                        'type' => config('settings.media_type.image'),
+                        'url' => $faker->imageUrl(124, 124, 'fashion', true, 'Faker', false),
+                    ]);
+                }
+
+                if ($settings->key == config('settings.question_type.video')) {
+                    $question->media()->create([
+                        'user_id' => $user->id,
+                        'type' => config('settings.media_type.video'),
+                        'url' => 'https://www.youtube.com/watch?v=s-p4Rmh9s9w',
+                    ]);
+                }
+            });
+
             // create sections
-            factory(Section::class, 3)->create([
+            factory(Section::class, 2)->create([
                 'survey_id' => $survey->id,
             ])->each(function ($section) use ($faker, $user) {
-                factory(Question::class, 3)->create([
+                factory(Question::class, 2)->create([
                     'section_id' => $section->id,
                 ])->each(function ($question) use ($faker, $user) {
                     $settings = $question->settings()->create([
@@ -71,7 +162,7 @@ class UserTableSeeder extends Seeder
                         config('settings.question_type.checkboxes'),
                     ])) {
 
-                        factory(Answer::class, 3)->create([
+                        factory(Answer::class, 2)->create([
                             'question_id' => $question->id,
                         ])->each(function ($answer) use ($faker){
                             $answer->settings()->create([
@@ -145,7 +236,6 @@ class UserTableSeeder extends Seeder
 
             $user->results()->createMany($results);
         }
-
     }
 
     public function getEmailOfUser($user)
