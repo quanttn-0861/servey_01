@@ -61,7 +61,7 @@ class SurveyTableSeeder extends Seeder
             factory(Answer::class, 2)->create([
                 'question_id' => $question->id,
             ])->each(function ($answer) use ($faker, $user, $survey){
-                $this->seedDataAnswer($answer, $faker, $user);
+                $this->seedDataAnswer($answer, $faker, 1);
 
                 $section = factory(Section::class)->create([
                     'survey_id' => $survey->id,
@@ -126,9 +126,10 @@ class SurveyTableSeeder extends Seeder
         factory(Question::class, 2)->create([
             'section_id' => $sectionId,
         ])->each(function ($question) use ($faker, $user) {
+            $key = $faker->numberBetween(1, 9);
             $settings = $question->settings()->create([
-                'key' => $faker->numberBetween(1, 9),
-                'value' => config('settings.setting_type.question_type.key'),
+                'key' => $key,
+                'value' => $key == 5 ? 'DD/MM/YYYY' : config('settings.setting_type.question_type.key'),
             ]);
 
             if (in_array($settings->key, [
@@ -165,10 +166,10 @@ class SurveyTableSeeder extends Seeder
         }
     }
 
-    public function seedDataAnswer($answer, $faker)
+    public function seedDataAnswer($answer, $faker, $type = 0)
     {
         $answer->settings()->create([
-            'key' => $faker->numberBetween(1, 2),
+            'key' => $type ? $type : $faker->numberBetween(1, 2),
             'value' => config('settings.setting_type.answer_type.key'),
         ]);
     }
