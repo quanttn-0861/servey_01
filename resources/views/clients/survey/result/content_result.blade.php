@@ -84,107 +84,280 @@
             </div>
         </div>
         <div class="content-section-preview">
-            @foreach ($resultsSurveys as $resultsSurvey)
-                <ul class="clearfix form-wrapper ul-result wrapper-section-result">
-                    <li class="p-0">
-                        <div class="form-header">
-                            <div class="section-badge section-option-menu">
+            @if (!count($redirectQuestionIds))
+                @foreach ($resultsSurveys as $resultsSurvey)
+                    <ul class="clearfix form-wrapper ul-result wrapper-section-result">
+                        <li class="p-0">
+                            <div class="form-header">
+                                <div class="section-badge section-option-menu">
                                 <span class="number-of-section">@lang('lang.section')
                                     <span class="section-index">{{ $loop->iteration }}</span> /
                                     <span class="total-section"></span>{{ count($resultsSurveys) }}
                                 </span>
-                                <div class="right-header-section">
-                                    <a href="#" class="zoom-in-btn zoom-btn zoom-btn-result">
-                                        <span class="zoom-icon"></span>
-                                    </a>
+                                    <div class="right-header-section">
+                                        <a href="#" class="zoom-in-btn zoom-btn zoom-btn-result">
+                                            <span class="zoom-icon"></span>
+                                        </a>
+                                    </div>
                                 </div>
+                                <hr/>
+                                <h3 class="title-section" data-placement="bottom" data-toggle="tooltip"
+                                    title="{{ $resultsSurvey['section']->showTitleTooltip() }}">
+                                    {!! nl2br(e($resultsSurvey['section']->limit_title)) !!}
+                                </h3>
+                                <span class="description-section-result">
+                                    {!! nl2br(e($resultsSurvey['section']->custom_description)) !!}
+                                </span>
                             </div>
-                            <hr/>
-                            <h3 class="title-section" data-placement="bottom" data-toggle="tooltip"
-                                title="{{ $resultsSurvey['section']->showTitleTooltip() }}">
-                                {!! nl2br(e($resultsSurvey['section']->limit_title)) !!}
-                            </h3>
-                            <span class="description-section-result">
-                                {!! nl2br(e($resultsSurvey['section']->custom_description)) !!}
-                            </span>
-                        </div>
-                    </li>
-                </ul>
-                <ul class="clearfix form-wrapper ul-result content-section-result">
-                    @php
-                        $indexQuestion = 0;
-                    @endphp
+                        </li>
+                    </ul>
 
-                    @foreach ($resultsSurvey['question_result'] as $result)
-                        <li class="li-question-review form-line li-question-result">
-                            @if ($result['question_type'] == config('settings.question_type.title'))
-                                <div class="title-question-preview">
-                                    <span>{!! nl2br(e($result['question']->title)) !!}</span>
-                                </div>
-                                <div class="form-group form-group-description-section">
+                    <ul class="clearfix form-wrapper ul-result content-section-result">
+                        @php
+                            $indexQuestion = 0;
+                        @endphp
+
+                        @foreach ($resultsSurvey['question_result'] as $result)
+                            <li class="li-question-review form-line li-question-result">
+                                @if ($result['question_type'] == config('settings.question_type.title'))
+                                    <div class="title-question-preview">
+                                        <span>{!! nl2br(e($result['question']->title)) !!}</span>
+                                    </div>
+                                    <div class="form-group form-group-description-section">
                                     <span class="description-section">
                                         {!! nl2br(e($result['question']->description)) !!}
                                     </span>
-                                </div>
-                            @else
-                                <span class="index-question">{{ ++ $indexQuestion }}</span>
-                                <h4 class="title-question">
-                                    {!! nl2br(e($result['question']->title)) !!}
-                                    @if ($result['question']->required)
-                                        <span class="notice-required-question"> *</span>
-                                    @endif
-                                </h4>
-                                @if ($result['question']->media->count())
-                                    <div class="img-preview-question-survey">
-                                        {!! Html::image($result['question']->url_media) !!}
                                     </div>
-                                @endif
-                                <div class="form-group form-group-description-section">
-                                    <span class="number-result-answer">{{ $result['count_answer'] }} @lang('result.number_answer')</span>
-                                </div>
-                                @if ($result['answers'])
-                                    @if (in_array($result['question']->type, [
+                                @else
+                                    <span class="index-question">{{ ++ $indexQuestion }}</span>
+                                    <h4 class="title-question">
+                                        {!! nl2br(e($result['question']->title)) !!}
+                                        @if ($result['question']->required)
+                                            <span class="notice-required-question"> *</span>
+                                        @endif
+                                    </h4>
+                                    @if ($result['question']->media->count())
+                                        <div class="img-preview-question-survey">
+                                            {!! Html::image($result['question']->url_media) !!}
+                                        </div>
+                                    @endif
+                                    <div class="form-group form-group-description-section">
+                                        <span class="number-result-answer">{{ $result['count_answer'] }} @lang('result.number_answer')</span>
+                                    </div>
+                                    @if ($result['answers'])
+                                        @if (in_array($result['question']->type, [
                                             config('settings.question_type.short_answer'),
                                             config('settings.question_type.long_answer'),
                                             config('settings.question_type.date'),
                                             config('settings.question_type.time'),
                                         ]))
-                                        <div class="answer-result scroll-answer-result" id="style-scroll-3">
-                                            @foreach ($result['answers'] as $answer)
-                                                <p class="{{ ($loop->iteration % config('settings.checkEventOdd')) ?
-                                                    'item-answer-result-even' :
-                                                    'item-answer-result-odd' }}"
-                                                    data-placement="bottom" data-toggle="tooltip"
-                                                    title="{{ $answer['content'] }}">
-                                                    {{ str_limit($answer['content'], config('settings.limit_answer_content')) }}
-                                                    <span class="percent-answer">({{ $answer['percent'] }}%)</span>
-                                                </p>
-                                            @endforeach
-                                        </div>
-                                    @elseif ($result['question_type'] == config('settings.question_type.multiple_choice'))
-                                        @if ($result['question']->answers->count())
-                                            <div class="answer-result chart-result-answer multiple-choice-result"
-                                            id="{{ $result['question']->id }}"
-                                            data="{{ json_encode($result['answers']) }}"></div>
+                                            <div class="answer-result scroll-answer-result" id="style-scroll-3">
+                                                @foreach ($result['answers'] as $answer)
+                                                    <p class="{{ ($loop->iteration % config('settings.checkEventOdd')) ?
+                                                        'item-answer-result-even' :
+                                                        'item-answer-result-odd' }}"
+                                                        data-placement="bottom" data-toggle="tooltip"
+                                                        title="{{ $answer['content'] }}">
+                                                        {{ str_limit($answer['content'], config('settings.limit_answer_content')) }}
+                                                        <span class="percent-answer">({{ $answer['percent'] }}%)</span>
+                                                    </p>
+                                                @endforeach
+                                            </div>
+                                        @elseif ($result['question_type'] == config('settings.question_type.multiple_choice'))
+                                            @if ($result['question']->answers->count())
+                                                <div class="answer-result chart-result-answer multiple-choice-result"
+                                                    id="{{ $result['question']->id }}"
+                                                    data="{{ json_encode($result['answers']) }}"></div>
+                                            @endif
+                                        @elseif ($result['question_type'] == config('settings.question_type.checkboxes'))
+                                            @if ($result['question']->answers->count())
+                                                <div class="answer-result chart-result-answer checkboxes-result"
+                                                    id="{{ $result['question']->id }}"
+                                                    data="{{ json_encode($result['answers']) }}"></div>
+                                            @endif
                                         @endif
-                                    @elseif ($result['question_type'] == config('settings.question_type.checkboxes'))
-                                        @if ($result['question']->answers->count())
-                                            <div class="answer-result chart-result-answer checkboxes-result"
-                                                id="{{ $result['question']->id }}"
-                                                data="{{ json_encode($result['answers']) }}"></div>
+                                    @else
+                                        <span class="no-answer">@lang('result.there_is_no_result')</span>
+                                    @endif
+                                @endif
+                            </li>
+                        @endforeach
+                        @if (!count($resultsSurvey['question_result']))
+                            <div class="nothing-to-collect">@lang('result.nothing_to_collect')</div>
+                        @endif
+                    </ul>
+                @endforeach
+            @else
+                @php
+                    $indexQuestion = 0;
+                @endphp
+
+                @foreach ($resultsSurveys as $resultsSurvey)
+                    <ul class="clearfix form-wrapper ul-result wrapper-section-result">
+                        <li class="p-0">
+                            <div class="form-header">
+                                <div class="section-badge section-option-menu">
+                                    <div class="right-header-section">
+                                        <a href="#" class="zoom-in-btn zoom-btn zoom-btn-result">
+                                            <span class="zoom-icon"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <h3 class="title-section" data-placement="bottom" data-toggle="tooltip"
+                                    title="{{ $resultsSurvey['section']->showTitleTooltip() }}">
+                                    {!! nl2br(e($resultsSurvey['section']->limit_title)) !!}
+                                </h3>
+                                <span class="description-section-result">
+                                    {!! nl2br(e($resultsSurvey['section']->custom_description)) !!}
+                                </span>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <ul class="clearfix form-wrapper ul-result content-section-result">
+                        <li class="li-question-review form-line li-question-result">
+                            <span class="index-question">{{ ++ $indexQuestion }}</span>
+                            <h4 class="title-question">
+                                {!! nl2br(e($resultsSurvey['question']->title)) !!}
+                                @if ($resultsSurvey['question']->required)
+                                    <span class="notice-required-question"> *</span>
+                                @endif
+                            </h4>
+                            <div class="form-group form-group-description-section">
+                                <span class="number-result-answer">{{ $resultsSurvey['count_answer'] }} @lang('result.number_answer')</span>
+                            </div>
+
+                            <div class="answer-result chart-result-answer redirect-result"
+                                id="{{ $resultsSurvey['question']->id }}"
+                                data="{{ json_encode($resultsSurvey['answers']) }}"></div>
+                            @foreach ($resultsSurvey['answers'] as $answer)
+                                <div class="item-answer">
+                                    <label class="container-radio-setting-survey" data-url="{{ route('survey.redirect.result') }}"
+                                        data-question-id="{{ $resultsSurvey['question']->id }}">
+                                        {!! nl2br(e($answer['content'])) !!}
+                                        {!! Form::radio('redirect-answer', $answer['answer_id'], false, [
+                                            'class' => 'choice-answer radio-answer-preview',
+                                        ]) !!}
+                                        <span class="checkmark-radio"></span>
+                                    </label>
+                                </div>
+                            @endforeach
+                            <div class="item-answer">
+                                {!! Form::button(trans('lang.see_more'), ['class' => 'btn btn-info see-more-result']) !!}
+                            </div>
+                        </li>
+                    </ul>
+                    <div id="detail-result-{{ $resultsSurvey['question']->id }}"></div>
+                @endforeach
+
+                @foreach ($publicResults as $resultsSurvey)
+                    <ul class="clearfix form-wrapper ul-result wrapper-section-result">
+                        <li class="p-0">
+                            <div class="form-header">
+                                <div class="section-badge section-option-menu">
+                                    <span class="number-of-section">@lang('lang.section')
+                                        <span class="section-index">{{ $loop->iteration }}</span> /
+                                        <span class="total-section"></span>{{ count($publicResults) }}
+                                    </span>
+                                    <div class="right-header-section">
+                                        <a href="#" class="zoom-in-btn zoom-btn zoom-btn-result">
+                                            <span class="zoom-icon"></span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <hr/>
+                                <h3 class="title-section" data-placement="bottom" data-toggle="tooltip"
+                                    title="{{ $resultsSurvey['section']->showTitleTooltip() }}">
+                                    {!! nl2br(e($resultsSurvey['section']->limit_title)) !!}
+                                </h3>
+                                <span class="description-section-result">
+                                    {!! nl2br(e($resultsSurvey['section']->custom_description)) !!}
+                                </span>
+                            </div>
+                        </li>
+                    </ul>
+
+                    <ul class="clearfix form-wrapper ul-result content-section-result">
+                        @php
+                            $indexQuestion = 0;
+                        @endphp
+
+                        @foreach ($resultsSurvey['question_result'] as $result)
+                            <li class="li-question-review form-line li-question-result">
+                                @if ($result['question_type'] == config('settings.question_type.title'))
+                                    <div class="title-question-preview">
+                                        <span>{!! nl2br(e($result['question']->title)) !!}</span>
+                                    </div>
+                                    <div class="form-group form-group-description-section">
+                                        <span class="description-section">
+                                            {!! nl2br(e($result['question']->description)) !!}
+                                        </span>
+                                    </div>
+                                @else
+                                    @if ($result['question']->type != config('settings.question_type.redirect'))
+                                        <span class="index-question">{{ ++ $indexQuestion }}</span>
+                                        <h4 class="title-question">
+                                            {!! nl2br(e($result['question']->title)) !!}
+                                            @if ($result['question']->required)
+                                                <span class="notice-required-question"> *</span>
+                                            @endif
+                                        </h4>
+                                        @if ($result['question']->media->count())
+                                            <div class="img-preview-question-survey">
+                                                {!! Html::image($result['question']->url_media) !!}
+                                            </div>
+                                        @endif
+                                        <div class="form-group form-group-description-section">
+                                            <span class="number-result-answer">
+                                                {{ $result['count_answer'] }} @lang('result.number_answer')
+                                            </span>
+                                        </div>
+                                        @if ($result['answers'])
+                                            @if (in_array($result['question']->type, [
+                                                config('settings.question_type.short_answer'),
+                                                config('settings.question_type.long_answer'),
+                                                config('settings.question_type.date'),
+                                                config('settings.question_type.time'),
+                                            ]))
+                                                <div class="answer-result scroll-answer-result" id="style-scroll-3">
+                                                    @foreach ($result['answers'] as $answer)
+                                                        <p class="{{ ($loop->iteration % config('settings.checkEventOdd')) ?
+                                                            'item-answer-result-even' :
+                                                            'item-answer-result-odd' }}"
+                                                            data-placement="bottom" data-toggle="tooltip"
+                                                            title="{{ $answer['content'] }}">
+                                                            {{ str_limit($answer['content'], config('settings.limit_answer_content')) }}
+                                                            <span class="percent-answer">({{ $answer['percent'] }}%)</span>
+                                                        </p>
+                                                    @endforeach
+                                                </div>
+                                            @elseif ($result['question_type'] == config('settings.question_type.multiple_choice'))
+                                                @if ($result['question']->answers->count())
+                                                    <div class="answer-result chart-result-answer multiple-choice-result"
+                                                        id="{{ $result['question']->id }}"
+                                                        data="{{ json_encode($result['answers']) }}"></div>
+                                                @endif
+                                            @elseif ($result['question_type'] == config('settings.question_type.checkboxes'))
+                                                @if ($result['question']->answers->count())
+                                                    <div class="answer-result chart-result-answer checkboxes-result"
+                                                        id="{{ $result['question']->id }}"
+                                                        data="{{ json_encode($result['answers']) }}"></div>
+                                                @endif
+                                            @endif
+                                        @else
+                                            <span class="no-answer">@lang('result.there_is_no_result')</span>
                                         @endif
                                     @endif
-                                @else
-                                    <span class="no-answer">@lang('result.there_is_no_result')</span>
                                 @endif
-                            @endif
-                        </li>
-                    @endforeach
-                    @if (!count($resultsSurvey['question_result']))
-                        <div class="nothing-to-collect">@lang('result.nothing_to_collect')</div>
-                    @endif
-                </ul>
-            @endforeach
+                            </li>
+                        @endforeach
+                        @if (!count($resultsSurvey['question_result']))
+                            <div class="nothing-to-collect">@lang('result.nothing_to_collect')</div>
+                        @endif
+                    </ul>
+                @endforeach
+            @endif
         </div>
     </div>
     <!-- Content Wrapper  -->

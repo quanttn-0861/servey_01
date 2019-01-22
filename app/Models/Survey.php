@@ -76,6 +76,11 @@ class Survey extends Model
         return $this->hasMany(Result::class)->withTrashed();
     }
 
+    public function questions()
+    {
+        return $this->hasManyThrough(Question::class, Section::class)->withTrashed();
+    }
+
     public function withTrashedResults()
     {
         return $this->hasMany(Result::class)->withTrashed();

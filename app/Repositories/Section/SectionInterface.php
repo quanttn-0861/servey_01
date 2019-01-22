@@ -13,4 +13,6 @@ interface SectionInterface
     public function deleteFromSurvey($survey);
 
     public function cloneSection($section, $newSurvey);
+
+    public function getSectionFromRedirectId($redirectId);
 }

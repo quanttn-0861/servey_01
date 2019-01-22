@@ -374,4 +374,11 @@ return [
     'edit_status_user_error' => 'Chỉnh sửa không thành công!',
     //export
     'framgia_vn' => 'Công ty Framgia Việt Nam',
+
+    /*
+        Result
+    */
+    'see_more' => 'Xem thêm',
+    'close' => 'Đóng lại',
+    'select_option' => 'Bạn chưa chọn tùy chọn nào cả!',
 ];

@@ -61,4 +61,14 @@ interface SurveyInterface
     public function getSurveyForClone($tokenManage);
 
     public function cloneSurvey($survey);
+
+    public function getRedirectQuestionIds($survey);
+
+    public function getResultOfQuestions($questions, $survey, $userRepo);
+
+    public function getResultOfEachSection($survey, $userRepo, $section, $redirectQuestionIds = []);
+
+    public function getResultFromRedirectSection($section, $userRepo);
+
+    public function getPublicResults($survey);
 }

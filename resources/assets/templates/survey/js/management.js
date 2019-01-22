@@ -11,7 +11,7 @@ $(document).ready(function () {
                 $('#div-management-survey').html(data.html).promise().done(function () {
                     getOverviewSurvey();// use to render chart of overview at line 4 of file /resources/assets/templates/survey/js/management-chart.js
                 });
-            },
+            }
         });
     });
 
@@ -76,7 +76,7 @@ $(document).ready(function () {
 
                         return;
                     }
-                    
+
                     alertDanger({message: data.message});
                 }
             });
@@ -96,7 +96,7 @@ $(document).ready(function () {
                         $('#close-survey').addClass('hide-div');
                         $('#open-survey').removeClass('hide-div');
                         alertSuccess({message: data.message});
-                    } else {                        
+                    } else {
                         alertDanger({message: data.message});
                     }
                 }
@@ -117,7 +117,7 @@ $(document).ready(function () {
                         $('#close-survey').removeClass('hide-div');
                         $('#open-survey').addClass('hide-div');
                         alertSuccess({message: data.message});
-                    } else {                        
+                    } else {
                         alertDanger({message: data.message});
                     }
                 }
@@ -128,7 +128,7 @@ $(document).ready(function () {
     // clone survey survey
     $(document).on('click', '#clone-survey', function () {
         var url = $(this).attr('data-url');
-        
+
         confirmDanger({message: Lang.get('lang.comfirm_clone_survey')}, function () {
             $.ajax({
                 method: 'GET',
@@ -166,7 +166,7 @@ $(document).ready(function () {
 
     $(document).on('click', '.edit-token-survey', function () {
         var element = $(this);
-        
+
         if ($('#close-survey').is(':visible')) {
             confirmWarning(
                 {message: Lang.get('lang.confirm_close_to_edit')},
@@ -227,6 +227,57 @@ $(document).ready(function () {
         return false;
     });
 
+    $(document).on('click', '.see-more-result', function (e) {
+        e.preventDefault();
+        var label = $(this).closest('.content-section-result').find('.container-radio-setting-survey');
+        var redirectQuestionId = label.data('question-id');
+        var url = label.data('url');
+        var redirectSectionIds = [];
+        var id;
+        var detailResult = $('#detail-result-' + redirectQuestionId);
+        detailResult.hide('slow');
+        label.each(function () {
+            var result = $(this).children('input');
+            if (result.prop('checked')) {
+                redirectSectionIds.push(result.val());
+                id = result.val();
+            }
+        });
+
+        if (redirectSectionIds.length) {
+            $.ajax({
+                method: 'POST',
+                url: url,
+                dataType: 'json',
+                data: {
+                    id: id
+                },
+                success: function (data) {
+                    if (data.success) {
+                        detailResult.html(data.html).promise().done (function () {
+                            subResults();
+                            var ul = detailResult.find('ul');
+                            ul.each(function () {
+                                $(this).css('max-width', '100%');
+                            });
+                            detailResult.show('slow');
+                            detailResult.append(
+                                '<br><button class="btn btn-warning close-detail-result">' + Lang.get('lang.close') + '</button>'
+                            );
+                            detailResult.css('border', 'dashed');
+                        });
+                    }
+                }
+            });
+        } else {
+            alertDanger({message: Lang.get('lang.select_option')});
+        }
+    });
+
+    $(document).on('click', '.close-detail-result', function (e) {
+        e.preventDefault();
+        $(this).closest('div').hide('slow');
+    });
 });
 
 function handelManagement(event) {
@@ -249,7 +300,7 @@ function closeSurvey(redirect = '') {
                 if (redirect) {
                     window.location.href = redirect;
                 }
-            } else {                        
+            } else {
                 alertDanger({message: data.message});
             }
         }
@@ -280,23 +331,23 @@ function changeToken(element) {
                         'old_token': oldToken,
                     }
                 })
-                .done(function (data) {
-                    if (data.success) {
-                        alertSuccess({message: Lang.get('lang.change_success')});
-                        $('.next-section-survey').attr('data-url', data.next_section_url);
-                        $('.edit-token-survey').hide();
-                        $('.input-edit-token').attr('data-token', data.new_token);
-                        $('.input-edit-token').attr('data-original-title', data.new_token);
-                        $('#setting-survey').attr('data-url', data.setting_url);
-                        $('.link-survey').attr('href', data.link_doing);
-                        element.val(data.new_token);
-                    } else {
-                        alertDanger({message: data.message});
-                    }
-                })
-                .fail(function (data) {
-                    alertWarning({message: data.responseJSON.token[0]});
-                });
+                    .done(function (data) {
+                        if (data.success) {
+                            alertSuccess({message: Lang.get('lang.change_success')});
+                            $('.next-section-survey').attr('data-url', data.next_section_url);
+                            $('.edit-token-survey').hide();
+                            $('.input-edit-token').attr('data-token', data.new_token);
+                            $('.input-edit-token').attr('data-original-title', data.new_token);
+                            $('#setting-survey').attr('data-url', data.setting_url);
+                            $('.link-survey').attr('href', data.link_doing);
+                            element.val(data.new_token);
+                        } else {
+                            alertDanger({message: data.message});
+                        }
+                    })
+                    .fail(function (data) {
+                        alertWarning({message: data.responseJSON.token[0]});
+                    });
             }
         );
     } else {
@@ -328,34 +379,34 @@ function changeTokenManage(element) {
                         'old_token_manage': oldTokenManage,
                     }
                 })
-                .done(function (data) {
-                    if (data.success) {
-                        alertSuccess({message: Lang.get('lang.change_success')});
-                        $('#overview-survey').attr('data-url', data.overview_url);
-                        $('#results-survey').attr('data-url', data.result_url);
-                        $('#delete-survey').attr('data-url', data.delete_survey_url);
-                        $('#close-survey').attr('data-url', data.close_survey_url);
-                        $('#open-survey').attr('data-url', data.open_survey_url);
-                        $('#edit-survey').attr('data-url', data.edit_survey_url);
-                        $('#clone-survey').attr('data-url', data.clone_survey_url);
-                        $('.input-edit-token-manage').attr('data-token-manage', data.new_token_manage);
-                        $('.input-edit-token-manage').attr('data-original-title', data.new_token_manage);
-                        $('.link-manage').attr('href', data.link_manage);
+                    .done(function (data) {
+                        if (data.success) {
+                            alertSuccess({message: Lang.get('lang.change_success')});
+                            $('#overview-survey').attr('data-url', data.overview_url);
+                            $('#results-survey').attr('data-url', data.result_url);
+                            $('#delete-survey').attr('data-url', data.delete_survey_url);
+                            $('#close-survey').attr('data-url', data.close_survey_url);
+                            $('#open-survey').attr('data-url', data.open_survey_url);
+                            $('#edit-survey').attr('data-url', data.edit_survey_url);
+                            $('#clone-survey').attr('data-url', data.clone_survey_url);
+                            $('.input-edit-token-manage').attr('data-token-manage', data.new_token_manage);
+                            $('.input-edit-token-manage').attr('data-original-title', data.new_token_manage);
+                            $('.link-manage').attr('href', data.link_manage);
 
-                        if (typeof (history.pushState) != 'undefined') {
-                            var obj = { Page: 'update-url', Url: data.new_token_manage };
-                            history.pushState(obj, obj.Page, obj.Url);
+                            if (typeof (history.pushState) != 'undefined') {
+                                var obj = { Page: 'update-url', Url: data.new_token_manage };
+                                history.pushState(obj, obj.Page, obj.Url);
+                            }
+
+                            $('.edit-token-manage-survey').hide();
+                            element.val(data.new_token_manage);
+                        } else {
+                            alertDanger({message: data.message});
                         }
-
-                        $('.edit-token-manage-survey').hide();
-                        element.val(data.new_token_manage);
-                    } else {
-                        alertDanger({message: data.message});
-                    }
-                })
-                .fail(function (data) {
-                    alertWarning({message: data.responseJSON.token_manage[0]});
-                });
+                    })
+                    .fail(function (data) {
+                        alertWarning({message: data.responseJSON.token_manage[0]});
+                    });
             }
         );
     } else {

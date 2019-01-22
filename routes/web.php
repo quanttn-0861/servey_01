@@ -346,6 +346,11 @@ Route::group(['middleware' => 'profile'], function () {
             'uses' => 'ResultController@detail',
         ]);
 
+        Route::post('surveys/get-redirect-result', [
+            'as' => 'survey.redirect.result',
+            'uses' => 'ResultController@getRedirectResult',
+        ]);
+
         Route::get('surveys-preview', [
             'uses' => 'PreviewSurveyController@preview',
             'as' => 'survey.create.preview',

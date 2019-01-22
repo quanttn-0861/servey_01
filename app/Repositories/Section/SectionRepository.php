@@ -47,4 +47,9 @@ class SectionRepository extends BaseRepository implements SectionInterface
 
         return $newSurvey->sections()->create($newSection);
     }
+
+    public function getSectionFromRedirectId($redirectId)
+    {
+        return $this->model->withTrashed()->where('redirect_id', $redirectId)->first();
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Survey;
 
+use App\Repositories\Section\SectionInterface;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Survey\SurveyInterface;
@@ -16,15 +17,18 @@ class ResultController extends Controller
     protected $surveyRepository;
     protected $resultRepository;
     protected $userRepository;
+    protected $sectionRepository;
 
     public function __construct(
         SurveyInterface $surveyRepository,
         ResultInterface $resultRepository,
-        UserInterface $userRepository
+        UserInterface $userRepository,
+        SectionInterface $sectionRepository
     ) {
         $this->surveyRepository = $surveyRepository;
         $this->resultRepository = $resultRepository;
         $this->userRepository = $userRepository;
+        $this->sectionRepository = $sectionRepository;
     }
 
     public function result(Request $request, $tokenManage)
@@ -57,9 +61,18 @@ class ResultController extends Controller
             }
 
             if ($request->ajax()) {
+                $redirectQuestionIds = $this->surveyRepository->getRedirectQuestionIds($survey);
+                $publicResults = $this->surveyRepository->getPublicResults($survey);
+
                 return response()->json([
                     'success' => true,
-                    'html' => view('clients.survey.result.content_result', compact('survey', 'resultsSurveys', 'months'))->render(),
+                    'html' => view('clients.survey.result.content_result', compact([
+                        'survey',
+                        'resultsSurveys',
+                        'months',
+                        'redirectQuestionIds',
+                        'publicResults'
+                    ]))->render(),
                 ]);
             }
 
@@ -103,6 +116,26 @@ class ResultController extends Controller
             ]));
         } catch (Exception $e) {
 
+            return view('clients.layout.404');
+        }
+    }
+
+    public function getRedirectResult(Request $request)
+    {
+        try {
+            $redirectSection = $this->sectionRepository->getSectionFromRedirectId($request->id);
+            $survey = $redirectSection->survey;
+            $resultsSurveys = $this->surveyRepository->getResultFromRedirectSection($redirectSection, $this->userRepository);
+            $publicResults = $this->surveyRepository->getPublicResults($survey);
+
+            return response()->json([
+                'success' => true,
+                'html' => view('clients.survey.result.redirect_result', compact([
+                    'resultsSurveys',
+                    'publicResults'
+                ]))->render(),
+            ]);
+        } catch (Exception $e) {
             return view('clients.layout.404');
         }
     }

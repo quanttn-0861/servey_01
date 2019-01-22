@@ -374,4 +374,11 @@ return [
     'edit_status_user_error' => 'Edit unccessfull!',
     //export
     'framgia_vn' => 'Framgia Vietnam Company',
+
+    /*
+        Result
+    */
+    'see_more' => 'See more',
+    'close' => 'Close',
+    'select_option' => 'You don\'t select any option!',
 ];

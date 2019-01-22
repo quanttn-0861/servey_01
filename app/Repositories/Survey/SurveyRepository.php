@@ -34,54 +34,33 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
     public function getResutlSurvey($survey, $userRepo)
     {
-        foreach ($survey->sections as $section) {
-            $temp = [];
+        $redirectQuestionIds = $this->getRedirectQuestionIds($survey);
 
-            foreach ($section->questions as $question) {
-                if (!in_array($question->type, [
-                    config('settings.question_type.image'),
-                    config('settings.question_type.video'),
-                ])) {
-                    $totalAnswerResults = config('settings.number_0');
-                    $questionType = $question->type;
-                    $resultQuestion = [];
+        if (count($redirectQuestionIds)) {
+            $questions = app(QuestionInterface::class)->whereIn('id', $redirectQuestionIds)->get();
 
-                    if (in_array($question->type, [
-                        config('settings.question_type.short_answer'),
-                        config('settings.question_type.long_answer'),
-                        config('settings.question_type.date'),
-                        config('settings.question_type.time'),
-                    ])) {
-                        $resultQuestion = $this->getTextQuestionResult($question, $survey, $userRepo);
-                    } else {
-                        if ($question->answers->count()) {
-                            $resultQuestion = $this->getResultChoiceQuestion($question, $survey, $userRepo, app(ResultInterface::class));
-                        } else { // title
-                            $resultQuestion['temp'] = $question->title;
-                            $resultQuestion['total_answer_results'] = $totalAnswerResults;
-                        }
-                    }
-
-                    $temp = $resultQuestion['temp'];
-                    $totalAnswerResults = $resultQuestion['total_answer_results'];
-                    $questionResult[] = [
-                        'question' => $question,
-                        'question_type' => $question->type,
-                        'count_answer' => $totalAnswerResults,
-                        'answers' => $temp,
-                    ];
-                    $temp = [];
-                }
+            foreach ($questions as $question) {
+                $result = $this->getResultChoiceQuestion($question, $survey, $userRepo, app(ResultInterface::class));
+                $resultsSurveys[] = [
+                    'section' => $question->section,
+                    'question' => $question,
+                    'question_type' => $question->type,
+                    'count_answer' => $result['total_answer_results'],
+                    'answers' => $result['temp'],
+                ];
             }
 
-            $resultsSurveys[] = [
-                'section' => $section,
-                'question_result' => $questionResult,
-            ];
-            $questionResult = [];
-        }
+            return $resultsSurveys;
+        } else {
+            foreach ($survey->sections as $section) {
+                $resultsSurveys[] = [
+                    'section' => $section,
+                    'question_result' => $this->getResultOfEachSection($survey, $userRepo, $section),
+                ];
+            }
 
-        return $resultsSurveys;
+            return $resultsSurveys;
+        }
     }
 
     public function createSurvey($userId, $data, $status, $userRepo)
@@ -1155,5 +1134,87 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         $newSurvey->settings()->createMany($dataSettings);
 
         return $newSurvey;
+    }
+
+    public function getResultOfEachSection($survey, $userRepo, $section, $redirectQuestionIds = [])
+    {
+        $questions = count($redirectQuestionIds) ?
+            $section->questions->whereIn('id', $redirectQuestionIds) : $section->questions;
+
+        return $this->getResultOfQuestions($questions, $survey, $userRepo);
+    }
+
+    public function getResultFromRedirectSection($section, $userRepo)
+    {
+        $result[] = [
+            'section' => $section,
+            'question_result' => $this->getResultOfEachSection($section->survey, $userRepo, $section),
+        ];
+
+        return $result;
+    }
+
+    public function getResultOfQuestions($questions, $survey, $userRepo)
+    {
+        foreach ($questions as $question) {
+            if (!in_array($question->type, [
+                config('settings.question_type.image'),
+                config('settings.question_type.video'),
+            ])) {
+                $totalAnswerResults = config('settings.number_0');
+                $resultQuestion = [];
+
+                if (in_array($question->type, [
+                    config('settings.question_type.short_answer'),
+                    config('settings.question_type.long_answer'),
+                    config('settings.question_type.date'),
+                    config('settings.question_type.time'),
+                ])) {
+                    $resultQuestion = $this->getTextQuestionResult($question, $survey, $userRepo);
+                } else {
+                    if ($question->answers->count()) {
+                        $resultQuestion = $this->getResultChoiceQuestion($question, $survey, $userRepo, app(ResultInterface::class));
+                    } else { // title
+                        $resultQuestion['temp'] = $question->title;
+                        $resultQuestion['total_answer_results'] = $totalAnswerResults;
+                    }
+                }
+
+                $temp = $resultQuestion['temp'];
+                $totalAnswerResults = $resultQuestion['total_answer_results'];
+                $questionResult[] = [
+                    'question' => $question,
+                    'question_type' => $question->type,
+                    'count_answer' => $totalAnswerResults,
+                    'answers' => $temp,
+                ];
+                $temp = [];
+            }
+        }
+
+        return $questionResult;
+    }
+
+    public function getRedirectQuestionIds($survey)
+    {
+        $redirectQuestionIds = $survey->questions
+            ->where('type', config('settings.question_type.redirect'))->pluck('id')->all();
+
+        return $redirectQuestionIds;
+    }
+
+    public function getPublicResults($survey)
+    {
+        $publicResults = [];
+        foreach ($survey->sections as $section) {
+            if (!$section->redirect_id) {
+                $publicResults[] = [
+                    'section' => $section,
+                    'question_result' => $this->getResultOfEachSection($survey, app(UserInterface::class), $section),
+                ];
+            }
+        }
+
+        return $publicResults;
     }
 }

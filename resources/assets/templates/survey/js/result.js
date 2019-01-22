@@ -21,7 +21,7 @@ $(document).ready(function(){
 
         return false;
     });
-    
+
     results();
 
     $(document).on('change', '.page-answer-detail', function(event) {
@@ -69,12 +69,12 @@ $(document).ready(function(){
             url : url + '?page=' + page,
             dataType: 'json',
         })
-        .done(function (data) {
-            $('#div-management-survey').html(data.html);
-            $('[data-toggle="tooltip"]').tooltip();
-            location.hash = page;
-            autoAlignChoiceAndCheckboxIcon();
-        });
+            .done(function (data) {
+                $('#div-management-survey').html(data.html);
+                $('[data-toggle="tooltip"]').tooltip();
+                location.hash = page;
+                autoAlignChoiceAndCheckboxIcon();
+            });
     }
 });
 
@@ -106,186 +106,24 @@ function autoScroll() {
 
 function results() {
     $('.checkboxes-result').each(function() {
-        var data = $.parseJSON($(this).attr('data').replace(/\\r\\n/g, " / "));
-        var text = '';
-
-        $.each(data, function(index, item) {
-            var name = item['content'];
-
-            if(name.length > 20) name = name.substring(0, 20) + '...';
-
-            text += `{"name": "${name}", "y": ${item['percent']}}`;
-            text += (index == data.length - 1) ? '' : ',';
-        });
-
-        text = '[' + text + ']';
+        var text = createDataForChart($(this).attr('data'));
         var dataCheckboxes = $.parseJSON((text));
 
-        Highcharts.chart($(this).attr('id'), {
-            chart: {
-                type: 'bar',
-                inverted: true,
-            },
-            exporting: {
-                enabled: false,
-            },
-            title: {
-                text: '',
-            },
-            subtitle: {
-                text: '',
-            },
-            xAxis: {
-                type: 'category',
-            },
-            yAxis: {
-                title: {
-                    text: '',
-                }
-            },
-            legend: {
-                enabled: false,
-            },
-            credits: {
-                enabled: false,
-                position: {
-                    align: 'left',
-                }
-            },
-            plotOptions: {
-                series: {
-                    borderWidth: 0,
-                    dataLabels: {
-                        enabled: true,
-                        format: '{point.y:.1f}%',
-                    }
-                }
-            },
-            tooltip: {
-                headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-                pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>',
-            },
-            series: [
-                {
-                    name: '',
-                    colorByPoint: true,
-                    data: dataCheckboxes,
-                }
-            ],
-            responsive: {
-                rules: [{
-                    condition: {
-                        maxWidth: 500,
-                    },
-                    chartOptions: {
-                        xAxis: {
-                            labels: {
-                                formatter: function () {
-                                    return this.value.charAt(0);
-                                }
-                            }
-                        },
-                        yAxis: {
-                            labels: {
-                                align: 'left',
-                                x: 0,
-                                y: -2,
-                            },
-                            title: {
-                                text: '',
-                            }
-                        }
-                    }
-                }]
-            }
-        });
+        createBarChart($(this).attr('id'), dataCheckboxes);
     });
 
     $('.multiple-choice-result').each(function() {
-        var data = $.parseJSON($(this).attr('data').replace(/\\r\\n/g, " / "));
-        var text = '';
-
-        $.each(data, function(index, item) {
-            var name = item['content'];
-
-            if(name.length > 50) name = name.substring(0, 50) + '...';
-
-            text += `{"name": "${name}", "y": ${item['percent']}}`;
-            text += (index == data.length - 1) ? '' : ',';
-        });
-
-        text = '[' + text + ']';
+        var text = createDataForChart($(this).attr('data'));
         var dataMultipleChoice = $.parseJSON(text);
 
-        Highcharts.chart($(this).attr('id'), {
-            chart: {
-                type: 'pie',
-                options3d: {
-                    enabled: true,
-                    alpha: 45,
-                    beta: 0,
-                }
-            },
-            exporting: {
-                enabled: false,
-            },
-            title: {
-                text: '',
-            },
-            credits: {
-                enabled: false,
-                position: {
-                    align: 'left',
-                }
-            },
-            plotOptions: {
-                pie: {
-                    allowPointSelect: true,
-                    cursor: 'pointer',
-                    depth: 40,
-                    dataLabels: {
-                        enabled: true,
-                        format: '{point.percentage:.1f} %',
-                        colors: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black',
-                        distance: -50,
-                    },
-                    showInLegend: true,
-                }
-            },
-            series: [
-                {
-                    type: 'pie',
-                    name: '',
-                    data: dataMultipleChoice,
-                }
-            ],
-            responsive: {
-                rules: [{
-                    condition: {
-                        maxWidth: 500,
-                    },
-                    chartOptions: {
-                        xAxis: {
-                            labels: {
-                                formatter: function () {
-                                    return this.value.charAt(0);
-                                }
-                            }
-                        },
-                        yAxis: {
-                            labels: {
-                                align: 'left',
-                                x: 0,
-                                y: -2,
-                            },
-                            title: {
-                                text: '',
-                            }
-                        }
-                    }
-                }]
-            }
-        });
+        createPieChart($(this).attr('id'), dataMultipleChoice);
+    });
+
+    $('.redirect-result').each(function() {
+        var text = createDataForChart($(this).attr('data'));
+        var dataRedirect = $.parseJSON(text);
+
+        createPieChart($(this).attr('id'), dataRedirect, true);
     });
 
     // excel option menu
@@ -306,5 +144,193 @@ function results() {
     $(document).on('click', '.submit-export-excel', function(event) {
         event.preventDefault();
         $('.info-export').submit();
+    });
+}
+
+function createBarChart(id, data) {
+    Highcharts.chart(id, {
+        chart: {
+            type: 'bar',
+            inverted: true,
+        },
+        exporting: {
+            enabled: false,
+        },
+        title: {
+            text: '',
+        },
+        subtitle: {
+            text: '',
+        },
+        xAxis: {
+            type: 'category',
+        },
+        yAxis: {
+            title: {
+                text: '',
+            }
+        },
+        legend: {
+            enabled: false,
+        },
+        credits: {
+            enabled: false,
+            position: {
+                align: 'left',
+            }
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y:.1f}%',
+                }
+            }
+        },
+        tooltip: {
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>',
+        },
+        series: [
+            {
+                name: '',
+                colorByPoint: true,
+                data: data,
+            }
+        ],
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500,
+                },
+                chartOptions: {
+                    xAxis: {
+                        labels: {
+                            formatter: function () {
+                                return this.value.charAt(0);
+                            }
+                        }
+                    },
+                    yAxis: {
+                        labels: {
+                            align: 'left',
+                            x: 0,
+                            y: -2,
+                        },
+                        title: {
+                            text: '',
+                        }
+                    }
+                }
+            }]
+        }
+    });
+}
+
+function createPieChart(id, data, redirect = false) {
+    var options3d = redirect ? { enabled: true, alpha: 45, beta: 0,} : { enabled: false,};
+    Highcharts.chart(id, {
+        chart: {
+            type: 'pie',
+            options3d: options3d,
+        },
+        exporting: {
+            enabled: false,
+        },
+        title: {
+            text: '',
+        },
+        credits: {
+            enabled: false,
+            position: {
+                align: 'left',
+            }
+        },
+        tooltip: {
+            pointFormat: '<b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                allowPointSelect: true,
+                cursor: 'pointer',
+                depth: 40,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.percentage:.1f} %',
+                    colors: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black',
+                    distance: -50,
+                },
+                showInLegend: true,
+            }
+        },
+        series: [
+            {
+                type: 'pie',
+                name: '',
+                data: data,
+            }
+        ],
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500,
+                },
+                chartOptions: {
+                    xAxis: {
+                        labels: {
+                            formatter: function () {
+                                return this.value.charAt(0);
+                            }
+                        }
+                    },
+                    yAxis: {
+                        labels: {
+                            align: 'left',
+                            x: 0,
+                            y: -2,
+                        },
+                        title: {
+                            text: '',
+                        }
+                    }
+                }
+            }]
+        }
+    });
+}
+
+function createDataForChart(data) {
+    var newData = $.parseJSON(data.replace(/\\r\\n/g, " / "));
+    var text = '';
+
+    $.each(newData, function(index, item) {
+        var name = item['content'];
+
+        if (name.length > 30) {
+            name = name.substring(0, 30) + '...';
+        }
+
+        text += `{"name": "${name}", "y": ${item['percent']}}`;
+        text += (index == newData.length - 1) ? '' : ',';
+    });
+
+    text = '[' + text + ']';
+
+    return text;
+}
+
+function subResults() {
+    $('.sub-checkboxes-result').each(function() {
+        var text = createDataForChart($(this).attr('data'));
+        var dataCheckboxes = $.parseJSON((text));
+
+        createBarChart($(this).attr('id'), dataCheckboxes);
+    });
+
+    $('.sub-multiple-choice-result').each(function() {
+        var text = createDataForChart($(this).attr('data'));
+        var dataMultipleChoice = $.parseJSON(text);
+
+        createPieChart($(this).attr('id'), dataMultipleChoice);
     });
 }
