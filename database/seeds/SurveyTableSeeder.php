@@ -48,6 +48,8 @@ class SurveyTableSeeder extends Seeder
                 'survey_id' => $survey->id,
             ]);
 
+            $this->seedDataQuestion($section->id, $faker, $user);
+
             $question = factory(Question::class)->create([
                 'section_id' => $section->id,
                 'required' => 1,
@@ -70,8 +72,6 @@ class SurveyTableSeeder extends Seeder
 
                 $this->seedDataQuestion($section->id, $faker, $user);
             });
-
-            $this->seedDataQuestion($section->id, $faker, $user);
 
             // create more sections
             factory(Section::class, 2)->create([
@@ -99,6 +99,7 @@ class SurveyTableSeeder extends Seeder
                 if (in_array($key, [
                     config('settings.question_type.multiple_choice'),
                     config('settings.question_type.checkboxes'),
+                    config('settings.question_type.redirect'),
                 ])) {
                     $answer_id = $question->answers()->get()->random()->id;
                 }
@@ -114,7 +115,7 @@ class SurveyTableSeeder extends Seeder
                     'question_id' => $question_id,
                     'content' => $content,
                     'client_ip' => 0,
-                    'survey_id' => $user->members()->get()->random()->pivot->survey_id,
+                    'survey_id' => $question->section->survey_id,
                 ];
             }
 

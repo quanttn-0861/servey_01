@@ -370,5 +370,7 @@ return [
     'block' => 'Block',
     'phone' => 'Phone',
     'edit' => 'Edit',
-    'edit_status_user_error' => 'Edit unccessfull!'
+    'edit_status_user_error' => 'Edit unccessfull!',
+    //export
+    'framgia_vn' => 'Framgia Vietnam Company',
 ];

@@ -370,5 +370,7 @@ return [
     'block' => 'Block',
     'phone' => 'Số điện thoại',
     'edit' => 'Chỉnh sửa',
-    'edit_status_user_error' => 'Chỉnh sửa không thành công!'
+    'edit_status_user_error' => 'Chỉnh sửa không thành công!',
+    //export
+    'framgia_vn' => 'Công ty Framgia Việt Nam',
 ];
