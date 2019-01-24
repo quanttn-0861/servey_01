@@ -425,7 +425,7 @@ $(document).ready(function() {
 
         selector.find('.required-question').each(function() {
             var selectorQuestion = $(this).closest('.li-question-review.form-line');
-            if (selectorQuestion.has('answer-text') &&
+            if (selectorQuestion.has('.answer-text').length &&
                 !selectorQuestion.find('.answer-text').val().trim().length
             ) {
                 selectorQuestion.find('.input-answer-other').addClass('change-css-required');
