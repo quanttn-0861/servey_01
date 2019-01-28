@@ -339,4 +339,5 @@ return [
         'middle' => 1,
         'end' => 2,
     ],
+    'section_redirect_id_default' => 0,
 ];

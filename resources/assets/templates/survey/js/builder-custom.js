@@ -355,7 +355,7 @@ jQuery(document).ready(function () {
             var answer = {};
             var answerId = $(element).data('answer-id');
 
-            answer.id = answerId;
+            answer.id = answerId.toString();
 
             var content = data.find(item => item.name.includes(`answer[question_${questionId}][answer_${answerId}]`));
             answer.content = content !== undefined ? content.value : '';
@@ -420,7 +420,7 @@ jQuery(document).ready(function () {
             var question = {};
             var questionId = $(element).data('question-id');
 
-            question.id = questionId;
+            question.id = questionId.toString();
 
             var title = data.find(item => item.name === `title[section_${sectionId}][question_${questionId}]`);
             question.title = title !== undefined ? title.value : '';
@@ -439,8 +439,13 @@ jQuery(document).ready(function () {
                 question.date_format = dateFormat;
             }
 
-            var require = data.find(item => item.name === `require[section_${sectionId}][question_${questionId}]`);
-            question.require = require !== undefined ? parseInt(require.value) : 0; // 0: No require, 1: Require
+            // require if is redirect question
+            if (type == 10) {
+                question.require = 1;
+            } else {
+                var require = data.find(item => item.name === `require[section_${sectionId}][question_${questionId}]`);
+                question.require = require !== undefined ? parseInt(require.value) : 0; // 0: No require, 1: Require
+            }
 
             question.answers = getAnswers(data, element, questionId, sectionId);
 
@@ -497,7 +502,7 @@ jQuery(document).ready(function () {
             var section = {};
 
             var sectionId = $(element).data('section-id');
-            section.id = sectionId;
+            section.id = sectionId.toString();
 
             var title = data.find(item => item.name === `title[section_${sectionId}]`);
             section.title = title !== undefined ? title.value : '';
@@ -506,6 +511,10 @@ jQuery(document).ready(function () {
             section.description = description !== undefined ? description.value : '';
             section.questions = getQuestions(data, element, sectionId);
             section.redirect_id = null; // temp default redirect id value
+
+            if ($(element).closest('.redirect-section-block').length) {
+                section.redirect_id = $(element).closest('.redirect-section-block').data('redirect-id');
+            }
 
             // get update status of section in edit-page and get sections update data
             if (surveyData.data('page') == 'edit' && isUpdate) {
@@ -814,7 +823,6 @@ jQuery(document).ready(function () {
         var questionType = option.data('type');
         var sectionId = null;
         var questionId = refreshQuestionId();
-        var numberOfSections = surveyData.data('number-section');
         var redirectSectionData = [];
         redirectSectionData.push(makeRedirectSectionData());
         redirectSectionData.push(makeRedirectSectionData());
@@ -830,7 +838,6 @@ jQuery(document).ready(function () {
             method: 'POST',
             url: option.data('url'),
             data : {
-                numberOfSections: numberOfSections,
                 sectionId: sectionId,
                 questionId: questionId,
                 imageURL: imageURL,
@@ -843,11 +850,16 @@ jQuery(document).ready(function () {
                 option.closest('.form-wrapper.page-section').wrap('<div class="redirect-question-block"></div>');
                 var parentElement = option.closest('.redirect-question-block');
                 var redirectQuestionElement = $('<div></div>').html(data.view_question).children().first();
-                
+                var sectionIndex = parentElement.prevAll('.page-section, .redirect-question-block').length + 1;
+
                 // append redirect question
-                data.view_sections.forEach(function (section) {
+                data.view_sections.forEach(function (section, index) {
                     parentElement.append(section);
+                    parentElement.find('.redirect-section-block .section-index').last().html(`${sectionIndex}.${index + 1}.1`);
                 });
+
+                parentElement.find('.redirect-section-block').data('number-redirect-section', 1);
+                parentElement.find('.redirect-section-block .total-section').html(1);
 
                 if (window.questionSelected === null) {
                     window.questionSelected = $(redirectQuestionElement).insertBefore(endSection);
@@ -1342,7 +1354,6 @@ jQuery(document).ready(function () {
         var question = element.closest('.page-section.sortable.ui-sortable').find('li.form-line.sort');
         var section = $('.page-section.sortable.ui-sortable');
 
-
         // if just have 1 question in section
         if (question.length == 1) {
             // if just have 1 section in page, then can not delete
@@ -1636,7 +1647,7 @@ jQuery(document).ready(function () {
             var questionElement = multipleChoiceBlock.closest('li.form-line.sort');
             var questionId = questionElement.data('question-id');
             var answerId = refreshAnswerId();
-            otherChoiceOption.attr('data-answer-id', answerId);
+            otherChoiceOption.data('answer-id', answerId);
             otherChoiceOption.attr('id', `answer_${answerId}`);
             var numberOfAnswers = questionElement.data('number-answer');
             var optionId = numberOfAnswers + 1;
@@ -1805,7 +1816,7 @@ jQuery(document).ready(function () {
             var questionElement = checkboxBlock.closest('li.form-line.sort');
             var questionId = questionElement.data('question-id');
             var answerId = refreshAnswerId();
-            otherCheckboxOption.attr('data-answer-id', answerId);
+            otherCheckboxOption.data('answer-id', answerId);
             otherCheckboxOption.attr('id', `answer_${answerId}`);
             var numberOfAnswers = questionElement.data('number-answer');
             var optionId = numberOfAnswers + 1;
@@ -1822,7 +1833,6 @@ jQuery(document).ready(function () {
      */
 
     function addSectionRedirect(redirectElement, answerRedirectId, answerRedirectContent) {
-        var numberOfSections = surveyData.data('number-section');
         var sectionId = refreshSectionId();
         var questionId = refreshQuestionId();
         var answerId = refreshAnswerId();
@@ -1833,7 +1843,6 @@ jQuery(document).ready(function () {
             data : {
                 answerRedirectId: answerRedirectId,
                 answerRedirectContent: answerRedirectContent,
-                numberOfSections: numberOfSections,
                 sectionId: sectionId,
                 questionId: questionId,
                 answerId: answerId
@@ -1842,12 +1851,17 @@ jQuery(document).ready(function () {
         .done(function (data) {
             if (data.success) {
                 var element = $('<div class></div>').html(data.html).children().first();
-                redirectElement.closest('.redirect-question-block').append(element);
+                var parentElement = redirectElement.closest('.redirect-question-block');
+                var sectionIndex = parentElement.prevAll('.page-section').length + parentElement.prevAll('.redirect-question-block').length + 1;
 
-                surveyData.data('number-section', numberOfSections + 1);
-                $('.total-section').html(numberOfSections + 1);
+                parentElement.append(element);
+                element.data('number-redirect-section', 1);
+
+                var redirectIndex = parentElement.find('.redirect-section-block').length;
+                element.find('.section-index').html(`${sectionIndex}.${redirectIndex}.1`);
+                element.find('.total-section').html(1);
+
                 formSortable();
-
                 // add multiple sortable event
                 multipleChoiceSortable(`question_${questionId}`);
 
@@ -1871,11 +1885,6 @@ jQuery(document).ready(function () {
 
                 // auto resize for new textarea
                 autoResizeTextarea();
-
-                // scroll to section
-                if (numberOfSections) {
-                    scrollToSection(sectionId);
-                }
             }
         });
     }
@@ -1892,6 +1901,7 @@ jQuery(document).ready(function () {
             var answerId = refreshAnswerId();
 
             nextElement.data('answer-id', answerId);
+            nextElement.attr('data-answer-id', answerId);
             nextElement.attr('id', `answer_${answerId}`);
 
             var numberOfAnswers = questionElement.data('number-answer');
@@ -2106,7 +2116,6 @@ jQuery(document).ready(function () {
             method: 'POST',
             url: $(this).data('url'),
             data : {
-                numberOfSections: numberOfSections,
                 sectionId: sectionId,
                 questionId: questionId,
                 answerId: answerId
@@ -2119,14 +2128,23 @@ jQuery(document).ready(function () {
 
                 if (redirectSectionElement.length) {
                     redirectSectionElement.append(element);
+                    var parentElement = redirectSectionElement.closest('.redirect-question-block');
+                    var sectionIndex = parentElement.prevAll('.page-section, .redirect-question-block').length + 1;
+                    var numberOfRedirectSections = redirectSectionElement.data('number-redirect-section') + 1;
+                    var redirectIndex = redirectSectionElement.prevAll('.redirect-section-block').length + 1;
+
+                    redirectSectionElement.data('number-redirect-section', numberOfRedirectSections);
+                    element.find('.section-index').html(`${sectionIndex}.${redirectIndex}.${numberOfRedirectSections}`);
+                    redirectSectionElement.find('.total-section').html(numberOfRedirectSections);
                 } else {
+                    element.addClass('normal-section');
                     $('.survey-form').append(element);
+                    surveyData.data('number-section', numberOfSections + 1);
+                    element.find('.section-index').html(numberOfSections + 1);
+                    $('.survey-form ul.normal-section .total-section').html(numberOfSections + 1);
                 }
 
-                surveyData.data('number-section', numberOfSections + 1);
-                $('.total-section').html(numberOfSections + 1);
                 formSortable();
-
                 element.find('li.sort').first().click();
 
                 // add multiple sortable event
@@ -3329,9 +3347,11 @@ jQuery(document).ready(function () {
         $(window.questionSelected).find('.element-content .option').each(function (i) {
             i ++;
             var answerId = refreshAnswerId();
+            $(this).attr('id', `answer_${answerId}`);
             $(this).data('answer-id', answerId);
             $(this).find('.answer-option-input').attr('name', `answer[question_${questionId}][answer_${answerId}][option_${i}]`);
             $(this).find('input[type=hidden]').attr('name', `media[question_${questionId}][answer_${answerId}][option_${i}]`);
+            $(this).find('.answer-option-input').attr('data-autoresize', 'data-autoresize');
         });
 
         // select duplicating question
@@ -3348,71 +3368,113 @@ jQuery(document).ready(function () {
     $('.survey-form').on('click', '.copy-section', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        var numberOfSections = surveyData.data('number-section');
-        var sectionDuplicate = $(this).closest('.page-section').clone();
 
-        $(this).closest('.page-section').find('.form-line').each(function () {
-            $(this).removeClass('liselected question-active');
-        });
-        $(sectionDuplicate).insertAfter($(this).closest('.page-section'));
-        surveyData.data('number-section', numberOfSections + 1);
-        $('.total-section').html(numberOfSections + 1);
-        formSortable();
+        var element = $(this);
+        var sectionDuplicate = null;
+        var isHaveRedirectQuestion = !element.closest('.redirect-section-block').length && element.closest('.redirect-question-block').length;
 
-        var pageSectionSelected = $('.survey-form').find('.liselected').closest('.page-section');
-        var sectionId = refreshSectionId();
-        $(pageSectionSelected).attr('id', `section_${sectionId}`);
-        $(pageSectionSelected).data('section-id', sectionId);
+        if (isHaveRedirectQuestion) {
+            sectionDuplicate = element.closest('.redirect-question-block').clone();
+            sectionDuplicate.insertAfter(element.closest('.redirect-question-block'));
 
-        $(pageSectionSelected).find('.section-header-title').attr('name', `title[section_${sectionId}]`);
-        $(pageSectionSelected).find('.section-header-title').attr('data-autoresize', 'data-autoresize');
-
-        $(pageSectionSelected).find('.section-header-description').attr('name', `description[section_${sectionId}]`);
-        $(pageSectionSelected).find('.section-header-description').attr('data-autoresize', 'data-autoresize');
-
-        $(pageSectionSelected).find('.form-line').each(function () {
-            var questionId = refreshQuestionId();
-            $(this).attr('id', `question_${questionId}`);
-            $(this).data('question-id', questionId);
-
-            $(this).find('.question-input').attr('name', `title[section_${sectionId}][question_${questionId}]`);
-            $(this).find('.question-input').attr('data-autoresize', 'data-autoresize');
-
-            $(this).find('.image-question-hidden').attr('name', `media[section_${sectionId}][question_${questionId}]`);
-            $(this).find('.checkbox-question-required').attr('name', `require[section_${sectionId}][question_${questionId}]`);
-            $(this).find('.input-image-section-hidden').attr('name', `media[section_${sectionId}][question_${questionId}]`);
-            $(this).find('.video-section-url-hidden').attr('name', `media[section_${sectionId}][question_${questionId}]`);
-
-
-            $(this).find('.question-description-input').attr('name', `description[section_${sectionId}][question_${questionId}]`);
-            $(this).find('.question-description-input').attr('data-autoresize', 'data-autoresize');
-            $(this).find('.element-content .option').each(function (i) {
-                i ++;
-                var answerId = refreshAnswerId();
-                $(this).data('answer-id', answerId);
-                $(this).find('.answer-option-input').attr('name', `answer[question_${questionId}][answer_${answerId}][option_${i}]`);
-                $(this).find('input[type=hidden]').attr('name', `media[question_${questionId}][answer_${answerId}][option_${i}]`);
+            sectionDuplicate.find('.page-section').each(function () {
+                refreshIdSectionDuplicate($(this));
             });
-        });
 
-        $('.survey-form').find('.page-section').each(function (i) {
-            $(this).find('.section-index').text(i + 1);
-        });
+            sectionDuplicate = sectionDuplicate.children('.page-section');
+        } else {
+            sectionDuplicate = element.closest('.page-section').clone();
+            sectionDuplicate.insertAfter(element.closest('.page-section'));
+            refreshIdSectionDuplicate(sectionDuplicate);
+        }
 
-        $(pageSectionSelected).find('.form-line').first().click();
-        scrollToSection(sectionId);
+        formSortable();
+        reloadSectionIndex();
+
+        sectionDuplicate.find('.form-line').first().click();
+        scrollToSection(sectionDuplicate.data('section-id'));
 
         // auto resize for new textarea
         autoResizeTextarea();
     });
 
+    function refreshIdSectionDuplicate(sectionDuplicate) {
+        var sectionId = refreshSectionId();
+        sectionDuplicate.attr('id', `section_${sectionId}`);
+        sectionDuplicate.data('section-id', sectionId);
+
+        sectionDuplicate.find('.section-header-title').attr('name', `title[section_${sectionId}]`);
+        sectionDuplicate.find('.section-header-title').attr('data-autoresize', 'data-autoresize');
+
+        sectionDuplicate.find('.section-header-description').attr('name', `description[section_${sectionId}]`);
+        sectionDuplicate.find('.section-header-description').attr('data-autoresize', 'data-autoresize');
+
+        sectionDuplicate.find('.form-line').each(function () {
+            var questionId = refreshQuestionId();
+            var questionElement = $(this);
+
+            questionElement.attr('id', `question_${questionId}`);
+            questionElement.data('question-id', questionId);
+
+            questionElement.find('.question-input').attr('name', `title[section_${sectionId}][question_${questionId}]`);
+            questionElement.find('.question-input').attr('data-autoresize', 'data-autoresize');
+
+            questionElement.find('.image-question-hidden').attr('name', `media[section_${sectionId}][question_${questionId}]`);
+            questionElement.find('.checkbox-question-required').attr('name', `require[section_${sectionId}][question_${questionId}]`);
+            questionElement.find('.input-image-section-hidden').attr('name', `media[section_${sectionId}][question_${questionId}]`);
+            questionElement.find('.video-section-url-hidden').attr('name', `media[section_${sectionId}][question_${questionId}]`);
+
+            questionElement.find('.question-description-input').attr('name', `description[section_${sectionId}][question_${questionId}]`);
+            questionElement.find('.question-description-input').attr('data-autoresize', 'data-autoresize');
+            questionElement.find('.element-content .option').each(function (i) {
+                i ++;
+                var answerElement = $(this);
+                var answerId = refreshAnswerId();
+
+                if (answerElement.hasClass('redirect-choice')) {
+                    var oldAnswerRedirectId = answerElement.data('answer-id');
+                    var color = makeRandomRedirectColor();
+                    sectionDuplicate = sectionDuplicate.closest('.redirect-question-block');
+
+                    sectionDuplicate.find(`.redirect-choice-${oldAnswerRedirectId}`)
+                        .removeClass(`redirect-choice-${oldAnswerRedirectId}`)
+                        .addClass(`redirect-choice-${answerId}`)
+                        .css('color', color).attr('color', color);
+                    sectionDuplicate.find(`.redirect-section-${oldAnswerRedirectId}`)
+                        .removeClass(`redirect-section-${oldAnswerRedirectId}`)
+                        .addClass(`redirect-section-${answerId}`)
+                        .css('border-color', color)
+                        .attr('data-redirect-id', answerId);
+                    sectionDuplicate.find(`.redirect-section-label-${oldAnswerRedirectId}`)
+                        .removeClass(`redirect-section-label-${oldAnswerRedirectId}`)
+                        .addClass(`redirect-section-label-${answerId}`)
+                        .css('border-color', color).css('background', color);
+                }
+
+                answerElement.attr('id', `answer_${answerId}`);
+                answerElement.attr('data-answer-id', answerId);
+                answerElement.data('answer-id', answerId);
+                answerElement.find('.answer-option-input').attr('name', `answer[question_${questionId}][answer_${answerId}][option_${i}]`);
+                answerElement.find('input[type=hidden]').attr('name', `media[question_${questionId}][answer_${answerId}][option_${i}]`);
+                answerElement.find('.answer-option-input').attr('data-autoresize', 'data-autoresize');
+
+                addValidationRuleForAnswer(answerId);
+            });
+
+            addValidationRuleForQuestion(questionId);
+        });
+
+        addValidationRuleForSection(sectionId);
+    }
+
     // remove section
     $('.survey-form').on('click', '.delete-section', function (e) {
         var element = $(this);
         var numberOfSections = surveyData.data('number-section');
-        var currentSectionSelected = element.closest('.page-section');
-        var prevSection = $(currentSectionSelected).prev();
-        var question = element.closest('.page-section.sortable.ui-sortable').find('li.form-line.sort');
+
+        if (element.closest('.redirect-section-block').length) {
+            numberOfSections = element.closest('.redirect-section-block').data('number-redirect-section');
+        }
 
         if (numberOfSections == 1) {
             alertDanger({message: Lang.get('lang.can_not_remove_last_section')});
@@ -3420,67 +3482,117 @@ jQuery(document).ready(function () {
             return false;
         }
 
-        if ($(currentSectionSelected).find('.section-header-title').val() != '' ||
-            $(currentSectionSelected).find('.section-header-description').val() != '' ||
-            $(question).first().find('.question-input').val() != ''){
+        var currentSectionSelected = element.closest('.page-section');
 
+        if (!element.closest('.redirect-section-block').length && element.closest('.redirect-question-block').length) {
+            currentSectionSelected = element.closest('.redirect-question-block');
+        }
+
+        var checkHasData = false;
+
+        currentSectionSelected.find('.section-header-title, .section-header-description, li.form-line.sort .question-input').each(function () {
+            if ($(this).val() != '') {
+                checkHasData = true;
+
+                return;
+            }
+        });
+
+        if (checkHasData) {
             confirmWarning({message: Lang.get('lang.confirm_remove_last_question')}, function () {
-                // remove validation tooltip
-                currentSectionSelected.find('textarea[data-toggle="tooltip"], input[data-toggle="tooltip"]').each(function () {
-                    $(`#${element.attr('aria-describedby')}`).remove();
-                });
-
-                element.closest('.page-section').remove();
-                surveyData.data('number-section', numberOfSections - 1);
-                $('.total-section').html(numberOfSections - 1);
-
-                $('.survey-form').find('.page-section').each(function (i) {
-                    $(this).find('.section-index').text(i + 1);
-                });
-
-                $(prevSection).find('.form-line.sort').first().click();
-                scrollToSection($(prevSection).data('section-id'));
+                deleteSection(currentSectionSelected);
             });
 
             return false;
         }
 
+        deleteSection(currentSectionSelected);
+    });
+
+    function deleteSection(currentSectionSelected) {
         // remove validation tooltip
         currentSectionSelected.find('textarea[data-toggle="tooltip"], input[data-toggle="tooltip"]').each(function () {
             $(`#${$(this).attr('aria-describedby')}`).remove();
         });
 
-        $(this).closest('.page-section').remove();
-        surveyData.data('number-section', numberOfSections - 1);
-        $('.total-section').html(numberOfSections - 1);
 
-        $('.survey-form').find('.page-section').each(function (i) {
+        var prevSection = currentSectionSelected.prev().hasClass('page-section-header')
+            ? currentSectionSelected.next()
+            : currentSectionSelected.prev();
+
+        var prevSectionId = prevSection.hasClass('redirect-question-block')
+            ? prevSection.children('.page-section').data('section-id')
+            : prevSection.data('section-id');
+
+        currentSectionSelected.remove();
+        reloadSectionIndex();
+
+        prevSection.find('.form-line.sort').first().click();
+        scrollToSection(prevSectionId);
+    }
+
+    function reloadSectionIndex() {
+        var numberOfSections = $('.survey-form ul.normal-section').length;
+        surveyData.data('number-section', numberOfSections);
+        $('.survey-form ul.normal-section .total-section').text(numberOfSections);
+
+        $('.survey-form ul.normal-section').each(function (i) {
             $(this).find('.section-index').text(i + 1);
         });
 
-        $(prevSection).find('.form-line.sort').first().click();
-        scrollToSection($(prevSection).data('section-id'));
-    });
+        $('.survey-form .redirect-question-block').each(function () {
+            $(this).find('.redirect-section-block').each(function (i) {
+                var sectionIndex = $(this).closest('.redirect-question-block').prevAll('.page-section, .redirect-question-block').length + 1;
+                redirectSectionsElement = $(this).find('.page-section');
+                $(this).data('number-redirect-section', redirectSectionsElement.length);
+                redirectSectionsElement.find('.total-section').text(redirectSectionsElement.length);
+
+                redirectSectionsElement.each(function (j) {
+                    $(this).find('.section-index').text(`${sectionIndex}.${i + 1}.${j + 1}`);
+                });
+            });
+        });
+    }
 
     // merge section with above
     $('.survey-form').on('click', '.merge-with-above', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        var numberOfSections = surveyData.data('number-section');
+
         var currentSection = $(this).closest('.page-section');
-        var prevSection = $(currentSection).prev('.page-section');
-        var prevSectionId = $(prevSection).data('section-id');
+        var isHasRedirectQuestion = currentSection.closest('.redirect-question-block').length;
+        var prevSection = null
+
+        if (isHasRedirectQuestion) {
+            if (currentSection.closest('.redirect-question-block').prev('.redirect-question-block').length) {
+                alertWarning({message: Lang.get('lang.redirect_message.can_not_merge_section')});
+
+                return;
+            }
+
+            prevSection = currentSection.closest('.redirect-question-block').prev('.page-section');
+        } else {
+            prevSection = currentSection.prev('.page-section, .redirect-question-block');
+
+            if (prevSection.hasClass('redirect-question-block')) {
+                prevSection = prevSection.children('.normal-section.page-section');
+            }
+        }
+
+        var prevSectionId = prevSection.data('section-id');
 
         if (prevSection.length) {
-            $(currentSection).find('.form-line.sort').each(function () {
-                var questionId = $(this).data('question-id');
-                $(this).find('.question-input').attr('name', `title[section_${prevSectionId}][question_${questionId}]`);
-                $(this).find('.image-question-hidden').attr('name', `media[section_${prevSectionId}][question_${questionId}]`);
-                $(this).find('.question-description-input').attr('name', `description[section_${prevSectionId}][question_${questionId}]`)
-                $(this).find('.checkbox-question-required').attr('name', `require[section_${prevSectionId}][question_${questionId}]`);
-                $(this).find('.input-image-section-hidden').attr('name', `media[section_${prevSectionId}][question_${questionId}]`);
-                $(this).find('.video-section-url-hidden').attr('name', `media[section_${prevSectionId}][question_${questionId}]`);
-                $(this).insertAfter($(prevSection).find('.form-line.sort').last());
+            currentSection.children('.form-line.sort').each(function () {
+                var questionElement = $(this);
+                var questionId = questionElement.data('question-id');
+
+                questionElement.find('.question-input').attr('name', `title[section_${prevSectionId}][question_${questionId}]`);
+                questionElement.find('.image-question-hidden').attr('name', `media[section_${prevSectionId}][question_${questionId}]`);
+                questionElement.find('.question-description-input').attr('name', `description[section_${prevSectionId}][question_${questionId}]`)
+                questionElement.find('.checkbox-question-required').attr('name', `require[section_${prevSectionId}][question_${questionId}]`);
+                questionElement.find('.input-image-section-hidden').attr('name', `media[section_${prevSectionId}][question_${questionId}]`);
+                questionElement.find('.video-section-url-hidden').attr('name', `media[section_${prevSectionId}][question_${questionId}]`);
+                questionElement.insertAfter(prevSection.find('.form-line.sort').last());
             });
 
             // remove validation tooltip
@@ -3488,15 +3600,21 @@ jQuery(document).ready(function () {
                 $(`#${$(this).attr('aria-describedby')}`).remove();
             });
 
-            $(currentSection).remove();
-            surveyData.data('number-section', numberOfSections - 1);
-            $('.total-section').html(numberOfSections - 1);
-            $('.survey-form').find('.page-section').each(function (i) {
-                $(this).find('.section-index').text(i + 1);
-            });
+            if (isHasRedirectQuestion) {
+                prevSection.wrap('<div class="redirect-question-block"></div>');
+                var parentElement = prevSection.closest('.redirect-question-block');
+                currentSection = currentSection.closest('.redirect-question-block');
 
-            $(prevSection).find('.form-line.sort').last().click();
-            var questionId = $(prevSection).find('.form-line.sort').last().data('question-id');
+                currentSection.find('.redirect-section-block').each(function () {
+                    parentElement.append($(this));
+                });
+            }
+
+            currentSection.remove();
+            reloadSectionIndex();
+
+            prevSection.find('.form-line.sort').last().click();
+            var questionId = prevSection.children('.form-line.sort').last().data('question-id');
             scrollToQuestion(questionId);
         }
     });
@@ -3911,6 +4029,17 @@ jQuery(document).ready(function () {
         $('.survey-form').find('.move-section').removeClass('hidden');
         var firstSection = $('.survey-form').find('.page-section').first();
         $(firstSection).find('.merge-with-above').addClass('hidden');
+
+        // for redirect question
+        $('.survey-form .redirect-question-block .redirect-section-block').each(function () {
+            var redirectSections = $(this).find('.page-section');
+            redirectSections.first().find('.merge-with-above').addClass('hidden');
+
+            if (redirectSections.length == 1) {
+                redirectSections.find('.move-section').addClass('hidden');
+            }
+        });
+
         var numberOfSections = surveyData.data('number-section');
 
         if (numberOfSections == 1) {
