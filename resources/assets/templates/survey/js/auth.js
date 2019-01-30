@@ -12,22 +12,25 @@ $(document).ready(function () {
                 location.reload();
             } else {
                 $('.login-messages-password').text(Lang.get('auth.failed'));
+                $('#email').css('border-color','red');
+                $('#password').css('border-color','red');
                 $('input[type=password]').val('');
             }
         })
         .fail(function (data) {
             if (data.responseJSON.email) {
                 $('.login-messages').text(Lang.get('auth.failed_email'));
+                $('#email').css('border-color','red');
             }
 
             if (data.responseJSON.password) {
                 $('.login-messages-password').text(Lang.get('auth.failed_password'));
+                $('#password').css('border-color','red');
             }
 
             $('input[type=password]').val('');
         });
     });
-
     $(document).on('submit', '#formRegister', function (e) {
         e.preventDefault();
         $.ajax({
@@ -43,20 +46,32 @@ $(document).ready(function () {
         })
         .fail(function (data) {
             var errors = JSON.parse(data.responseText);
-            $('.name-messages').text(errors.name);
-            $('.email-messages').text(errors.email);
+
+            if (errors.name) {
+                $('.name-messages').text(errors.name);
+                $('#name').css('border-color', 'red');
+            }
+
+            if (errors.email) {
+                $('#email-register').css('border-color', 'red');
+                $('.email-messages').text(errors.email);
+            }
 
             if ($.inArray(Lang.get('validation.confirmed', {'attribute' : 'password'}), errors.password) >= 0) {
                 var errorsPasswordConfirmation = errors.password.slice(-1);
                 errors.password = errors.password.slice(0, -1);
+                $('#password-confirm').css('border-color', 'red');
             }
 
-            $('.password-messages').text(errors.password);
+            if (errors.password) {
+                $('#password-register').css('border-color', 'red');
+                $('.password-messages').text(errors.password);
+            }
+
             $('.password-confirmation-messages').text(errorsPasswordConfirmation);
             $('input[type=password]').val('');
         });
     });
-
     $(document).on('submit', '#formResetPassword', function (e) {
         e.preventDefault();
         $('.send-mail-success').addClass('hidden');

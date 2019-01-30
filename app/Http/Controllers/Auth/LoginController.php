@@ -57,7 +57,7 @@ class LoginController extends Controller
         if ($authenticated) {
             // if user is admin then redirect to Admin page
             if (Auth::user()->level == config('users.level.admin')) {
-                // redirect to admin page 
+                // redirect to admin page
                 // return redirect()->action('Admin\DashboardController@index');
             }
         }

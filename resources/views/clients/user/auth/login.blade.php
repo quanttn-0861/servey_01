@@ -15,6 +15,7 @@
                         {{ Form::email('email', old('email'), [
                             'class' => 'form-control validate',
                             'placeholder' => trans('lang.email_placeholder'),
+                            'id' => 'email'
                         ]) }}
                         {{ Form::label('email', trans('lang.email') . '(*)', ['data-error' => ' ', 'data-success' => ' ', ]) }}
                         <span class="help-block login-messages"></span>
@@ -23,6 +24,7 @@
                         {{ Form::password('password', [
                             'class' => 'form-control validate',
                             'placeholder' => trans('lang.password_placeholder'),
+                            'id' => 'password'
                         ]) }}
                         {{ Form::label('password', trans('lang.password') . '(*)', ['data-error' => ' ', 'data-success' => ' ', ]) }}
                         <span class="help-block login-messages-password"></span>
