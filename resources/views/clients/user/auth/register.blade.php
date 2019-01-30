@@ -15,6 +15,7 @@
                         {{ Form::text('name', old('name'), [
                             'class' => 'form-control validate',
                             'placeholder' => trans('lang.name_placeholder'),
+                            'id' => 'name'
                         ]) }}
                         {{ Form::label('name', trans('lang.name') . '(*)', ['data-error' => ' ', 'data-success' => ' ', ]) }}
                         <span class="help-block name-messages"></span>
@@ -23,6 +24,7 @@
                         {{ Form::email('email', old('email'), [
                             'class' => 'form-control validate',
                             'placeholder' => trans('lang.email_placeholder'),
+                            'id' => 'email-register'
                         ]) }}
                         {{ Form::label('email', trans('lang.email') . '(*)', ['data-error' => ' ', 'data-success' => ' ', ]) }}
                         <span class="help-block email-messages"></span>
@@ -31,6 +33,7 @@
                         {{ Form::password('password', [
                             'class' => 'form-control validate',
                             'placeholder' => trans('lang.password_placeholder'),
+                            'id' => 'password-register'
                         ]) }}
                         {{ Form::label('password', trans('lang.password') . '(*)', ['data-error' => ' ', 'data-success' => ' ', ]) }}
                         <span class="help-block password-messages"></span>
@@ -39,6 +42,7 @@
                         {{ Form::password('password_confirmation', [
                             'class' => 'form-control validate',
                             'placeholder' => trans('lang.password_placeholder'),
+                            'id' => 'password-confirm'
                         ]) }}
                         {{ Form::label('password_confirmation', trans('lang.password_confirmation') . '(*)', ['data-error' => ' ', 'data-success' => ' ', ]) }}
                         <span class="help-block password-confirmation-messages"></span>

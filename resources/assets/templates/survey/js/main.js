@@ -10,9 +10,9 @@
             $('#modalLogin').modal('show');
         }, 1000);
     }
-    
+
     $('#navbarDropdownProfile').dropdown();
-    
+
     // use regex in selector
     $.expr[':'].regex = function (elem, index, match) {
         var matchParams = match[3].split(','),
@@ -160,7 +160,7 @@
         $temp.val($('.complete-content .link-manage').attr('href')).select();
         document.execCommand('copy');
         $temp.remove();
-        
+
         // show message tooltip
         $(this).find('.tooltiptext').text(Lang.get('lang.copied_link'));
 
@@ -199,5 +199,6 @@
 
     $('.modal-body').on('focus', 'input.validate, textarea.validate', function () {
         $(this).parent().find('.help-block').text('');
+        $(this).parent().find('.validate').css('border-color', '');
     });
 });
