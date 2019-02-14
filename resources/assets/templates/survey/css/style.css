@@ -4261,3 +4261,9 @@ tr, th, td {
 .hide-div {
     display: none;
 }
+
+.img-user {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+}

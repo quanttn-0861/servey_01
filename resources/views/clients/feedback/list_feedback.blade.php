@@ -10,7 +10,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($feedbacks as $feedback) 
+            @foreach ($feedbacks as $feedback)
                 <tr>
                     <td class="text-center">{{ $loop->iteration }}</td>
                     <td>

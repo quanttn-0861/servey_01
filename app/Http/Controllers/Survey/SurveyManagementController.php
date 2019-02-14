@@ -57,7 +57,6 @@ class SurveyManagementController extends Controller
     {
         try {
             $user = Auth::user();
-            Session::put('page_profile_active', config('settings.page_profile_active.list_survey'));
             $surveys = $this->surveyRepository->getAuthSurveys(config('settings.survey.members.owner'));
 
             return view('clients.profile.list-survey', compact('user', 'surveys'));

@@ -1,4 +1,9 @@
 $(document).ready(function () {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
     var url = $('.url_onwer').val();
     $('.list-survey-ajax').click(function (e) {
         e.preventDefault();
@@ -54,6 +59,31 @@ $(document).ready(function () {
         modal.find('textarea.feedback-detail-content').val($(this).closest('tr').find('.feedback-content').attr('val'));
         modal.modal('show');
     });
+
+    $(document).on('click', '.delete-user-btn', function (e) {
+        e.preventDefault();
+        var element = $(this);
+        confirmWarning({message: Lang.get('lang.confirm_delete_user')}, function () {
+            element.next('.delete-user-form').submit();
+        });
+    });
+
+    $(document).on('click', '.status-user', function () {
+        var id = $(this).attr('id');
+        var status = $(this).val();
+        $.ajax({
+            url : 'change-status',
+            method : 'put',
+            data : { status : status, id : id},
+            dataType : 'json',
+            success : function (data) {
+                $('#' + id).replaceWith(data.html);
+            }
+        });
+    });
+
+    var path = window.location.href;
+    $('.profile-menu li a[href="'+path+'"]').addClass('active');
 });
 
 function listSurvey(url, flag = 'form-search') {

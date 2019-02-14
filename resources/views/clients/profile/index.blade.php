@@ -56,3 +56,8 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    {!! Html::script(elixir(config('settings.public_template') . 'js/survey.js')) !!}
+@endpush
+
