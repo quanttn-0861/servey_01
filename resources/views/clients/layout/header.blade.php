@@ -47,13 +47,15 @@
                                 <li class="active nav-item">
                                     {{ Html::link(route('home'), trans('lang.home'), ['class' => 'nav-link']) }}
                                 </li>
-                                <li class="nav-item">
-                                    {{ Html::link('javascript:void(0)', trans('lang.feedback'), [
-                                        'class' => 'nav-link',
-                                        'data-toggle' => 'modal',
-                                        'data-target' => '#modal-feedback',
-                                    ]) }}
-                                </li>
+                                @if(!Auth::guard()->check() || !Auth::user()->isAdmin())
+                                    <li class="nav-item">
+                                        {{ Html::link('javascript:void(0)', trans('lang.feedback'), [
+                                            'class' => 'nav-link',
+                                            'data-toggle' => 'modal',
+                                            'data-target' => '#modal-feedback',
+                                        ]) }}
+                                    </li>
+                                @endif
                                 @if (!Auth::guard()->check())
                                     <li class="nav-item">
                                         {{ Html::link('javascript:void(0)', trans('lang.login'), [
@@ -144,12 +146,16 @@
                                                 <li>
                                                     {!! html_entity_decode(Html::link(route('feedbacks.index'), '<i class="fa fa-comments"></i> ' . trans('lang.list_feedback'), ['class' => 'dropdown-item'])) !!}
                                                 </li>
+                                                <li>
+                                                    {!! html_entity_decode(Html::link(route('management-user.index'), '<i class="fa fa-list"></i> ' . trans('lang.list_user'), ['class' => 'dropdown-item'])) !!}
+                                                </li>
                                             @endif
                                             <li>
                                                 {!! html_entity_decode(Html::link(route('survey.profile.index'), '<i class="fa fa-user"></i> ' . trans('profile.profile'), ['class' => 'dropdown-item'])) !!}
                                             </li>
                                             <li>
                                                 {!! html_entity_decode(Html::link(route('logout'), '<i class="fa fa-power-off"></i> ' . trans('lang.logout'), ['class' => 'dropdown-item'])) !!}
+
                                             </li>
                                         </ul>
                                     </li>

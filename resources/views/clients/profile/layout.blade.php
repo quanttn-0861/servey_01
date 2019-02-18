@@ -25,32 +25,30 @@
                                         @if (Auth::user() == $user)
                                             <ul class="profile-menu">
                                                 <li>
-                                                    <a href="{{ route('survey.profile.index') }}"
-                                                        class="{{ Session::get('page_profile_active') ==
-                                                            config('settings.page_profile_active.information')
-                                                            ? 'active' : '' }}">
+                                                    <a href="{{ route('survey.profile.index') }}">
                                                         @lang('profile.information')
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="{{ route('survey.survey.show-surveys') }}" class="{{ Session::get('page_profile_active') ==
-                                                            config('settings.page_profile_active.list_survey')
-                                                            ? 'active' : '' }}">
+                                                    <a href="{{ route('survey.survey.show-surveys') }}">
                                                         @lang('profile.list_survey')
                                                     </a>
                                                 </li>
                                             </ul>
                                         @endif
                                     </div>
-                                    <div class="col-lg-5 offset-lg-2 col-md-5 offset-md-2 list-profile-menu">
+                                    <div class="col-lg-5 offset-lg-2 col-md-5  list-profile-menu">
                                         @if (Auth::user() == $user)
                                             <ul class="profile-menu">
                                                 @if (Auth::user()->isAdmin())
                                                     <li>
-                                                        <a href="{{ route('feedbacks.index') }}" 
-                                                            class="{{ Session::get('page_profile_active') ==
-                                                            config('settings.page_profile_active.list_feedback')
-                                                            ? 'active' : '' }}">@lang('lang.list_feedback')
+                                                        <a href="{{ route('feedbacks.index') }}"
+                                                            >@lang('lang.list_feedback')
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ route('management-user.index') }}"
+                                                            >@lang('lang.list_user')
                                                         </a>
                                                     </li>
                                                 @endif
@@ -246,4 +244,5 @@
     {!! Html::script(asset(config('settings.plugins') . 'datatables/js/jquery.dataTables.js')) !!}
     {!! Html::script(elixir(config('settings.public_template') . 'js/datatables-script.js')) !!}
     {!! Html::script(elixir(config('settings.public_template') . 'js/manage-invite.js')) !!}
+    {!! Html::script(elixir(config('settings.public_template') . 'js/survey.js')) !!}
 @endpush

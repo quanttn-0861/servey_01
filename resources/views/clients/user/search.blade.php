@@ -7,19 +7,12 @@
                 'placeholder' => trans('lang.enter_name_or_email')
             ]) !!}
         </div>
-        <div class="col-xl-3 push-xl-3 col-lg-3 push-lg-3 col-md-3 col-sm-3 col-xs-3">
-            {!! Form::select('condition_search', [
-                config('settings.feedbacks.condition_search.all') => trans('lang.all'),
-                config('settings.feedbacks.condition_search.by_name') => trans('lang.by_name'),
-                config('settings.feedbacks.condition_search.by_email') => trans('lang.by_email'),
-            ], null, ['class' => 'select-list-survey element-search-survey']) !!}
-        </div>
         <div class="col-xl-3 push-xl-3 col-lg-3 push-lg-3 col-md-3 col-sm-3 col-xs-3 btn-search-owner">
             <a href="javascript:void(0)"
                 class="btn btn-info btn-search-survey"
                 data-toggle="tooltip"
                 title="@lang('survey.search')"
-                data-url="{{ route('ajax-list-feedback') }}">
+                data-url="{{ route('ajax-list-user') }}">
                 <i class="fa fa-search" aria-hidden="true"></i>
             </a>
         </div>

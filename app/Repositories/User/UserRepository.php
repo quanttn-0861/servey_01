@@ -63,7 +63,7 @@ class UserRepository extends BaseRepository implements UserInterface
     public function findEmail($data, $userId)
     {
         $users = $this->model
-            ->where('email', 'like', '%' . $data['keyword'] . '%')
+            ->where('email', 'like', "%{$data['keyword']}%")
             ->where('id', '!=', $userId);
 
         if (!empty($data['emails']) && count($data['emails'])) {
@@ -71,5 +71,17 @@ class UserRepository extends BaseRepository implements UserInterface
         }
 
         return $users->take(config('survey.get_top_mail_suggestion'))->pluck('email');
+    }
+
+    public function getUser($data = [])
+    {
+        $users = $this->model;
+
+        if (!empty($data['name'])) {
+            $users = $users->where('name', 'like', "%{$data['name']}%")
+                ->orWhere('email', 'like', "%{$data['name']}%");
+        }
+
+        return $users->orderBy('created_at', 'desc')->paginate();
     }
 }

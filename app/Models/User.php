@@ -42,7 +42,7 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected $appends = ['gender_custom'];
+    protected $appends = ['gender_custom', 'level_custom', 'status_custom'];
 
     public function likes()
     {
@@ -189,6 +189,16 @@ class User extends Authenticatable
         }
 
         return null;
+    }
+
+    public function getLevelCustomAttribute()
+    {
+        return $this->level == config('users.level.admin') ? trans('lang.admin') : trans('lang.user');
+    }
+
+    public function getStatusCustomAttribute()
+    {
+        return $this->status == config('users.status.active') ? trans('lang.active') : trans('lang.block');
     }
 
     public function checkLoginWsm()

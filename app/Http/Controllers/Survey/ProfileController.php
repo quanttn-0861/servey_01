@@ -32,7 +32,6 @@ class ProfileController extends Controller
     {
         try {
             $user = Auth::user();
-            Session::put('page_profile_active', config('settings.page_profile_active.information'));
 
             return view('clients.profile.index', compact('user'));
         } catch (Exception $e) {

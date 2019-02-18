@@ -400,3 +400,11 @@ Route::resource('/feedbacks', 'FeedbackController', [
 
 Route::get('/list-feedback', 'FeedbackController@getListFeedback')
     ->name('ajax-list-feedback');
+
+Route::resource('/management-user', 'UserManagementController');
+
+Route::get('/list-user', 'UserManagementController@getListUser')
+    ->name('ajax-list-user');
+
+Route::put('/change-status', 'UserManagementController@changeStatus')
+    ->name('change-status');
