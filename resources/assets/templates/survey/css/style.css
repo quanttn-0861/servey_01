@@ -4267,3 +4267,41 @@ tr, th, td {
     height: 140px;
     border-radius: 50%;
 }
+
+.email-user {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100px;
+}
+
+.name-user {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100px;
+}
+
+.width-col-name-user {
+    width:20%;
+}
+
+.width-col-index-user {
+    width:5%;
+}
+
+.width-col-email-user {
+    width:20%;
+}
+
+.width-col-gender-user {
+    width:5%;
+}
+
+.width-col-status-user {
+    width:10%;
+}
+
+.width-col-action-user {
+    width:20%;
+}
