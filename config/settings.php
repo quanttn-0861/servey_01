@@ -340,4 +340,5 @@ return [
         'end' => 2,
     ],
     'section_redirect_id_default' => 0,
+    'max_size_change_image' => 4096
 ];
