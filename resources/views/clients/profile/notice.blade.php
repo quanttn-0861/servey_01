@@ -14,6 +14,6 @@
     @if ($errors->any())
         <div class="alert alert-danger alert-message alert-error-profile">
             <span>{{ $errors->first() }}</span><br>
-        </div>  
+        </div>
     @endif
 </div>

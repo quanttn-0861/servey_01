@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Survey;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\User\UserInterface;
+use App\Http\Requests\UpdateImageRequest;
 use Auth;
 use Carbon\Carbon;
 use Session;
@@ -180,7 +181,7 @@ class ProfileController extends Controller
         return redirect()->back();
     }
 
-    public function changeAvatar(Request $request)
+    public function changeAvatar(UpdateImageRequest $request)
     {
         try {
             $user = Auth::user();
