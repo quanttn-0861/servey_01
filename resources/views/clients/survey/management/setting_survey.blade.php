@@ -15,7 +15,7 @@
                 data-toggle="tooltip" title="@lang('survey.edit')">
                 <i class="fa fa-edit" aria-hidden="true"></i>
             </a>
-            
+
             <a href="javascript:void(0)"
                 class="btn {{ ($survey->isClose() || $survey->isDraft()) ? 'hide-div' : '' }}"
                 id="close-survey"
@@ -25,7 +25,7 @@
             </a>
 
             <a href="javascript:void(0)"
-                class="btn btn-warning {{ ($survey->isOpen() || $survey->isDraft()) ? 'hide-div' : '' }}" 
+                class="btn btn-warning {{ ($survey->isOpen() || $survey->isDraft()) ? 'hide-div' : '' }}"
                 id="open-survey"
                 data-toggle="tooltip" title="@lang('survey.open')"
                 data-url="{{ route('ajax-survey-open', $survey->token_manage) }}">
@@ -34,7 +34,7 @@
 
             <a href="javascript:void(0)" class="btn btn-dark"
                 id="clone-survey"
-                data-toggle="tooltip" title="@lang('survey.coppy')"
+                data-toggle="tooltip" title="@lang('survey.copy')"
                 data-url="{{ route('ajax-survey-clone', $survey->token_manage) }}">
                 <i class="fa fa-copy"></i>
             </a>
@@ -89,7 +89,7 @@
                         </a>
                     </div>
                 </div>
-            {!! Form::close() !!} 
+            {!! Form::close() !!}
         </div>
         @include('clients.survey.detail.detail_survey')
     </div>

@@ -111,7 +111,7 @@
                         </div>
                     </li>
                     <li class="form-line">
-                        <label>@lang('lang.title')</label>
+                        <label>@lang('lang.title')(*)</label>
                         <div class="form-group">
                             {!! Form::textarea('title', $survey->title, [
                                 'class' => 'form-control input-area auto-resize',

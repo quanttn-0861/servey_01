@@ -29,7 +29,7 @@
             </div>
             <hr/>
             {!! Form::textarea("title[section_$sectionId]", '', [
-                'placeholder' => trans('lang.section-title'),
+                'placeholder' => trans('lang.section-title') . '(*)',
                 'class' => 'form-control input-area auto-resize section-header-title',
                 'data-autoresize',
                 'rows' => 1,

@@ -158,4 +158,16 @@ class SurveyPolicy
 
         return false;
     }
+
+    public function manage(User $user, Survey $survey)
+    {
+        $creator = $survey->members->where('role', config('settings.survey.members.owner'))->first();
+
+        // only creator can manage survey.
+        if ($user->id == $creator->id) {
+            return true;
+        }
+
+        return false;
+    }
 }

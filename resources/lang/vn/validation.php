@@ -112,7 +112,14 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'phone' => 'số điện thoại',
+        'name' => 'tên',
+        'image' => 'ảnh',
+        'birthday' => 'ngày sinh',
+        'address' => 'địa chỉ',
+        'gender' => 'giới tính',
+    ],
     'msg' => [
         'required' => 'Thông tin bắt buộc',
         'remote' => 'Hãy sửa trừờng này.',
@@ -140,4 +147,5 @@ return [
         'duplicate_question_title' => 'Đã có một câu hỏi trùng với câu hỏi này',
         'duplicate_answer_title' => 'Đã có một câu trả lời trùng với câu trả lời này',
     ],
+    'password_without_spaces_and_require_letter_number_special_character' => 'Mật khẩu không thể bắt đầu hoặc kết thúc bằng khoảng trắng và bắt buộc phải có chữ cái, số, kí tự đặc biệt.',
 ];

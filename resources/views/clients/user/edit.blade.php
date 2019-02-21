@@ -3,20 +3,8 @@
 @section('content-profile')
     <div class="container padding-profile">
         <div class="row">
-            <div class="left-profile col-xl-3 pull-xl-3 col-lg-3 pull-lg-3 col-md-12 col-sm-12 col-xs-12">
-                <div class="ui-block">
-                    <div class="ui-block-title">
-                        <a href="{{ route('survey.profile.show', $user->id) }}"><h6 class="title title-profile">@lang('profile.personal_info')</h6></a>
-                    </div>
-                    @if (Auth::user() == $user)
-                        <div class="ui-block-title">
-                            <a href="{{ route('survey.profile.edit', $user->id) }}"><h6 class="title title-profile active">@lang('profile.change_info')</h6></a>
-                        </div>
-                        <div class="ui-block-title">
-                            <a href="{{ route('survey.profile.changepassword') }}"><h6 class="title title-profile">@lang('profile.change_password')</h6></a>
-                        </div>
-                    @endif
-                </div>
+            <div class="left-profile col-xl-2 pull-xl-2 col-lg-2 pull-lg-2 col-md-9 col-sm-9 col-xs-12">
+                <div class="ui-block"></div>
             </div>
             <div class="right-profile col-xl-9 push-xl-9 col-lg-9 push-lg-9 col-md-12 col-sm-12 col-xs-12">
                 <div class="ui-block">
@@ -24,7 +12,7 @@
                         <h6 class="title title-top">@lang('profile.personal_info')</h6>
                     </div>
                     <div class="ui-block-content">
-                        {!! Form::open(['route' => ['survey.profile.update', $user->id],
+                        {!! Form::open(['route' => ['management-user.update', $user->id],
                             'class' => 'install-form', 'files' => true,
                             'method' => 'put', 'id' => 'form-update-profile']) !!}
                             <h6>&#9758; @lang('profile.important_settings')</h6>

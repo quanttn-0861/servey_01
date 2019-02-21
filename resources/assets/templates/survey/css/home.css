@@ -430,7 +430,7 @@ body.no-header-wrapper {
 .header .main-nav .nav .dropdown-menu a {
     border-top: 1px solid #32aad2;
     border-bottom: none;
-    padding: 8px 20px;
+    padding: 8px 19px;
     color: #fff;
     -webkit-opacity: 1;
     -moz-opacity: 1;
@@ -2514,7 +2514,7 @@ body.no-header-wrapper {
     }
 
     .select-styled {
-        top: 42% !important; 
+        top: 42% !important;
     }
 
     .navbar-nav a {
@@ -2530,9 +2530,9 @@ body.no-header-wrapper {
     #header .navbar-dark .nav-item:last-child {
         padding-bottom: 5px;
     }
-    
+
     .select-styled {
-        top: 0 !important; 
+        top: 0 !important;
     }
 
     .select-options {

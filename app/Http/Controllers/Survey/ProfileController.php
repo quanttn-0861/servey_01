@@ -32,7 +32,6 @@ class ProfileController extends Controller
     {
         try {
             $user = Auth::user();
-            Session::put('page_profile_active', config('settings.page_profile_active.information'));
 
             return view('clients.profile.index', compact('user'));
         } catch (Exception $e) {
@@ -124,7 +123,7 @@ class ProfileController extends Controller
 
             $this->userRepository->update($id, $updateData);
 
-            return redirect()->back()->with('success', trans('profile.edit_success'));
+            return redirect()->route('survey.profile.show', $id)->with('success', trans('profile.edit_success'));
         } catch (Exception $e) {
             return redirect()->back()->with('error', trans('profile.edit_error'));
         }

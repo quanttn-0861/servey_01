@@ -21,7 +21,10 @@ return [
     'contact_us' => 'You can contact us through the information',
     'company_address' => '13F Keangnam Landmark 72 Tower, Plot E6, Pham Hung Road, Nam Tu Liem, Ha Noi, Viet Nam',
     'company_phone' => 'Telephone: 84-4-3795-5417',
-    'email' => 'Email',
+    'image' => 'Image',
+    'gender' => 'Gender',
+    'birthday' => 'Birthday',
+    'address' => 'Adress',
     'more_info' => 'More information',
     'more_info_content' => 'FSurvey - A simple, fast and convenient survey system.',
     'more_tools' => 'More tools...',
@@ -41,7 +44,7 @@ return [
     'reset_password' => 'Reset password',
     'already_has_an_account' => 'Already has an account?',
     'name_placeholder' => 'Example: Harry Potter',
-    'password_placeholder' => '**********************',
+    'password_placeholder' => 'Enter your password.',
     'survey_description_slider' => 'Effective survey creates the success for your goals.',
     'survey_title_slider' => 'Let\'s start with',
     'surveys' => 'Surveys',
@@ -246,6 +249,7 @@ return [
     'export' => 'Download',
     'export_error' => 'Export error!',
     'create_other' => 'Create other survey',
+    'not_permission_to_doing_this_survey' => 'You do not have permission to doing this survey!',
 
     /*
         date time format
@@ -268,7 +272,7 @@ return [
     /*
         manage survey
     */
-   
+
    'manage_survey' => 'Manage survey',
    'confirm_close_to_edit' => 'The survey is opening, you must close the survey before editing!',
    'close_survey_success' => 'Close survey successful!',
@@ -317,7 +321,7 @@ return [
     /*
         Required login
     */
-        
+
     'require_login_wsm_to_answer' => 'Survey require login wsm to answer!',
     'require_login_to_answer' => 'Survey require login to answer!',
     'send_result_failed' => 'Send result failed! Try again!',
@@ -336,6 +340,7 @@ return [
     'send_feedback_success' => 'Thank you :name! Your feedback has been saved',
     'send_feedback_error' => 'Send feedback failed! Try again!',
     'list_feedback' => 'List of feedbacks',
+    'list_user' => 'List of user',
     'enter_name_or_email' => 'Enter name or email',
     'all' => 'All',
     'by_name' => 'By name',
@@ -343,7 +348,19 @@ return [
     'detail' => 'Detail',
     'remove' => 'Remove',
     'feedback_detail' => 'Feedback Detail',
+    'user_detail' => 'User Detail',
     'confirm_delete_feedback' => 'Are you sure want to remove this feedback?',
+    'confirm_delete_user' => 'Are you sure want to remove this user?',
     'delete_feedback_success' => 'Remove feedback success!',
     'delete_feedback_error' => 'Remove feedback failed! Try again!',
+    'delete_user_success' => 'Remove user success!',
+    'delete_user_error' => 'Remove user failed! Try again!',
+    'admin' => 'Admin',
+    'user' => 'User',
+    'status' => 'Status',
+    'active' => 'Active',
+    'block' => 'Block',
+    'phone' => 'Phone',
+    'edit' => 'Edit',
+    'edit_status_user_error' => 'Edit unccessfull!'
 ];

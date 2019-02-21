@@ -15,16 +15,18 @@
                         {{ Form::text('name', Auth::check() ? Auth::user()->name : '', [
                             'class' => 'form-control validate',
                             'placeholder' => trans('lang.name_placeholder'),
+                            (Auth::check() ? 'readonly' : null)
                         ]) }}
-                        {{ Form::label('name', trans('lang.your_name'), ['data-error' => ' ', 'data-success' => ' ']) }}
+                        {{ Form::label('name', trans('lang.your_name') . '(*)', ['data-error' => ' ', 'data-success' => ' ']) }}
                         <span class="help-block feedback-name-messages"></span>
                     </div>
                     <div class="md-form mb-5">
                         {{ Form::email('email', Auth::check() ? Auth::user()->email : '', [
                             'class' => 'form-control validate',
                             'placeholder' => trans('lang.email_placeholder'),
+                            (Auth::check() ? 'readonly' : null)
                         ]) }}
-                        {{ Form::label('email', trans('lang.your_email'), ['data-error' => ' ', 'data-success' => ' ']) }}
+                        {{ Form::label('email', trans('lang.your_email') . '(*)', ['data-error' => ' ', 'data-success' => ' ']) }}
                         <span class="help-block feedback-email-messages"></span>
                     </div>
                     <div class="md-form pb-3">
@@ -33,13 +35,13 @@
                             'placeholder' => trans('lang.feedback_content_placeholder'),
                             'rows' => 8,
                         ]) }}
-                        {{ Form::label('content', trans('lang.feedback_content'), ['data-error' => ' ', 'data-success' => ' ']) }}
+                        {{ Form::label('content', trans('lang.feedback_content') . '(*)', ['data-error' => ' ', 'data-success' => ' ']) }}
                         <span class="help-block feedback-content-messages"></span>
                     </div>
                     <div class="text-center mb-3">
                         {{ Form::button(trans('lang.send_feedback'), [
-                            'type' => 'submit', 
-                            'class' => 'btn blue-gradient btn-block btn-rounded z-depth-1a', 
+                            'type' => 'submit',
+                            'class' => 'btn blue-gradient btn-block btn-rounded z-depth-1a',
                             'id' => 'btn-feedback'
                         ]) }}
                     </div>

@@ -4,7 +4,7 @@ return [
     /*
     | Profile Create Page
     */
-    
+
     'profile' => 'Trang cá nhân',
     'change_password' => 'Thay đổi mật khẩu',
     'important_settings' => 'Thông tin quan trọng',
@@ -12,7 +12,7 @@ return [
     'edit_error' => 'Thay đổi thất bại!',
     'edit_success' => 'Thay đổi thành công!',
     'password_confirm_wrong' => 'Sai mật khẩu xác nhận!',
-    'password_wrong' => 'Sai mật khẩu củ!',
+    'password_wrong' => 'Sai mật khẩu cũ!',
     'change' => 'Thay đổi',
     'male' => 'Nam',
     'female' => 'Nữ',
@@ -24,7 +24,7 @@ return [
     'birthday' => 'Ngày sinh',
     'phone' => 'Số điện thoại',
     'address' => 'Địa chỉ',
-    'old_password' => 'Mật khẩu củ',
+    'old_password' => 'Mật khẩu cũ',
     'new_password' => 'Mật khẩu mới',
     're_type_password' => 'Nhập lại mật khẩu',
     'information' => 'Thông tin',

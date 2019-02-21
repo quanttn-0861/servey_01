@@ -57,7 +57,7 @@ class LoginController extends Controller
         if ($authenticated) {
             // if user is admin then redirect to Admin page
             if (Auth::user()->level == config('users.level.admin')) {
-                // redirect to admin page 
+                // redirect to admin page
                 // return redirect()->action('Admin\DashboardController@index');
             }
         }
@@ -68,7 +68,9 @@ class LoginController extends Controller
     public function logout(Request $request)
     {
         $this->guard()->logout();
+        $locale = $request->session()->get('locale');
         $request->session()->flush();
+        $request->session()->put('locale', $locale);
         $request->session()->regenerate();
 
         return redirect()->action('SurveyController@index');

@@ -27,5 +27,5 @@ return [
     'delete' => 'Delete',
     'close' => 'Close',
     'open' => 'Open',
-    'coppy' => 'Coppy',
+    'copy' => 'Copy',
 ];

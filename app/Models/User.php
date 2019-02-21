@@ -8,10 +8,12 @@ use Carbon\Carbon;
 use File;
 use App\Notifications\ResetPasswordNotification;
 use Storage;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
     use Notifiable;
+    use SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
@@ -40,7 +42,7 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    protected $appends = ['gender_custom'];
+    protected $appends = ['gender_custom', 'level_custom', 'status_custom'];
 
     public function likes()
     {
@@ -130,7 +132,7 @@ class User extends Authenticatable
 
     public function setGenderAttribute($value)
     {
-        $this->attributes['gender'] = $value ?: config('users.gender.male');
+        $this->attributes['gender'] = $value ?: null;
     }
 
     public function requestAdmin()
@@ -182,7 +184,21 @@ class User extends Authenticatable
             return trans('profile.female');
         }
 
-        return trans('profile.other');;
+        if ($this->gender == config('users.gender.other_gender')) {
+            return trans('profile.other');
+        }
+
+        return null;
+    }
+
+    public function getLevelCustomAttribute()
+    {
+        return $this->level == config('users.level.admin') ? trans('lang.admin') : trans('lang.user');
+    }
+
+    public function getStatusCustomAttribute()
+    {
+        return $this->status == config('users.status.active') ? trans('lang.active') : trans('lang.block');
     }
 
     public function checkLoginWsm()

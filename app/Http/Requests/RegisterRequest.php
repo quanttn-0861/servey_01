@@ -25,8 +25,15 @@ class RegisterRequest extends FormRequest
     {
         return [
             'name' => 'required|max:20',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'email' => 'required|max:255|unique:users|regex:/^[a-zA-Z0-9]([\.-_]?[a-zA-Z0-9])*@[a-zA-Z0-9]([\.-]?[a-zA-Z0-9-_])*(\.[a-zA-Z0-9]{2,4})+$/',
+            'password' => 'required|min:6|regex:/^\S*(?=\S*[a-zA-Z])(?=\S*[\W])(?=\S*[\d])\S*$/|confirmed',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'password.regex' => trans('validation.password_without_spaces_and_require_letter_number_special_character'),
         ];
     }
 }

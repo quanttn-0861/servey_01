@@ -112,7 +112,14 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'phone' => 'phone',
+        'name' => 'name',
+        'image' => 'image',
+        'birthday' => 'birthday',
+        'address' => 'address',
+        'gender' => 'gender',
+    ],
     'msg' => [
         'required' => 'This field is required.',
         'remote' => 'Please fix this field.',
@@ -140,4 +147,5 @@ return [
         'duplicate_question_title' => 'There is a question that coincides with this question',
         'duplicate_answer_title' => 'There was an answer that matched this answer',
     ],
+    'password_without_spaces_and_require_letter_number_special_character' => 'Your password can not be started and ends with a space and required has letters, numbers, special characters.',
 ];
