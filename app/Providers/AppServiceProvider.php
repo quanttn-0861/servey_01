@@ -37,14 +37,23 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Session::put('locale', 'vn');
-        Blade::extend(function($value, $compiler){
-            $value = preg_replace('/(\s*)@switch\((.*)\)(?=\s)/', '$1<?php switch($2):', $value);
-            $value = preg_replace('/(\s*)@endswitch(?=\s)/', '$1endswitch; ?>', $value);
-            $value = preg_replace('/(\s*)@case\((.*)\)(?=\s)/', '$1case $2: ?>', $value);
-            $value = preg_replace('/(?<=\s)@default(?=\s)/', 'default: ?>', $value);
-            $value = preg_replace('/(?<=\s)@breakswitch(?=\s)/', '<?php break;', $value);
-
-            return $value;
+        Blade::directive('switch', function($condition){
+            return "<?php switch({$condition}){ ";
+        });
+        Blade::directive('firstcase', function($value){
+            return "case {$value}:  ?>";
+        });
+        Blade::directive('case', function($value){
+            return "<?php  case {$value}:  ?>";
+        });
+        Blade::directive('break', function(){
+            return "<?php break; ?>";
+        });
+        Blade::directive('default', function(){
+            return "<?php default : ?>";
+        });
+        Blade::directive('endswitch', function(){
+            return "<?php }  ?>";
         });
     }
 
