@@ -2,21 +2,21 @@
     <table class="table table-bordered table-list-survey">
         <thead>
             <tr>
-                <th class="text-center">@lang('profile.index')</th>
-                <th class="text-center">@lang('lang.name')</th>
-                <th class="text-center">@lang('lang.email')</th>
-                <th class="text-center">@lang('lang.gender')</th>
+                <th class="text-center width-col-index-user">@lang('profile.index')</th>
+                <th class="text-center width-col-name-user">@lang('lang.name')</th>
+                <th class="text-center width-col-email-user">@lang('lang.email')</th>
+                <th class="text-center width-col-gender-user">@lang('lang.gender')</th>
                 <th class="text-center">@lang('lang.role')</th>
-                <th class="text-center">@lang('lang.status')</th>
-                <th width="20%"></th>
+                <th class="text-center width-col-status-user">@lang('lang.status')</th>
+                <th class="width-col-action-user"></th>
             </tr>
         </thead>
         <tbody>
             @foreach ($users as $user)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $user->name }}</td>
-                    <td>{{ $user->email }}</td>
+                    <td class="name-user" title="{{ $user->name }}">{{ $user->name }}</td>
+                    <td class="email-user" title="{{ $user->email }}">{{ $user->email }}</td>
                     <td>{{ $user->gender_custom }}</td>
                     <td>{{ $user->level_custom }}</td>
                     <td>
