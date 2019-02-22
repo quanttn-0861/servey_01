@@ -4,6 +4,9 @@
         <div class="modal-content modal-content-setting-create-survey">
             <div class="modal-header modal-header-setting-survey">
                 <h4 class="modal-title title-setting-survey">@lang('profile.status')</h4>
+                <a href="javascript:void(0)" class="close icon-close" data-dismiss="modal">
+                    <span class="color-icons-close"><i class="fa fa-times"></i></span>
+                </a>
             </div>
             <!-- start tab settings -->
             <div class="tab-content tab-content-setting">
