@@ -3131,8 +3131,9 @@ body.body--fixed {
 
 .icon-close {
     position: absolute;
-    top: -25px;
-    right: -25px;
+    top: 2px;
+    right: 4px;
+    z-index: 1;
     color: #888da8;
     fill: #888da8;
 }
