@@ -10,7 +10,7 @@ return [
     'important_settings' => 'Important Settings',
     'general_settings' => 'General Settings',
     'edit_error' => 'Edit error!',
-    'edit_success' => 'Edit success!',
+    'edit_success' => 'Edit successfully!',
     'password_confirm_wrong' => 'Confirmation password wrong!',
     'password_wrong' => 'Wrong old password!',
     'change' => 'Change',
