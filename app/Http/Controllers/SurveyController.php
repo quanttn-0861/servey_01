@@ -32,6 +32,7 @@ use Auth;
 use App\Traits\SurveyProcesser;
 use App\Traits\DoSurvey;
 use App\Traits\ManageSurvey;
+use Cookie;
 
 class SurveyController extends Controller
 {
@@ -81,6 +82,11 @@ class SurveyController extends Controller
 
     public function create()
     {
+        if (Cookie::has('redirect_ids') || Cookie::has('section_id')) {
+            Cookie::queue(Cookie::forget('redirect_ids'));
+            Cookie::queue(Cookie::forget('section_id'));
+        }
+
         return view('clients.survey.create.index');
     }
 

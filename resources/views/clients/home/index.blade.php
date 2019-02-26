@@ -63,7 +63,7 @@
                                         <span class="dash_title">@lang('lang.feedbacks')</span>
                                     </div>
                                 </div>
-                               
+
                                 <a class="btn btn-primary m-a-5 start-btn" href="{{ route('surveys.create') }}"><i class="fa fa-send-o"></i> @lang('lang.get_started')</a>
 
                                 @if (!Auth::guard()->check())
@@ -94,7 +94,7 @@
                     <div class="col-md-6 p-l-45-sm-min p-l-75-md-min">
                         <div class="col-inner clearfix">
                             {{ Html::image(config('settings.feature_icon.icon_1'), 'about-1', [
-                                'class' => 'img-responsive float-r-sm-min m-x-auto-xs-max about-img', 
+                                'class' => 'img-responsive float-r-sm-min m-x-auto-xs-max about-img',
                                 'data-sr' => 'right'
                             ]) }}
                         </div>
@@ -108,7 +108,7 @@
                     <div class="col-md-6 p-r-45-sm-min p-r-75-md-min">
                         <div class="col-inner clearfix">
                             {{ Html::image(config('settings.feature_icon.icon_2'), 'about-1', [
-                                'class' => 'img-responsive float-l-sm-min m-x-auto-xs-max about-img about-img-2', 
+                                'class' => 'img-responsive float-l-sm-min m-x-auto-xs-max about-img about-img-2',
                                 'data-sr' => 'left'
                             ]) }}
                         </div>
