@@ -42,6 +42,9 @@
                     @elseif ($question->type == config('settings.question_type.time'))
                         <span class="answer-icon time-answer-icon"></span>
                         <span class="option-menu-content">@lang('lang.time_answer')</span>
+                    @elseif ($question->type == config('settings.question_type.redirect'))
+                        <span class="fa fa-fw fa-sitemap redirect-icon"></span>
+                        <span class="option-menu-content">@lang('lang.redirect')</span>
                     @endif
                 </div>
                 <ul class="survey-select-options">
@@ -70,6 +73,11 @@
                     <li data-type="{{ config('settings.question_type.time') }}" data-url="{{ route('ajax-fetch-time') }}">
                         <span class="answer-icon time-answer-icon"></span>
                         <span class="option-menu-content">@lang('lang.time_answer')</span>
+                    </li>
+                    <hr/>
+                    <li data-type="{{ config('settings.question_type.redirect') }}" data-url="{{ route('ajax-fetch-redirect-question') }}" class="clearfix">
+                        <span class="fa fa-fw fa-sitemap redirect-icon"></span>
+                        <span class="option-menu-content">@lang('lang.redirect')</span>
                     </li>
                 </ul>
             </div>

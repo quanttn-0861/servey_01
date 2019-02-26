@@ -187,7 +187,7 @@ trait SurveyProcesser
     }
 
     // create new sections
-    public function createNewSections($survey, $sectionsData, $userId)
+    public function createNewSections($survey, $sectionsData, $userId, &$dataRedirectId)
     {
         // create new sections
         foreach ($sectionsData as $section) {
@@ -195,18 +195,25 @@ trait SurveyProcesser
             $sectionData['description'] = $section['description'];
             $sectionData['order'] = $section['order'];
             $sectionData['update'] = config('settings.survey.section_update.updated');
+            $sectionData['redirect_id'] = isset($section['redirect_id']) ? $dataRedirectId[$section['redirect_id']] : config('settings.section_redirect_id_default');
 
             $sectionCreated = $survey->sections()->create($sectionData);
 
             // create questions
             if (isset($section['questions'])) {
-                $this->createNewQuestions($sectionCreated, '', $section['questions'], $userId);
+                $this->createNewQuestions(
+                    $sectionCreated, 
+                    '', 
+                    $section['questions'], 
+                    $userId, 
+                    $dataRedirectId
+                );
             }
         }
     }
 
     // create new questions in new created section or in old sections
-    public function createNewQuestions($sectionCreated, $survey, $questionsData, $userId)
+    public function createNewQuestions($sectionCreated, $survey, $questionsData, $userId, &$dataRedirectId)
     {
         $orderQuestion = 0;
 
@@ -245,13 +252,19 @@ trait SurveyProcesser
             }
 
             if (isset($question['answers'])) {
-                $this->createNewAnswers($questionCreated, '', $question['answers'], $userId);
+                $this->createNewAnswers(
+                    $questionCreated, 
+                    '', 
+                    $question['answers'], 
+                    $userId,
+                    $dataRedirectId
+                );
             }
         }
     }
 
     // create new answers in new created questions or old questions
-    public function createNewAnswers($questionCreated, $questionRepo, $answersData, $userId)
+    public function createNewAnswers($questionCreated, $questionRepo, $answersData, $userId, &$dataRedirectId)
     {
         // create new answers in old questions
         foreach ($answersData as $answer) {
@@ -276,6 +289,11 @@ trait SurveyProcesser
                 $answerMedia['type'] = config('settings.media_type.image');
 
                 $answerCreated->media()->create($answerMedia);
+            }
+
+            // save answer redirect id if question type is redirect
+            if ($questionCreated->type == config('settings.question_type.redirect')) {
+                $dataRedirectId[$answer['id']] = $answerCreated->id;
             }
         }
     }
@@ -372,7 +390,7 @@ trait SurveyProcesser
         }
     }
 
-    public function sendMailUpdateSurvey($optionUpdate, $survey, $owner, $userRepo)
+    public function sendMailUpdateSurvey($optionUpdate, $userAnsweredIds, $survey, $owner, $userRepo)
     {
         $inviter = $survey->invite;
         $message = '';
@@ -383,15 +401,17 @@ trait SurveyProcesser
             $message = $inviter->message;
             $subject = $inviter->subject;
             $inviteMails = $inviter->invite_mails_array;
-            $answerMails = $inviter->answer_mails_array;
-            $inviteMails = array_unique(array_merge($inviteMails, $answerMails));
+            $reInviteMails = $userRepo->whereIn('id', $userAnsweredIds)->pluck('email')->all();
+
+            $answerMails = array_diff($inviter->answer_mails_array, $reInviteMails);
+            $inviteMails = array_unique(array_merge($inviteMails, $reInviteMails));
 
             $updateData = [
                 'invite_mails' => $this->formatInviteMailsString($inviteMails),
-                'answer_mails' => '',
+                'answer_mails' => $this->formatInviteMailsString($answerMails),
                 'status' => config('settings.survey.invite_status.not_finish'),
-                'number_invite' => count($inviteMails),
-                'number_answer' => config('settings.survey.number_answer_default'),
+                'number_invite' => count($inviteMails + $answerMails),
+                'number_answer' => count($answerMails),
                 'send_update_mails' => '',
             ];
 
@@ -400,7 +420,8 @@ trait SurveyProcesser
                     config('settings.option_update.only_send_updated_question_survey'),
                     config('settings.option_update.dont_send_survey_again'),
                 ])) {
-                $updateData['send_update_mails'] = $inviter->send_update_mails . $this->formatInviteMailsString($answerMails);
+                $sendUpdateMails = array_unique(array_merge($inviter->send_update_mails_array, $reInviteMails));
+                $updateData['send_update_mails'] = $this->formatInviteMailsString($sendUpdateMails);
             }
 
             $survey->invite()->update($updateData);

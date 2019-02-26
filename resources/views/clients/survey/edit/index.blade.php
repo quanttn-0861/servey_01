@@ -54,8 +54,10 @@
                         <div class="survey-action" data-placement="right"
                             data-trigger="hover"
                             data-toggle="tooltip" title="@lang('lang.add_section')">
-                            <button type="button" class="btn btn-outline-light text-dark" id="add-section-btn"
-                                data-url="{{ route('ajax-fetch-section') }}">
+                            <button type="button" class="btn btn-outline-light text-dark" 
+                                id="add-section-btn" 
+                                data-url="{{ route('ajax-fetch-section') }}"
+                                data-redirect-section-url="{{ route('ajax-fetch-redirect-section') }}">
                                 <i class="fa fa-fw fa-bars text-dark"></i>
                             </button>
                         </div>
@@ -158,11 +160,25 @@
                     </li>
                 </ul>
                 @foreach ($survey->sections as $section)
-                    @include('clients.survey.edit.elements.section', [
-                        'index' => $loop->iteration,
-                        'numberOfSections' => $loop->count,
-                        'section' => $section,
-                    ])
+                    @if (count($section->redirectSections))
+                        <div class="redirect-question-block">
+                            @include('clients.survey.edit.elements.section', [
+                                'section' => $section,
+                                'typeSectionClass' => 'normal-section',
+                            ])
+                            @foreach ($section->redirectSections as $redirectId => $redirectSection)
+                                @include('clients.survey.edit.elements.section-redirect', [
+                                    'answerRedirectId' => $redirectId,
+                                    'redirectSection' => $redirectSection,
+                                ])
+                            @endforeach
+                        </div>
+                    @else
+                        @include('clients.survey.edit.elements.section', [
+                            'section' => $section,
+                            'typeSectionClass' => 'normal-section',
+                        ])
+                    @endif
                 @endforeach
             {!! Form::close() !!}
         </div>

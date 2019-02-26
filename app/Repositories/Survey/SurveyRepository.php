@@ -334,6 +334,9 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
     public function updateSurvey($survey, $data, $status, $questionRepo, $answerRepo, $userRepo = null)
     {
+        $oldSectionIds = $survey->sections->pluck('id')->all();
+        $oldQuestionIds = $questionRepo->withTrashed()->whereIn('section_id', $oldSectionIds)->pluck('id')->all();
+
         $surveyInputs = [
             'title' => $data->get('title'),
             'description' => $data->get('description'),
@@ -378,6 +381,8 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                 $value['update'] = $updateStatus;
             }
 
+            $value['redirect_id'] = isset($value['redirect_id']) ? $value['redirect_id'] : config('settings.section_redirect_id_default');
+
             $survey->sections()->where('id', $key)->first()->update($value);
         }
 
@@ -418,14 +423,16 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             $this->updateAnswerMedia($answer, $value, Auth::user()->id);
         }
 
-        // create new sections, questions, answers when update
-        $this->createNewSections($survey, $createData['sections'], Auth::user()->id);
-
-        // create new questions in old sections when update
-        $this->createNewQuestions('', $survey, $createData['questions'], Auth::user()->id);
+        $dataRedirectId = [];
 
         // create new answers in old questions when update
-        $this->createNewAnswers('', $questionRepo, $createData['answers'], Auth::user()->id);
+        $this->createNewAnswers('', $questionRepo, $createData['answers'], Auth::user()->id, $dataRedirectId);
+        
+        // create new questions in old sections when update
+        $this->createNewQuestions('', $survey, $createData['questions'], Auth::user()->id, $dataRedirectId);
+        
+        // create new sections, questions, answers when update
+        $this->createNewSections($survey, $createData['sections'], Auth::user()->id, $dataRedirectId);
 
         // if current survey is draft and saved to open
         if ($isDraftToOpen) {
@@ -457,26 +464,52 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         // process follow option update
         if ($status == config('settings.survey.status.open')) {
             $optionUpdate = $data->get('option');
-            $sectionsId = $survey->sections->pluck('id')->all();
-            $updatedQuestionIds = $questionRepo->withTrashed()->whereIn('section_id', $sectionsId)
+            $sectionIds = $survey->sections->pluck('id')->all();
+            $updatedQuestionIds = $questionRepo->withTrashed()->whereIn('section_id', $sectionIds)
                 ->where('update', config('settings.survey.question_update.updated'))
                 ->pluck('id')->all();
+            $userAnsweredIds = [];
 
             // if option update is "send all question of survey again" then delete all old results
             if ($optionUpdate == config('settings.option_update.send_all_question_survey_again')) {
+                $userAnsweredIds = $survey->results()->whereNotNull('user_id')
+                    ->pluck('user_id')->unique()->all();
                 $survey->results()->forceDelete();
             } elseif (count($updatedQuestionIds) || $isDeleteClientResult) {
                 // if option update is "dont send survey again" OR is "send question has updated" then delete all result of these questions has updated and these resluts incognito
-                DB::table('results')->whereIn('question_id', $updatedQuestionIds)->delete();
+                
+                // delete resluts incognito
                 DB::table('results')->where('survey_id', $survey->id)
                     ->whereNull('user_id')
                     ->whereNotNull('client_ip')
                     ->delete();
+
+                $createdQuestionIds = array_diff($updatedQuestionIds, $oldQuestionIds);
+                
+                // if have created new question
+                if (count($createdQuestionIds)) {
+                    $createdSectionIds = $questionRepo->withTrashed()->whereIn('id', $createdQuestionIds)->pluck('section_id')->unique()->all();
+                    $createdRedirectIds = $survey->sections->whereIn('id', $createdSectionIds)->pluck('redirect_id')->unique()->all();
+
+                    // if question created in normal section => send all mails has answered (send_update_mails list)
+                    if (in_array(config('settings.section_redirect_id_default'), $createdRedirectIds)) {
+                        $userAnsweredIds = $survey->results()->pluck('user_id')->unique()->all();
+                    } else {  // if question created in redirect section => just send mails which have answered that redirect (send_update_mails list)
+                        $userAnsweredIds = $survey->results()
+                            ->whereIn('answer_id', $createdRedirectIds)
+                            ->pluck('user_id')->unique()->all();
+                    }
+                } else { // just have updated question
+                    $userAnsweredIds = DB::table('results')->whereIn('question_id', $updatedQuestionIds)->pluck('user_id')->unique()->all();
+                }
+
+                DB::table('results')->whereIn('question_id', $updatedQuestionIds)->delete();
+                
             } elseif (empty($createData['sections']) && empty($createData['questions']) && empty($createData['answers'])) {
                 return;
             }
 
-            $this->sendMailUpdateSurvey($optionUpdate, $survey, Auth::user(), $userRepo);
+            $this->sendMailUpdateSurvey($optionUpdate, $userAnsweredIds, $survey, Auth::user(), $userRepo);
         }
     }
 
@@ -556,7 +589,6 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                 'results' => [],
             ];
         }
-
 
         if ($userId) {
             if ($options['type'] == 'history') {
@@ -865,10 +897,27 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                             'settings',
                             'media',
                         ]);
-                    },
+                    }
                 ]);
-            },
+            }
         ])->where('token_manage', $token)->first();
+
+        $normalSections = $survey->sections->where('redirect_id', config('settings.section_redirect_id_default'));
+
+        foreach ($normalSections as $section) {
+            $questionRedirect = $section->questions
+                ->where('type', config('settings.question_type.redirect'))
+                ->first();
+
+            if (!isset($questionRedirect)) {
+                continue;
+            }
+
+            $answerRedirectIds = $questionRedirect->answers->pluck('id')->all();
+            $section->redirectSections = $survey->sections->whereIn('redirect_id', $answerRedirectIds)->groupBy('redirect_id');
+        };
+
+        $survey->sections = $normalSections;
 
         if (!$survey) {
             throw new Exception("Error Processing Request", 1);
@@ -938,20 +987,47 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         $userMails = Auth::check() ? Auth::user()->email : '';
 
         if ($survey->isSendUpdateOption() && $sendUpdateMails->contains($userMails)) {
-            $survey =  $survey->load([
-                'settings',
-                'sections' => function ($query) {
-                    $query->where('update', config('settings.survey.section_update.updated'))->with([
-                        'questions' => function ($query) {
-                            $query->where('update', config('settings.survey.question_update.updated'))->with([
-                                'settings',
-                                'media',
-                                'answers' => function ($queryAnswer) {
-                                    $queryAnswer->with('settings', 'media');
-                                }
-                            ]);
+            $results = $survey->load([
+                'results' => function ($query) {
+                    $query->where('user_id', Auth::user()->id)->with([
+                        'question' => function ($query) {
+                            $query->whereHas('settings', function ($query) {
+                                $query->where('key', config('settings.question_type.redirect'));
+                            })->with('answers');
                         }
                     ]);
+                }
+            ]);
+
+            $redirectIds = [];
+            $redirectAnsweredIds = [];
+
+            foreach ($results->results as $result) {
+                if (isset($result->question)) {
+                    $redirectAnsweredIds[] = $result->answer_id;
+                    $redirectIds = array_merge($result->question->answers->pluck('id')->all(), $redirectIds);
+                }
+            }
+
+            // load updated section flow answer of user
+            $survey = $survey->load([
+                'settings',
+                'sections' => function ($query) use ($redirectIds, $redirectAnsweredIds) {
+                    $query->where('update', config('settings.survey.section_update.updated'))
+                        ->where(function ($query) use ($redirectIds, $redirectAnsweredIds) {
+                            $query->orWhereNotIn('redirect_id', $redirectIds)
+                                ->orWhereIn('redirect_id', $redirectAnsweredIds);
+                        })->with([
+                            'questions' => function ($query) {
+                                $query->where('update', config('settings.survey.question_update.updated'))->with([
+                                    'settings',
+                                    'media',
+                                    'answers' => function ($queryAnswer) {
+                                        $queryAnswer->with('settings', 'media');
+                                    }
+                                ]);
+                            }
+                        ]);
                 },
             ]);
         } else {

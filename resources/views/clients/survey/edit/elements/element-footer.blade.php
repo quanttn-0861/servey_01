@@ -1,7 +1,12 @@
     </div>
+    @php
+        $isRedirectQuestion = $question->type == config('settings.question_type.redirect');
+    @endphp
     <div class="form-row question-action-group">
         <div class="question-survey-btn">
-            <a href="#" class="copy-element"><i class="fa fa-clone"></i></a>
+            @if (!$isRedirectQuestion)
+                <a href="#" class="copy-element"><i class="fa fa-clone"></i></a>
+            @endif
             <a href="#" class="remove-element"><i class="fa fa-trash"></i></a>
             <p>@lang('lang.required')</p>
             <div class="question-required-checkbox">
@@ -9,16 +14,20 @@
                     {{ Form::hidden("require[section_$sectionId][question_$question->id]", 
                         $question->required, 
                         ['class' => 'checkbox-question-required']) }}
-                    <span class="toggle"><span class="ripple"></span></span>
+                    <span class="toggle {{ $isRedirectQuestion ? 'active disabled' : null }}">
+                        <span class="ripple"></span>
+                    </span>
                 </label>
             </div>
             <div class="option-menu-group">
                 <a href="#" class="fa fa-ellipsis-v option-menu"></a>
                 <ul class="option-menu-dropdown">
-                    <li class="copy-element">
-                        <i class="fa fa-clone"></i>
-                        <span class="option-menu-content">@lang('lang.duplicate_item')</span>
-                    </li>
+                    @if (!$isRedirectQuestion)
+                        <li class="copy-element">
+                            <i class="fa fa-clone"></i>
+                            <span class="option-menu-content">@lang('lang.duplicate_item')</span>
+                        </li>
+                    @endif
                     <li class="remove-element">
                         <i class="fa fa-trash"></i>
                         <span class="option-menu-content">@lang('lang.remove_item')</span>
