@@ -257,7 +257,24 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                 ];
             }
 
-            $survey->members()->wherePivot('role', '!=', Survey::OWNER)->sync($membersData);
+            $membersSyncData = $survey->members()->wherePivot('role', '!=', Survey::OWNER)->sync($membersData);
+
+            // send mail to new member's survey (manage)
+            $emailData = [
+                'title' => $data['invited_email']['subject'],
+                'messages' => $data['invited_email']['message'],
+                'description' => $survey->description,
+                'linkManage' => route('survey.management', $survey->token_manage),
+                'link' => route('survey.create.do-survey', $survey->token),
+            ];
+
+            $members = $userRepo->whereIn('id', $membersSyncData['attached'])->get();
+
+            // send mail manage to members
+            foreach ($members as $member) {
+                $emailData['name'] = $member->name;
+                Mail::to($member->email)->queue(new ManageSurvey($emailData));
+            }
         }
 
         // update invite mail
