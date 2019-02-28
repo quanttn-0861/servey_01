@@ -80,12 +80,14 @@
     @endforeach
 
     <li class="li-question-review form-line">
-        @if ($data['index_section'] != config('settings.index_section.start'))
-            <a href="javascript:void(0)" class="btn-action-preview previous-section-survey">@lang('lang.previous')</a>
-        @endif
-        @if ($data['index_section'] != config('settings.index_section.end'))
-            <a href="javascript:void(0)" data-url="{{ route('survey.create.do-survey', $data['survey']->token) }}"
-                class="btn-action-preview next-section-survey">@lang('lang.next')</a>
+        @if ($data['survey']->sections->count() > 1)
+            @if ($data['index_section'] != config('settings.index_section.start'))
+                <a href="javascript:void(0)" class="btn-action-preview previous-section-survey">@lang('lang.previous')</a>
+            @endif
+            @if ($data['index_section'] != config('settings.index_section.end'))
+                <a href="javascript:void(0)" data-url="{{ route('survey.create.do-survey', $data['survey']->token) }}"
+                    class="btn-action-preview next-section-survey">@lang('lang.next')</a>
+            @endif
         @endif
 
         @php
@@ -97,7 +99,7 @@
             }
         @endphp
 
-        @if ($data['index_section'] == config('settings.index_section.end'))
+        @if ($data['index_section'] == config('settings.index_section.end') || $data['survey']->sections->count() == 1)
             {!! Form::button(trans('profile.send'), ['class' => 'btn-action-preview btn-action-preview-submit',
                 'data-url' => route('survey.create.storeresult', $data['survey']->token),
                 'data-redirect' => route('show-complete-answer', $data['survey']->token)]) !!}

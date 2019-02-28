@@ -18,7 +18,7 @@ return [
     'privacy' => 'Quyền riêng tư',
     'survey_owner' => 'Khảo sát của bạn',
     'survey_invited' => 'Khảo sát được mời',
-    'survey_editor' => 'Survey Editor',
+    'survey_editor' => 'Khảo sát được quản lý',
     'remaining_date' => ' ngày còn lại.',
     'remaining_hour' => ' giờ còn lại.',
     'remaining_minute' => ' phút còn lại.',
