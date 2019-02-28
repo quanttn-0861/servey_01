@@ -98,13 +98,15 @@
                         {{ Form::hidden('redirect_id', $section->redirect_id) }}
 
                         <li class="li-question-review form-line">
-                            @if ($checkIndexSection != config('settings.index_section.start'))
-                                <a href="{{ route('survey.create.preview.previous', $section->id) }}"
-                                    class="btn-action-preview btn-action-preview-survey">@lang('lang.previous')</a>
-                            @endif
-                            @if ($checkIndexSection != config('settings.index_section.end'))
-                                <a href="{{ route('survey.create.preview.next', $section->id) }}"
-                                    class="btn-action-preview btn-action-preview-survey btn-action-next">@lang('lang.next')</a>
+                            @if (count($survey->sections) > 1)
+                                @if ($checkIndexSection != config('settings.index_section.start'))
+                                    <a href="{{ route('survey.create.preview.previous', $section->id) }}"
+                                        class="btn-action-preview btn-action-preview-survey">@lang('lang.previous')</a>
+                                @endif
+                                @if ($checkIndexSection != config('settings.index_section.end'))
+                                    <a href="{{ route('survey.create.preview.next', $section->id) }}"
+                                        class="btn-action-preview btn-action-preview-survey btn-action-next">@lang('lang.next')</a>
+                                @endif
                             @endif
                         </li>
                     </ul>
