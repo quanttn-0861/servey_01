@@ -1,9 +1,12 @@
-<ul class="clearfix form-wrapper page-section sortable"
+<ul class="clearfix form-wrapper page-section sortable {{ $typeSectionClass }}"
     id="section_{{ $section->id }}" data-section-id="{{ $section->id }}">
     <li class="p-0">
         <div class="form-header">
             <div class="section-badge section-option-menu">
-                <span class="number-of-section">@lang('lang.section') <span class="section-index">{{ $index }}</span> / <span class="total-section">{{ $numberOfSections }}</span></span>
+                <span class="number-of-section">@lang('lang.section') 
+                    <span class="section-index"></span> / 
+                    <span class="total-section"></span>
+                </span>
                 <div class="right-header-section">
                     <a href="" class="zoom-in-btn zoom-btn">
                         <span class="zoom-icon"></span>
@@ -97,6 +100,12 @@
                 'question' => $question,
                 'type' => $question->type,
             ])
+        @elseif ($question->type == config('settings.question_type.redirect'))
+            @include('clients.survey.edit.elements.redirect', [
+                'sectionId' => $section->id,
+                'question' => $question,
+                'type' => $question->type,
+            ])
         @endif
     @endforeach
     <li class="end-section" style="display: none;">
@@ -107,11 +116,9 @@
                     <span>@lang('lang.continue_next_section')</span>
                 </div>
                 <ul class="section-select-options">
-                    @for($i = 1; $i <= $numberOfSections; $i++)
-                        <li>
-                            <span>@lang('lang.go_to_section', ['part' => $i])</span>
-                        </li>
-                    @endfor
+                    <li>
+                        <span>@lang('lang.go_to_section', ['part' => 1])</span>
+                    </li>
                     <li>
                         <span>@lang('lang.submit_form')</span>
                     </li>

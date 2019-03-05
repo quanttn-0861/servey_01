@@ -28,7 +28,7 @@ class Answer extends Model
 
     public function results()
     {
-         return $this->hasMany(Result::class)->withTrashed();
+        return $this->hasMany(Result::class)->withTrashed();
     }
 
     public function settings()

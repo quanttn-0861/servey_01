@@ -25,6 +25,7 @@ jQuery(document).ready(function () {
         var sectionsUpdateId = [];
         var questionsUpdateId = [];
         var answersUpdateId = [];
+        var redirectsUpdateId = [];
 
         $('.form-line').map(function() {
             var type = $(this).attr('data-question-type');
@@ -354,8 +355,7 @@ jQuery(document).ready(function () {
         $(parentElement).find('.element-content .option').each(function (index, element) {
             var answer = {};
             var answerId = $(element).data('answer-id');
-
-            answer.id = answerId.toString();
+            answer.id = answerId;
 
             var content = data.find(item => item.name.includes(`answer[question_${questionId}][answer_${answerId}]`));
             answer.content = content !== undefined ? content.value : '';
@@ -419,8 +419,7 @@ jQuery(document).ready(function () {
         $(parentElement).find('li.form-line.sort').each(function (index, element) {
             var question = {};
             var questionId = $(element).data('question-id');
-
-            question.id = questionId.toString();
+            question.id = questionId;
 
             var title = data.find(item => item.name === `title[section_${sectionId}][question_${questionId}]`);
             question.title = title !== undefined ? title.value : '';
@@ -465,6 +464,11 @@ jQuery(document).ready(function () {
 
                     if (question.status == 1) {
                         tempData.update = question.status;
+
+                        if (question.type = 10) {
+                            var newRedirectsUpdateId = collect(question.answers).pluck('id').all();
+                            redirectsUpdateId = [... new Set(redirectsUpdateId.concat(newRedirectsUpdateId))];
+                        }
                     }
 
                     if (type == 5) {
@@ -500,9 +504,8 @@ jQuery(document).ready(function () {
 
         $('.survey-form ul.page-section.sortable').each(function (index, element) {
             var section = {};
-
             var sectionId = $(element).data('section-id');
-            section.id = sectionId.toString();
+            section.id = sectionId;
 
             var title = data.find(item => item.name === `title[section_${sectionId}]`);
             section.title = title !== undefined ? title.value : '';
@@ -510,7 +513,7 @@ jQuery(document).ready(function () {
             var description = data.find(item => item.name === `description[section_${sectionId}]`);
             section.description = description !== undefined ? description.value : '';
             section.questions = getQuestions(data, element, sectionId);
-            section.redirect_id = null; // temp default redirect id value
+            section.redirect_id = null; // redirect id default
 
             if ($(element).closest('.redirect-section-block').length) {
                 section.redirect_id = $(element).closest('.redirect-section-block').data('redirect-id');
@@ -527,6 +530,7 @@ jQuery(document).ready(function () {
                     tempData.title = section.title;
                     tempData.description = section.description;
                     tempData.order = orderSection;
+                    tempData.redirect_id = section.redirect_id;
 
                     if (section.status == 1) {
                         tempData.update = section.status;
@@ -792,6 +796,8 @@ jQuery(document).ready(function () {
                 addValidationRuleForQuestion(questionId);
             }
         });
+
+        return true;
     }
 
     // change redirect question element
@@ -803,7 +809,7 @@ jQuery(document).ready(function () {
         if (isRediectSection > 0) {
             alertWarning({message: Lang.get('lang.redirect_message.can_not_add_redirect')});
 
-            return;
+            return false;
         }
 
         var isHasRedirectQuestion = currentQuestion.closest('.redirect-question-block').length;
@@ -811,7 +817,7 @@ jQuery(document).ready(function () {
         if (isHasRedirectQuestion > 0) {
             alertWarning({message: Lang.get('lang.redirect_message.only_can_contain_one_redirect')});
 
-            return;
+            return false;
         }
 
         var questionData = {
@@ -912,6 +918,8 @@ jQuery(document).ready(function () {
                 });
             }
         });
+
+        return true;
     }
 
     // make redirect section data for redirect question
@@ -1398,18 +1406,28 @@ jQuery(document).ready(function () {
 
     $('.survey-form').on('click', '.survey-select-options li', function(e) {
         e.stopPropagation();
-        $('div.survey-select-styled').html($(this).html()).removeClass('active');
-        $('.survey-select-options').hide();
-        $('.survey-select-styled').removeClass('active');
+        var element = $(this);
+        var parentElement = element.closest('li.sort');
 
-        // change question type and content
-        if ($(this).data('type') == 10) {
-            changeRedirectQuestion($(this));
+        parentElement.find('.survey-select-options').hide();
+        parentElement.find('.survey-select-styled').removeClass('active');
 
+        if (parentElement.data('question-type') == element.data('type')) {
             return;
         }
 
-        changeQuestion($(this));
+        var isChange = false;
+
+        // change question type and content
+        if (element.data('type') == 10) {
+            isChange = changeRedirectQuestion(element);
+        } else {
+            isChange = changeQuestion(element);
+        }
+
+        if (isChange) {
+            parentElement.find('div.survey-select-styled').html(element.html()).removeClass('active');
+        }
     });
 
     $(document).click(function() {
@@ -4204,8 +4222,19 @@ jQuery(document).ready(function () {
             });
         });
 
-        // some of function of edit-page
+        // load color redirect question
+        $('.redirect-choice').each(function () {
+            var redirectId = $(this).data('answer-id');
+            var color = makeRandomRedirectColor();
 
+            $(`.redirect-choice-${redirectId}`).css('color', color).attr('color', color);
+            $(`.redirect-section-${redirectId}`).css('border-color', color);
+            $(`.redirect-section-label-${redirectId}`).css('border-color', color).css('background', color);
+        });
+
+        reloadSectionIndex();
+
+        // some of function of edit-page
         function removeEmailAnswered(email, labelEmail) {
             confirmWarning({message: Lang.get('lang.confirm_delete_answered_email')}, function () {
                 removeEmail(email);
@@ -4237,8 +4266,13 @@ jQuery(document).ready(function () {
         // 0: no-edit   1: edit    2: create
         function getUpdateStatusOfQuestion(sectionId, question) {
             var status = 0; // no-edit
-
             var oldSection = collect(oldSurveyData).where('id', sectionId);
+            
+            // if redirect question has been updated then all questions in redirect sections is updated
+            if (!oldSection.isEmpty() && redirectsUpdateId.includes(oldSection.first().redirect_id)) {
+                return 1;
+            }
+
             var oldQuestions = collect(!oldSection.isEmpty() ? oldSection.first().questions : [])
             var oldQuestion = oldQuestions.where('id', question.id);
             oldQuestion = !oldQuestion.isEmpty() ? oldQuestion.first() : '';
@@ -4246,7 +4280,7 @@ jQuery(document).ready(function () {
             if (oldQuestion == '') {
                 status = 2; // create
             } else if (oldQuestion.title != question.title || oldQuestion.media != question.media || oldQuestion.require != question.require) {
-               status = 1; // edit
+                status = 1; // edit
             }
 
             // check edit if type question is date
@@ -4333,6 +4367,7 @@ jQuery(document).ready(function () {
             sectionsUpdateId = [];
             questionsUpdateId = [];
             answersUpdateId = [];
+            redirectsUpdateId = [];
 
             var dataArray = $('form.survey-form').serializeArray();
             var survey = getSurvey(dataArray);
