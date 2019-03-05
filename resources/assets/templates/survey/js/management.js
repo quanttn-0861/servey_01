@@ -278,6 +278,46 @@ $(document).ready(function () {
         e.preventDefault();
         $(this).closest('div').hide('slow');
     });
+
+    $(document).on('click', '.see-personal-result', function (e) {
+        e.preventDefault();
+        var label = $(this).closest('.li-question-review').find('.container-radio-setting-survey');
+        var id;
+        var url = $(this).data('url');
+        var token = $(this).data('token');
+        label.each(function () {
+            var result = $(this).children('input');
+            if (result.prop('checked')) {
+                id = result.closest('.item-answer').data('id');
+            }
+        });
+        var personResult = $('#personal-redirect-result-' + $(this).data('question-id'));
+        personResult.hide('slow');
+        $.ajax({
+            method: 'POST',
+            url: url,
+            dataType: 'json',
+            data: {
+                id: id,
+                token: token
+            },
+            success: function (data) {
+                if (data.success) {
+                    personResult.html(data.html).promise().done(function () {
+                        var ul = personResult.find('ul');
+                        ul.each(function () {
+                            $(this).css('max-width', '100%');
+                        });
+                        personResult.show('slow');
+                        personResult.append(
+                            '<br><button class="btn btn-warning close-detail-result">' + Lang.get('lang.close') + '</button>'
+                        );
+                        personResult.css('border', 'dashed');
+                    });
+                }
+            }
+        });
+    });
 });
 
 function handelManagement(event) {

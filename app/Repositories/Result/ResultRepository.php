@@ -119,6 +119,7 @@ class ResultRepository extends BaseRepository implements ResultInterface
     {
         $results = $survey->results();
         $results = $this->getResultsFollowOptionUpdate($survey, $results, $userRepo)->get();
+        $countSection = count($survey->sections->where('redirect_id', config('settings.number_0')));
 
         $results = $results->groupBy('token');
 
@@ -137,6 +138,7 @@ class ResultRepository extends BaseRepository implements ResultInterface
         return [
             'results' => $paginate,
             'countResult' => $countResult,
+            'countSection' => $countSection,
         ];
     }
 
@@ -153,5 +155,11 @@ class ResultRepository extends BaseRepository implements ResultInterface
     public function deleteFromSurvey($survey)
     {
         return $survey->results()->withTrashed()->forceDelete();
+    }
+
+    public function getResultFromToken($token, $section)
+    {
+        return $this->model->withTrashed()->where('token', $token)
+            ->whereIn('question_id', $section->questions->pluck('id')->all())->get();
     }
 }

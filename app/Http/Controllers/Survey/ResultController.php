@@ -94,6 +94,7 @@ class ResultController extends Controller
             $data = $this->resultRepository->getDetailResultSurvey($request, $survey, $this->userRepository);
             $details = $data['results'];
             $countResult = $data['countResult'];
+            $countSection = $data['countSection'];
             $pageCurrent = isset($request->page) ? $request->page : 1;
 
             if ($request->ajax()) {
@@ -102,6 +103,7 @@ class ResultController extends Controller
                     'html' => view('clients.survey.result.content-detail', compact([
                         'survey',
                         'countResult',
+                        'countSection',
                         'details',
                         'pageCurrent',
                     ]))->render(),
@@ -111,6 +113,7 @@ class ResultController extends Controller
             return view('clients.survey.result.detail', compact([
                 'survey',
                 'countResult',
+                'countSection',
                 'details',
                 'pageCurrent',
             ]));
@@ -138,5 +141,19 @@ class ResultController extends Controller
         } catch (Exception $e) {
             return view('clients.layout.404');
         }
+    }
+
+    public function getPersonalResult(Request $request)
+    {
+        $section = $this->sectionRepository->getSectionFromRedirectId($request->id);
+        $details = $this->resultRepository->getResultFromToken($request->token, $section);
+
+        return response()->json([
+            'success' => true,
+            'html' => view('clients.survey.result.personal_redirect_result', compact([
+                'section',
+                'details',
+            ]))->render(),
+        ]);
     }
 }
