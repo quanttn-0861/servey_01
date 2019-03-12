@@ -1180,7 +1180,6 @@ jQuery(document).ready(function () {
         $(`#answer_${answerId} textarea:regex(name, ^answer\\[question_.*\\]\\[answer_.*\\]\\[option_.*\\]$)`).each(function () {
             $(this).rules('add', {
                 required: true,
-                maxlength: 255,
                 answerunique: true,
             });
         });
