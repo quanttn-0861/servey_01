@@ -1170,7 +1170,7 @@ jQuery(document).ready(function () {
             $(this).rules('add', {
                 required: true,
                 maxlength: 255,
-                questionunique: true,
+                questionunique: false,
             });
         });
     }
