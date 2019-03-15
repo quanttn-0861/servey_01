@@ -143,6 +143,7 @@
                                 'rows' => 3,
                             ]) !!}
                         </div>
+                        @include('clients.survey.elements.insert-background-survey')
                     </li>
                 </ul>
             {!! Form::close() !!}

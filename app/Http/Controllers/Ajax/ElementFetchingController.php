@@ -289,6 +289,23 @@ class ElementFetchingController extends Controller
         ]);
     }
 
+    public function fecthBackgroundImageSurvey(Request $request)
+    {
+        if (!$request->ajax()) {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+
+        $imageURL = $request->imageURL;
+
+        return response()->json([
+            'success' => true,
+            'html' => view('clients.survey.elements.background-survey', compact('imageURL'))->render(),
+            'imageURL' => $imageURL,
+        ]);
+    }
+
     public function fetchRedirectQuestion(Request $request)
     {
         if (!$request->ajax()) {

@@ -1,6 +1,14 @@
 <!-- .cd-main-header -->
 <main class="cd-main-content">
-    <div class="image-header"></div>
+    <div class="show-backgroud">
+        @if (!$data['survey']->media->isEmpty())
+            @foreach ($data['survey']->media as $background)
+                {{ Html::image(asset($background->url), '', ['class' => 'image-header']) }}
+            @endforeach
+        @else
+            {{ Html::image(asset(config('settings.background_survey')), '', ['class' => 'image-header']) }}
+        @endif
+    </div>
     <div class="info-survey-block">
         <span>{{ trans('lang.creator') . $data['survey']->owner_name }}</span><br/>
         <span>{{ trans('lang.date_create') . $data['survey']->created_at }}</span><br/>

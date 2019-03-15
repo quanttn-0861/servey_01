@@ -80,6 +80,14 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
         $survey = parent::create($surveyInputs);
 
+        if ($data['background']) {
+            $survey->media()->create([
+                'user_id' => $userId,
+                'type' => config('settings.media_type.image'),
+                'url' => $this->cutUrlImage($data['background'])
+            ]);
+        }
+
         if (!$survey) {
             throw new Exception('Error Processing Request', 1);
         }
@@ -370,6 +378,9 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         // update base information of survey
         $survey->update($surveyInputs);
 
+        //update background image survey
+        $this->updateBackgroundSurvey($survey, $data->get('background'), Auth::user()->id);
+
         // delete sections, questions, answers has deleted
         $answerRepo->deleteAnswersById($deleteData['answers']);
         $questionRepo->deleteQuestionsById($deleteData['questions']);
@@ -427,10 +438,10 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
         // create new answers in old questions when update
         $this->createNewAnswers('', $questionRepo, $createData['answers'], Auth::user()->id, $dataRedirectId);
-        
+
         // create new questions in old sections when update
         $this->createNewQuestions('', $survey, $createData['questions'], Auth::user()->id, $dataRedirectId);
-        
+
         // create new sections, questions, answers when update
         $this->createNewSections($survey, $createData['sections'], Auth::user()->id, $dataRedirectId);
 
@@ -477,7 +488,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                 $survey->results()->forceDelete();
             } elseif (count($updatedQuestionIds) || $isDeleteClientResult) {
                 // if option update is "dont send survey again" OR is "send question has updated" then delete all result of these questions has updated and these resluts incognito
-                
+
                 // delete resluts incognito
                 DB::table('results')->where('survey_id', $survey->id)
                     ->whereNull('user_id')
@@ -485,7 +496,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                     ->delete();
 
                 $createdQuestionIds = array_diff($updatedQuestionIds, $oldQuestionIds);
-                
+
                 // if have created new question
                 if (count($createdQuestionIds)) {
                     $createdSectionIds = $questionRepo->withTrashed()->whereIn('id', $createdQuestionIds)->pluck('section_id')->unique()->all();
@@ -504,7 +515,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                 }
 
                 DB::table('results')->whereIn('question_id', $updatedQuestionIds)->delete();
-                
+
             } elseif (empty($createData['sections']) && empty($createData['questions']) && empty($createData['answers'])) {
                 return;
             }
@@ -887,6 +898,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             'settings',
             'invite',
             'members',
+            'media',
             'sections' => function ($query) {
                 $query->with([
                     'questions' => function ($query) {

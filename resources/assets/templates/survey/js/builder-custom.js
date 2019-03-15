@@ -635,6 +635,9 @@ jQuery(document).ready(function () {
             var description = data.find(item => item.name === 'description');
             obj.description = description !== undefined ? description.value : '';
 
+            var background = data.find(item => item.name === 'background-survey-hidden');
+            obj.background = background !== undefined ? background.value : '';
+
             // invited emails
             obj.invited_email = getInvitedEmail();
 
@@ -2324,6 +2327,47 @@ jQuery(document).ready(function () {
         });
     });
 
+    //add background image to survey
+    $('.survey-form').on('click', '.background-image-survey-btn', function (e) {
+        e.preventDefault();
+        var btnBackgroundImage = $(this);
+        var backgroundInsert = $(this).parent();
+        var backgroundsurveyHidden = $(this).closest('.form-line').find('.background-survey-hidden');
+        var url = $(this).data('url');
+        $('.btn-insert-image').remove();
+        $('.btn-group-image-modal').append(`
+            <button class="btn btn-default btn-insert-image"
+            id="btn-insert-background-survey" data-dismiss="modal">${Lang.get('lang.insert_image')}</button>`
+        );
+        $('#modal-insert-image').modal('show');
+
+        $('#btn-insert-background-survey').click(function () {
+            var imageURL = $('.img-preview-in-modal').attr('src');
+
+            if (imageURL) {
+                $.ajax({
+                    method: 'POST',
+                    url: url,
+                    dataType: 'json',
+                    data: {
+                        imageURL: imageURL,
+                    }
+                })
+                .done(function (data) {
+                    if (data.success) {
+                        var element = data.html
+                        $(element).insertAfter(backgroundInsert);
+                        $(backgroundsurveyHidden).val(data.imageURL);
+                        $(btnBackgroundImage).addClass('hidden');
+                    }
+                });
+            }
+
+            $('#modal-insert-image').modal('hide');
+            resetModalImage();
+        });
+    });
+
     // add image to question
     $('.survey-form').on('click', '.question-image-btn', function (e) {
         e.preventDefault();
@@ -2510,6 +2554,35 @@ jQuery(document).ready(function () {
         $('.option-menu-image').removeClass('show');
     });
 
+    //show option background survey
+    $('.survey-form').on('click', '.option-background-survey', function (e) {
+        e.stopPropagation();
+        var optionMenuSelected = $(this).children('.option-menu-image');
+        $((optionMenuSelected)).toggleClass('show');
+    });
+
+    $(document).on('click', function () {
+        $('.option-menu-image').removeClass('show');
+    });
+
+    //remove background survey
+    $('.survey-form').on('click', '.remove-image', function (e) {
+        e.stopPropagation();
+        var btBackgroundSurvey = $(this).closest('.form-line').find('.background-image-survey-btn');;
+        var background = $(this).closest('.show-background-survey').children('.image-background-url');
+        var imageURL = $(background).attr('src');
+        var url = $(this).data('url');
+
+        if (surveyData.data('page') == 'create') {
+            removeImage(url, imageURL);
+        }
+
+        var backgroundSurveyHidden = $(this).closest('.form-line').find('.background-survey-hidden');
+        $(backgroundSurveyHidden).val('');
+        $(btBackgroundSurvey).removeClass('hidden');
+        $(this).closest('.background-survey').remove();
+    });
+
     // remove image question
     $('.survey-form').on('click', '.remove-image', function (e) {
         e.stopPropagation();
@@ -2552,6 +2625,31 @@ jQuery(document).ready(function () {
     $('.survey-form').on('click', '.remove-video', function (e) {
         e.stopPropagation();
         $(this).closest('.section-show-image-insert').remove();
+    });
+
+    //change background survey
+    $('.survey-form').on('click', '.change-background-survey', function (e) {
+        e.stopPropagation();
+        var backgroundSurvey = $(this).closest('.show-background-survey').children('.image-background-url');
+        var inputSurveyHidden = $(this).closest('.form-line').find('.background-survey-hidden');
+        $('.btn-insert-image').remove();
+        $('.btn-group-image-modal').append(`
+            <button class="btn btn-default btn-insert-image"
+            id="btn-change-background-survey" data-dismiss="modal">${Lang.get('lang.insert_image')}</button>`
+        );
+        $('#modal-insert-image').modal('show');
+
+        $('#btn-change-background-survey').click(function () {
+            var imageURL = $('.img-preview-in-modal').attr('src');
+
+            if (imageURL) {
+                $(backgroundSurvey).attr('src', imageURL);
+                $(inputSurveyHidden).val(imageURL);
+            }
+
+            resetModalImage();
+            $('#modal-insert-image').modal('hide');
+        });
     });
 
     // change image question
@@ -4267,7 +4365,7 @@ jQuery(document).ready(function () {
         function getUpdateStatusOfQuestion(sectionId, question) {
             var status = 0; // no-edit
             var oldSection = collect(oldSurveyData).where('id', sectionId);
-            
+
             // if redirect question has been updated then all questions in redirect sections is updated
             if (!oldSection.isEmpty() && redirectsUpdateId.includes(oldSection.first().redirect_id)) {
                 return 1;
@@ -4377,6 +4475,7 @@ jQuery(document).ready(function () {
             updateData.start_time = survey.start_time;
             updateData.end_time = survey.end_time;
             updateData.description = survey.description;
+            updateData.background = survey.background;
 
             // get update data and create data of sections, questions, answers
             updateData.update = {

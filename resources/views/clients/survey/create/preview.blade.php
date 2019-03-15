@@ -11,7 +11,13 @@
     <div class="background-user-profile"></div>
     <!-- .cd-main-header -->
     <main class="cd-main-content">
-        <div class="image-header"></div>
+        <div class="show-background">
+            @if ($survey->background)
+                {{ Html::image(asset($survey->background), '', ['class' => 'image-header']) }}
+            @else
+                {{ Html::image(asset(config('settings.background_survey')), '', ['class' => 'image-header']) }}
+            @endif
+        </div>
         <!-- Content Wrapper  -->
         <div class="content-wrapper">
             <!-- /Scroll buttons -->

@@ -4305,3 +4305,9 @@ tr, th, td {
 .width-col-action-user {
     width:20%;
 }
+
+.background-image-survey-btn {
+    margin-left: 43px;
+    font-size: 25px;
+    color: #8f7e7e;
+}
