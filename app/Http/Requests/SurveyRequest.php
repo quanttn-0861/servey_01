@@ -45,7 +45,7 @@ class SurveyRequest extends FormRequest
             'invited_email.emails.*' => 'email|distinct',
             'members.*.email' => 'email|distinct',
             'members.*.role' => 'integer|in:1',
-            'sections.*.title' => 'required|distinct',
+            'sections.*.title' => 'required',
             'sections.*.questions.*.media' => 'url',
             'sections.*.questions.*.type' => "required|integer|in:{$questionTypes}",
             'sections.*.questions.*.require' => 'required|boolean',
