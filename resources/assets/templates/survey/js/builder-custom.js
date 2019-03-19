@@ -1156,7 +1156,7 @@ jQuery(document).ready(function () {
             $(this).rules('add', {
                 required: true,
                 maxlength: 255,
-                sectionunique: true,
+                sectionunique: false,
             });
         });
     }
@@ -1228,7 +1228,10 @@ jQuery(document).ready(function () {
     $('.survey-form').on('click', 'ul.sortable li.sort', function () {
         $('.form-line').removeClass('liselected');
         $(this).addClass('liselected');
-        setScrollButtonTop($('.button-group-sidebar'), $(this).position().top - 96);
+        var redirectSectionBlock = $(this).closest('.redirect-section-block');
+        var groupSidebar = $('.button-group-sidebar');
+        redirectSectionBlock.length ? setScrollButtonTop(groupSidebar, $(this).offset().top - 200) :
+            setScrollButtonTop(groupSidebar, $(this).position().top - 96);
         window.questionSelected = $(this);
     });
 
