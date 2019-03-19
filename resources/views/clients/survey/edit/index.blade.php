@@ -54,8 +54,8 @@
                         <div class="survey-action" data-placement="right"
                             data-trigger="hover"
                             data-toggle="tooltip" title="@lang('lang.add_section')">
-                            <button type="button" class="btn btn-outline-light text-dark" 
-                                id="add-section-btn" 
+                            <button type="button" class="btn btn-outline-light text-dark"
+                                id="add-section-btn"
                                 data-url="{{ route('ajax-fetch-section') }}"
                                 data-redirect-section-url="{{ route('ajax-fetch-redirect-section') }}">
                                 <i class="fa fa-fw fa-bars text-dark"></i>
@@ -156,6 +156,19 @@
                                 'placeholder' => trans('lang.description_placeholder'),
                                 'rows' => 3,
                             ]) !!}
+                        </div>
+                        <div class="form-group">
+                            @if (!$survey->media->isEmpty())
+                                @foreach ($survey->media as $media)
+                                    <label>@lang('survey.background')</label>
+                                    <div class="row show-image-background-survey">
+                                        @include('clients.survey.elements.background-survey', ['imageURL' => $media->url])
+                                    </div>
+                                    <input type="hidden" class="background-survey-hidden" value="{{$media->url}}" name="background-survey-hidden">
+                                @endforeach
+                            @else
+                                @include('clients.survey.elements.insert-background-survey')
+                            @endif
                         </div>
                     </li>
                 </ul>

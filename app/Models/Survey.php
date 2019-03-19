@@ -111,7 +111,7 @@ class Survey extends Model
             if ($now > $this->attributes['end_time']) {
                 return '';
             }
-            
+
             $time = Carbon::parse($this->attributes['end_time'])->diffInDays(Carbon::parse($now));
 
             if (!$time) {
@@ -130,8 +130,8 @@ class Survey extends Model
 
     public function getTrimTitleAttribute()
     {
-        return !empty($this->attributes['title']) ? 
-            ucwords(str_limit($this->attributes['title'], config('settings.title_length_default'))) 
+        return !empty($this->attributes['title']) ?
+            ucwords(str_limit($this->attributes['title'], config('settings.title_length_default')))
             : trans('survey.no_title');
     }
 
@@ -239,13 +239,13 @@ class Survey extends Model
             ->first()->value;
     }
 
-    
+
     public function getNumberInvite()
     {
         $invite = $this->invite;
 
         if (!empty($invite)) {
-            return count($invite->invite_mails_array) + count($invite->answer_mails_array) 
+            return count($invite->invite_mails_array) + count($invite->answer_mails_array)
                 + $this->getNumberIncognitoAnswer();
         }
 
@@ -283,7 +283,7 @@ class Survey extends Model
         return in_array($optionUpdate, [
             config('settings.option_update.only_send_updated_question_survey'),
             config('settings.option_update.dont_send_survey_again'),
-        ]);        
+        ]);
     }
 
     public function showTitleTooltip()
@@ -302,7 +302,7 @@ class Survey extends Model
 
     public function getNameFileExcelAttribute()
     {
-        return !empty($this->attributes['title']) ? 
+        return !empty($this->attributes['title']) ?
             str_slug(str_limit($this->attributes['title'], config('settings.limit_title_excel'))) :
             trans('survey.no_title');
     }
@@ -317,5 +317,10 @@ class Survey extends Model
         return (!empty($this->attributes['end_time']))
             ? Carbon::parse($this->attributes['end_time'])->format('H:i - d/m/Y')
             : null;
+    }
+
+    public function media()
+    {
+        return $this->morphMany(Media::class, 'mediable')->withTrashed();
     }
 }

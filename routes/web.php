@@ -213,6 +213,8 @@ Route::group(['namespace' => 'Ajax', 'prefix' => 'ajax'], function () {
     Route::post('fetch-element/image-answer', 'ElementFetchingController@fetchImageAnswer')
         ->name('ajax-fetch-image-answer');
 
+    Route::post('fetch-element/background-survey', 'ElementFetchingController@fecthBackgroundImageSurvey')->name('ajax-fetch-background-survey');
+
     Route::post('remove-image', 'UploadImageController@removeImage')
         ->name('ajax-remove-image');
     Route::post('suggest-email', 'SuggestEmailController@suggestEmail')

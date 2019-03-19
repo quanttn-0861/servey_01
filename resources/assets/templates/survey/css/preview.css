@@ -3,8 +3,8 @@
     width: 100%;
     position: absolute;
     z-index: -1;
-    height: 250px;
-    background: #33b1dc;
+    height: 350px;
+    object-fit: cover;
 }
 
 img {
@@ -533,10 +533,30 @@ span.description-section a:hover, .title-section a:hover {
 
 .info-survey-block {
     position: absolute;
-    left: 20px;
     top: 10px;
-    color: #fff;
+    color: #2e2c2c;
     font-size: 15px;
+    background: #fff;
+    right:80px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+@media (max-width: 768px) {
+    .info-survey-block {
+        position: absolute;
+        top: 10px;
+        color: #2e2c2c;
+        font-size: 15px;
+        background: #fff;
+        left:17px;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .page-doing-survey {
+        margin-top: 20px;
+    }
 }
 
 .member-config-btn {

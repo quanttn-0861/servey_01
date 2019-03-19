@@ -28,4 +28,5 @@ return [
     'close' => 'Close',
     'open' => 'Open',
     'copy' => 'Copy',
+    'background' => 'Background'
 ];

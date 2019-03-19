@@ -202,10 +202,10 @@ trait SurveyProcesser
             // create questions
             if (isset($section['questions'])) {
                 $this->createNewQuestions(
-                    $sectionCreated, 
-                    '', 
-                    $section['questions'], 
-                    $userId, 
+                    $sectionCreated,
+                    '',
+                    $section['questions'],
+                    $userId,
                     $dataRedirectId
                 );
             }
@@ -253,9 +253,9 @@ trait SurveyProcesser
 
             if (isset($question['answers'])) {
                 $this->createNewAnswers(
-                    $questionCreated, 
-                    '', 
-                    $question['answers'], 
+                    $questionCreated,
+                    '',
+                    $question['answers'],
                     $userId,
                     $dataRedirectId
                 );
@@ -327,6 +327,31 @@ trait SurveyProcesser
         // if delete media
         if ($question->media()->count()) {
             $question->media()->forceDelete();
+        }
+    }
+
+    public function updateBackgroundSurvey($survey, $data, $userId)
+    {
+        $backgroundMedia['url'] = $this->cutUrlImage($data);
+
+        if (!empty($backgroundMedia['url'])) {
+            if ($survey->media->count()) {
+                if ($backgroundMedia['url'] == $survey->media()->first()->url) {
+                    return;
+                }
+
+                $survey->media()->forceDelete();
+            }
+
+            $backgroundMedia['type'] = config('settings.media_type.image');;
+            $backgroundMedia['user_id'] = $userId;
+            $survey->media()->create($backgroundMedia);
+
+            return;
+        }
+
+        if ($survey->media()->count()) {
+            $survey->media()->forceDelete();
         }
     }
 

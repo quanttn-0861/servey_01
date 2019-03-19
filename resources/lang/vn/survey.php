@@ -28,4 +28,5 @@ return [
     'close' => 'Đóng',
     'open' => 'Mở',
     'copy' => 'Bản Sao',
+    'background' => 'Hình nền'
 ];

@@ -34,6 +34,7 @@ class PreviewSurveyController extends Controller
     {
         try {
             $survey = json_decode(Session::get('data_preview'));
+            $survey->background = $this->cutUrlImage($survey->background);
             $sectionId = Cookie::has('section_id') ? Cookie::get('section_id') : null;
             $redirectIds = Cookie::has('redirect_ids') ? Cookie::get('redirect_ids') : [null];
 
