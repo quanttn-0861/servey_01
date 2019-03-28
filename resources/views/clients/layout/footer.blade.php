@@ -53,7 +53,7 @@
                 <div class="container center">
                     <ul class="social-icons list-inline">
                         <li class="list-inline-item">
-                            <a href="#"><i class="fa fa-twitter"></i></a>
+                            <a href="{{ config('settings.company.twitter_company') }}"><i class="fa fa-twitter"></i></a>
                         </li>
                         <li class="list-inline-item">
                             <a href="{{ config('settings.company.fb_company') }}">
