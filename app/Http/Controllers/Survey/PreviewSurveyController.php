@@ -49,8 +49,9 @@ class PreviewSurveyController extends Controller
             $section = !$sectionId ? $sections->first() : $sections->where('id', $sectionId)->first();
             $checkIndexSection = config('settings.index_section.middle');
             $sectionIds = $sections->pluck('id')->all();
+            $check = $sections->last()->questions[0]->type;
 
-            if($sectionId && $sectionId == end($sectionIds)) {
+            if ($sectionId && $sectionId == end($sectionIds) && $check != config('settings.question_type.redirect')) {
                 $checkIndexSection = config('settings.index_section.end');
             } elseif ($sectionId == $sectionIds[0]) {
                 $checkIndexSection = config('settings.index_section.start');

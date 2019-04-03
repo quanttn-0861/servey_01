@@ -15,4 +15,6 @@ interface SectionInterface
     public function cloneSection($section, $newSurvey);
 
     public function getSectionFromRedirectId($redirectId);
+
+    public function checkIfExistRedirectQuestion($section);
 }
