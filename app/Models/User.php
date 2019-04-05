@@ -69,6 +69,10 @@ class User extends Authenticatable
 
     public function getImagePathAttribute()
     {
+        if (checkExistsRemoteImage($this->attributes['image'])) {
+            return $this->attributes['image'];
+        }
+
         if (!Storage::disk('local')->exists($this->attributes['image']) || empty($this->attributes['image'])) {
             return config('settings.image_user_default');
         }

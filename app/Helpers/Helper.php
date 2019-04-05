@@ -53,3 +53,12 @@
 
         return cleanText($text);
     }
+
+    function checkExistsRemoteImage($url)
+    {
+        if (@getimagesize($url)) {
+            return true;
+        }
+
+        return false;
+    }

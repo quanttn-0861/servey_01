@@ -18,7 +18,7 @@ class SocialAuthController extends Controller
     {
         Session::put('backUrl', URL::previous());
 
-        return $provider == config('settings.framgia') ? FAuth::redirect() : Socialite::driver($provider)->redirect();
+        return $provider == config('settings.framgia') ? FAuth::driver($provider)->redirect() : Socialite::driver($provider)->redirect();
     }
 
     public function callback(SocialAccountRepository $service, $provider)

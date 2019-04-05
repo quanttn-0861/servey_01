@@ -1355,6 +1355,7 @@ option {
     background-color: #7777777d;
     width: 28px;
     height: 28px;
+    display: inline-block;
 }
 
 .user-profile {
