@@ -131,11 +131,11 @@ return [
         ],
     ],
     'company' => [
-        'fb_company' => 'https://www.facebook.com/FramgiaVietnam/?fref=ts',
+        'fb_company' => 'https://www.facebook.com/AsteriskVietnam/?fref=ts',
         'github_company' => 'https://github.com/framgia',
         'linkedin_company' => 'https://www.linkedin.com/company/framgia-vietnam',
         'tools_company' => 'http://wsm.framgia.vn/all-tools',
-        'hr_email_company' => 'hr_team@framgia.com',
+        'hr_email_company' => 'hr_team@sun-asterisk.com ',
     ],
     'public_template' => '/templates/survey/',
     'plugins' => '/plugins/',
