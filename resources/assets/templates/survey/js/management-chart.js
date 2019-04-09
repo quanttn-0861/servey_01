@@ -21,7 +21,7 @@ function getOverviewSurvey() {
 
         yAxis: {
             title: {
-                text: Lang.get('result.number_user')
+                text: Lang.get('result.number_survey_complete')
             }
         },
 
