@@ -740,11 +740,13 @@ class SurveyController extends Controller
             $survey = $this->surveyRepository->getSurveyFromToken($request->json()->get('survey_token'));
 
             if (($survey->end_time && Carbon::now()->gt(Carbon::parse($survey->end_time)))
-                || ($survey->start_time && Carbon::now()->lt(Carbon::parse($survey->start_time)))) {
+                || ($survey->start_time && Carbon::now()->lt(Carbon::parse($survey->start_time)))
+                || ($survey->status != config('settings.survey.status.open'))) {
                 throw new Exception('Do not permit to do this survey', 403);
             }
 
             $this->resultRepository->storeResult($request->json(), $this->surveyRepository);
+
             $request->session()->forget('current_section_survey');
 
             DB::commit();
@@ -823,7 +825,8 @@ class SurveyController extends Controller
         try {
             $survey = $this->surveyRepository->getSurveyFromToken($token);
             $content = (($survey->end_time && Carbon::now()->gt(Carbon::parse($survey->end_time)))
-                || ($survey->start_time && Carbon::now()->lt(Carbon::parse($survey->start_time)))) ?
+                || ($survey->start_time && Carbon::now()->lt(Carbon::parse($survey->start_time)))
+                || ($survey->status !=  config('settings.survey.status.open'))) ?
                     trans('lang.not_permission_to_doing_this_survey') : null;
             $title = $survey->title;
 
