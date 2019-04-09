@@ -188,7 +188,7 @@ $(document).ready(function() {
         var answerRedirects = [];
 
         if ($(this).closest('.ul-content-preview').find('.redirect-question').length) {
-            var questionId = $('.redirect-question').attr('data-id');
+            var questionId = $(this).closest('.ul-content-preview').find('.redirect-question').attr('data-id');
             $(`input[name='answer${questionId}']`).each(function() {
                 answerRedirects.push($(this).closest('.item-answer').attr('data-id'));
             });

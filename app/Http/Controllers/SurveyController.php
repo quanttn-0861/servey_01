@@ -277,12 +277,11 @@ class SurveyController extends Controller
         $currentSectionIndex = array_search($currentSectionId, $sectionIds) != false ? array_search($currentSectionId, $sectionIds) : 0;
         $indexSection = config('settings.index_section.middle');
         $currentSectionId = $sectionIds[$currentSectionIndex + 1];
+        $section = $this->surveyRepository->getSectionCurrent($survey, $currentSectionId);
 
-        if ($currentSectionId == end($sectionIds)) {
+        if ($currentSectionId == end($sectionIds) && !$this->sectionRepository->checkIfExistRedirectQuestion($section)) {
             $indexSection = config('settings.index_section.end');
         }
-
-        $section = $this->surveyRepository->getSectionCurrent($survey, $currentSectionId);
 
         $sectionOrder = 'section-' . $section->order;
 
@@ -301,6 +300,11 @@ class SurveyController extends Controller
 
     public function edit($tokenManage)
     {
+        if (Cookie::has('redirect_ids') || Cookie::has('section_id')) {
+            Cookie::queue(Cookie::forget('redirect_ids'));
+            Cookie::queue(Cookie::forget('section_id'));
+        }
+
         // check survey owner authorization
         // check survey exists with token manage and get data
         $survey = $this->surveyRepository->getSurveyByTokenManage($tokenManage);

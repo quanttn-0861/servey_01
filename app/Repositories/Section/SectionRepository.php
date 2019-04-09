@@ -52,4 +52,9 @@ class SectionRepository extends BaseRepository implements SectionInterface
     {
         return $this->model->withTrashed()->where('redirect_id', $redirectId)->first();
     }
+
+    public function checkIfExistRedirectQuestion($section)
+    {
+        return $section->questions->where('type', config('settings.question_type.redirect'))->first();
+    }
 }
