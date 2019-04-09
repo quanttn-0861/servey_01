@@ -116,7 +116,7 @@
                         <h6>@lang('profile.delete_avatar')</h6>
                         <span>@lang('profile.use_the_default_avatar')</span>
                     </a>
-                    {!! Form::file('image', ['id' => 'upload-avatar', 'class' => 'a']) !!}
+                    {!! Form::file('image', ['id' => 'upload-avatar', 'class' => 'a', 'accept' => 'image/*']) !!}
                     {!! Form::submit(trans('profile.change'), ['class' => 'submit-image-profile']) !!}
                 {!! Form::close() !!}
             </div>
