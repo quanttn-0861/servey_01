@@ -1025,6 +1025,7 @@ jQuery(document).ready(function () {
             }
 
             $('html, body').animate({scrollTop: $('.errorHighlight').offset().top - 100}, 500);
+            $('.form-row').css('margin-bottom', '3rem');
         },
         highlight: function(element){
             $(element).removeClass("successHighlight");
@@ -1044,6 +1045,7 @@ jQuery(document).ready(function () {
             } else {
                 $('#end-time-error').empty();
             }
+            $('.form-row').css('margin-bottom', '1rem');
         }
     });
 
@@ -1064,22 +1066,6 @@ jQuery(document).ready(function () {
         return true;
     }, Lang.get('validation.msg.start_time_after_now'));
 
-    $.validator.addMethod('more_than_30_minutes', function (value, element) {
-        var today = new Date();
-        var dateChoose = value;
-
-        dateChoose = dateChoose.split('/')[1] + '-' + dateChoose.split('/')[0] + dateChoose.substring(5);
-
-        var endTime = new Date(Date.parse(dateChoose));
-        var validateTime = endTime.getTime() - today.getTime();
-
-        if (!endTime.length && validateTime < 1800000) {
-            return false;
-        }
-
-        return true;
-    }, Lang.get('validation.msg.more_than_30_minutes'));
-
     $.validator.addMethod('after_start_time', function (value, element) {
         var startTime = $('#start-time').val();
 
@@ -1095,7 +1081,7 @@ jQuery(document).ready(function () {
         var endTime = new Date(Date.parse(dateChoose));
         var validateTime = endTime.getTime() - startTime.getTime();
 
-        if (!endTime.length && validateTime <= 0) {
+        if (!endTime.length && validateTime < 1800000) {
             return false;
         }
 
@@ -1200,6 +1186,9 @@ jQuery(document).ready(function () {
                 title: {
                     required: true,
                     maxlength: 255
+                },
+                end_time: {
+                    after_start_time: true,
                 },
                 start_time: {
                     start_time_after_now: true
