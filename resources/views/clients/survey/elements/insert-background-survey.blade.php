@@ -3,7 +3,7 @@
         <label>@lang('survey.background')</label>
     </div>
     <div class="col-xl-2 col-lg-2 col-md-2 col-sm-3 col-3 ">
-        <a href="#" class="background-image-survey-btn fa fa-image" data-url="http://localhost:8000/ajax/fetch-element/background-survey"></a>
+        <a href="javascript:void(0)" class="background-image-survey-btn fa fa-image" data-url="{{ route('ajax-fetch-background-survey') }}"></a>
     </div>
 </div>
 <input type="hidden" class="background-survey-hidden" value="" name="background-survey-hidden">
