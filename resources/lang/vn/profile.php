@@ -53,7 +53,7 @@ return [
     'closed' => 'Đóng',
     'open' => 'Mở',
     'draft' => 'Nháp',
-    'name_survey' => 'Tên survey',
+    'name_survey' => 'Tên khảo sát',
     'status' => 'Trạng thái',
     'date_created' => 'Ngày tạo',
     'index' => 'STT',
