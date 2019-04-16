@@ -4284,27 +4284,62 @@ tr, th, td {
 }
 
 .width-col-name-user {
-    width:20%;
+    width: 20%;
 }
 
 .width-col-index-user {
-    width:5%;
+    width: 5%;
 }
 
 .width-col-email-user {
-    width:20%;
+    width: 20%;
 }
 
 .width-col-gender-user {
-    width:5%;
+    width: 5%;
 }
 
 .width-col-status-user {
-    width:10%;
+    width: 10%;
 }
 
 .width-col-action-user {
-    width:20%;
+    width: 20%;
+}
+
+.number-of-redirect {
+    position: absolute;
+    background-color: #e53935;
+    text-align: center;
+    line-height: 50px;
+    width: 170px;
+    height: 50px;
+    box-shadow: 0 3px 10px rgba(206, 27, 27, 0.67);
+    left: -49px;
+}
+
+.number-of-redirect:after {
+    content: "";
+    position: absolute;
+    top: 0px;
+    transform: skew(20deg);
+    right: -9px;
+    width: 18px;
+    height: inherit;
+    background-color: #e53935;
+    border-radius: 0 4px 4px 0;
+}
+
+.number-of-redirect:before {
+    content: "";
+    position: absolute;
+    top: 7px;
+    transform: skewY(30deg);
+    left: 0px;
+    width: 20px;
+    height: inherit;
+    background-color: #333;
+    z-index: -10;
 }
 
 .background-image-survey-btn {

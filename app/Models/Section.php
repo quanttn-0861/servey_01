@@ -56,4 +56,9 @@ class Section extends Model
             ? $this->attributes['title']
             : '';
     }
+
+    public function countNoneRedirectQuestions()
+    {
+        return $this->questions->where('type', '!=', config('settings.question_type.redirect'))->count();
+    }
 }
