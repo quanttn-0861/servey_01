@@ -232,24 +232,28 @@
                                 <span class="number-result-answer">{{ $resultsSurvey['count_answer'] }} @lang('result.number_answer')</span>
                             </div>
 
-                            <div class="answer-result chart-result-answer redirect-result"
-                                id="{{ $resultsSurvey['question']->id }}"
-                                data="{{ json_encode($resultsSurvey['answers']) }}"></div>
-                            @foreach ($resultsSurvey['answers'] as $answer)
+                            @if ($resultsSurvey['count_answer'])    
+                                <div class="answer-result chart-result-answer redirect-result"
+                                    id="{{ $resultsSurvey['question']->id }}"
+                                    data="{{ json_encode($resultsSurvey['answers']) }}"></div>
+                                @foreach ($resultsSurvey['answers'] as $answer)
+                                    <div class="item-answer">
+                                        <label class="container-radio-setting-survey" data-url="{{ route('survey.redirect.result') }}"
+                                            data-question-id="{{ $resultsSurvey['question']->id }}">
+                                            {!! nl2br(e($answer['content'])) !!}
+                                            {!! Form::radio('redirect-answer', $answer['answer_id'], false, [
+                                                'class' => 'choice-answer radio-answer-preview',
+                                            ]) !!}
+                                            <span class="checkmark-radio"></span>
+                                        </label>
+                                    </div>
+                                @endforeach
                                 <div class="item-answer">
-                                    <label class="container-radio-setting-survey" data-url="{{ route('survey.redirect.result') }}"
-                                        data-question-id="{{ $resultsSurvey['question']->id }}">
-                                        {!! nl2br(e($answer['content'])) !!}
-                                        {!! Form::radio('redirect-answer', $answer['answer_id'], false, [
-                                            'class' => 'choice-answer radio-answer-preview',
-                                        ]) !!}
-                                        <span class="checkmark-radio"></span>
-                                    </label>
+                                    {!! Form::button(trans('lang.see_more'), ['class' => 'btn btn-info see-more-result']) !!}
                                 </div>
-                            @endforeach
-                            <div class="item-answer">
-                                {!! Form::button(trans('lang.see_more'), ['class' => 'btn btn-info see-more-result']) !!}
-                            </div>
+                            @else
+                                <span class="no-answer">@lang('result.there_is_no_result')</span>
+                            @endif
                         </li>
                     </ul>
                     <div id="detail-result-{{ $resultsSurvey['question']->id }}"></div>
