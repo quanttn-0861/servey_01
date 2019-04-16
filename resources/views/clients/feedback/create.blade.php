@@ -21,7 +21,7 @@
                         <span class="help-block feedback-name-messages"></span>
                     </div>
                     <div class="md-form mb-5">
-                        {{ Form::email('email', Auth::check() ? Auth::user()->email : '', [
+                        {{ Form::text('email', Auth::check() ? Auth::user()->email : '', [
                             'class' => 'form-control validate',
                             'placeholder' => trans('lang.email_placeholder'),
                             (Auth::check() ? 'readonly' : null)
