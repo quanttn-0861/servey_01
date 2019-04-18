@@ -492,7 +492,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         // process follow option update
         if ($status == config('settings.survey.status.open')) {
             $optionUpdate = $data->get('option');
-            $sectionIds = $survey->sections->pluck('id')->all();
+            $sectionIds = $survey->sections()->pluck('id')->all();
             $updatedQuestionIds = $questionRepo->withTrashed()->whereIn('section_id', $sectionIds)
                 ->where('update', config('settings.survey.question_update.updated'))
                 ->pluck('id')->all();
@@ -517,7 +517,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                 // if have created new question
                 if (count($createdQuestionIds)) {
                     $createdSectionIds = $questionRepo->withTrashed()->whereIn('id', $createdQuestionIds)->pluck('section_id')->unique()->all();
-                    $createdRedirectIds = $survey->sections->whereIn('id', $createdSectionIds)->pluck('redirect_id')->unique()->all();
+                    $createdRedirectIds = $survey->sections()->whereIn('id', $createdSectionIds)->pluck('redirect_id')->unique()->all();
 
                     // if question created in normal section => send all mails has answered (send_update_mails list)
                     if (in_array(config('settings.section_redirect_id_default'), $createdRedirectIds)) {
