@@ -11,11 +11,15 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($surveys as $survey) 
+            @foreach ($surveys as $survey)
                 <tr>
                     <td class="text-center">{{ $loop->iteration }}</td>
                     <td>
-                        <a href="{{ route('survey.create.do-survey', $survey->token) }}" target="_blank" data-toggle="tooltip" title="{{ $survey->title }}">{{ $survey->trim_title }}</a>
+                        @if ($survey->status == config('settings.survey.status.open'))
+                            <a href="{{ route('survey.create.do-survey', $survey->token) }}" target="_blank" data-toggle="tooltip" title="{{ $survey->title }}">{{ $survey->trim_title }}</a>
+                        @else
+                            <a href="javascript:void(0)"  data-toggle="tooltip" title="{{ $survey->title }}" class="survey-close">{{ $survey->trim_title }}</a>
+                        @endif
                     </td>
                     <td>
                         <span class="badge badge-info badge-list-survey">{{ $survey->settings->first()->value == config('settings.survey_setting.privacy.public') ? trans('profile.public') :  trans('profile.private') }}</span>
@@ -25,7 +29,7 @@
                         @php
                             $invites = $survey->getInvites();
                         @endphp
-                        
+
                         <div class="progress process-bar-survey"
                             data-toggle="modal"
                             data-token-manage="{{ $survey->token_manage }}"

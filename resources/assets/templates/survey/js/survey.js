@@ -84,6 +84,10 @@ $(document).ready(function () {
 
     var path = window.location.href;
     $('.profile-menu li a[href="'+path+'"]').addClass('active');
+
+    $(document).on('click', '.survey-close', function () {
+        alertWarning({message: Lang.get('lang.survey_close')});
+    });
 });
 
 function listSurvey(url, flag = 'form-search') {
