@@ -68,7 +68,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         $surveyInputs = [
             'title' => $data->get('title'),
             'description' => $data->get('description'),
-            'start_time' => $data->get('start_time'),
+            'start_time' => !empty($data->get('start_time')) ? $data->get('start_time') : Carbon::now(),
             'end_time' => $data->get('end_time'),
         ];
         $data = $data->all();
