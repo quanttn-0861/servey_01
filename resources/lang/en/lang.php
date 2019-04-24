@@ -381,4 +381,5 @@ return [
     'see_more' => 'See more',
     'close' => 'Close',
     'select_option' => 'You don\'t select any option!',
+    'survey_close' => 'The survey has been closed or is in draft!',
 ];

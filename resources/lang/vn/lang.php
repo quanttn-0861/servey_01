@@ -381,4 +381,5 @@ return [
     'see_more' => 'Xem thêm',
     'close' => 'Đóng lại',
     'select_option' => 'Bạn chưa chọn tùy chọn nào cả!',
+    'survey_close' => 'Khảo sát đã bị đóng hoặc đang ở bản nháp!',
 ];
