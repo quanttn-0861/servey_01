@@ -3244,9 +3244,27 @@ jQuery(document).ready(function () {
         setting survey
     */
 
+    //unchecked confirm reply
+    function unCheckedConfirmReply(element)
+    {
+        $(element).parent().find('span:first').addClass('unchecked-color');
+        $(element).attr('disabled', true);
+        $(element).prop('checked', false);
+    }
+
+    //checked confirm reply
+    function checkedConfirmReply(element)
+    {
+        $(element).parent().find('span:first').removeClass('unchecked-color');
+        $(element).removeAttr('disabled');
+    }
+
     if ($('#confirm-reply').prop('checked')) {
         $('.setting-choose-confirm-reply').show('300');
         $('.setting-radio-request').removeAttr('disabled');
+    } else {
+        unCheckedConfirmReply('#limit-number-answer');
+        unCheckedConfirmReply('#checkbox-mail-remind');
     }
 
     if ($('#checkbox-mail-remind').prop('checked')) {
@@ -3272,9 +3290,15 @@ jQuery(document).ready(function () {
         if (check) {
             $('.setting-choose-confirm-reply').show('300');
             $('.setting-radio-request').removeAttr('disabled');
+            checkedConfirmReply('#limit-number-answer');
+            checkedConfirmReply('#checkbox-mail-remind');
         } else {
             $('.setting-choose-confirm-reply').hide('300');
             $('.setting-radio-request').attr('disabled', true);
+            $('.number-limit-number-answer').hide('300');
+            $('.setting-mail-remind').hide('300');
+            unCheckedConfirmReply('#limit-number-answer');
+            unCheckedConfirmReply('#checkbox-mail-remind');
         }
     });
 

@@ -82,7 +82,6 @@
                     <div class="col-md-6">
                         <div class="col-inner">
                             <div class="section-heading align-c-xs-max">
-                                <h5 class="feature-title-home">@lang('lang.feature_1')</h5>
                                 <h2 class="feature-title-home">@lang('lang.feature_1_title')</h2>
                                 <div class="divider"></div>
                             </div>
@@ -116,7 +115,6 @@
                       <div class="col-md-6 p-l-75-md-min">
                         <div class="col-inner">
                             <div class="section-heading align-c-xs-max">
-                                <h5 class="feature-title-home">@lang('lang.feature_2')</h5>
                                 <h2 class="feature-title-home">@lang('lang.feature_2_title')</h2>
                                 <div class="divider"></div>
                             </div>
@@ -134,7 +132,6 @@
                     <div class="col-md-6">
                         <div class="col-inner">
                             <div class="section-heading align-c-xs-max">
-                                <h5 class="feature-title-home">@lang('lang.feature_3')</h5>
                                 <h2 class="feature-title-home">@lang('lang.feature_3_title')</h2>
                                 <div class="divider"></div>
                             </div>
