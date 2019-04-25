@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "67e3e04ad1197414c959b3f8043c3d28",
+    "content-hash": "7c2148d8d7a290c09375a3b9532bc482",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -722,43 +722,6 @@
             "description": "DOMPDF is a CSS 2.1 compliant HTML to PDF converter",
             "homepage": "https://github.com/dompdf/dompdf",
             "time": "2018-12-14T02:40:31+00:00"
-        },
-        {
-            "name": "framgia/fauth-php",
-            "version": "dev-develop",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/framgia/fauth-php.git",
-                "reference": "b07e62d3af2af5db30d8d784cc778cbf8ef0f79f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/framgia/fauth-php/zipball/b07e62d3af2af5db30d8d784cc778cbf8ef0f79f",
-                "reference": "b07e62d3af2af5db30d8d784cc778cbf8ef0f79f",
-                "shasum": ""
-            },
-            "require-dev": {
-                "mockery/mockery": "~0.9",
-                "phpunit/phpunit": "~4.0|~5.0"
-            },
-            "type": "library",
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Framgia"
-            ],
-            "authors": [
-                {
-                    "name": "Tran Dinh Vi",
-                    "email": "trandinhvi39@gmail.com"
-                }
-            ],
-            "description": "Authentication User Framgia",
-            "keywords": [
-                "Authentication",
-                "laravel",
-                "oauth"
-            ],
-            "time": "2018-12-13T08:58:14+00:00"
         },
         {
             "name": "fzaninotto/faker",
@@ -2895,7 +2858,7 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v3.4.24",
+            "version": "v3.4.26",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/event-dispatcher.git",
@@ -3185,7 +3148,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -3980,6 +3943,43 @@
             "time": "2019-03-17T17:37:11+00:00"
         },
         {
+            "name": "framgia/fauth-php",
+            "version": "dev-develop",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/framgia/fauth-php.git",
+                "reference": "b07e62d3af2af5db30d8d784cc778cbf8ef0f79f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/framgia/fauth-php/zipball/b07e62d3af2af5db30d8d784cc778cbf8ef0f79f",
+                "reference": "b07e62d3af2af5db30d8d784cc778cbf8ef0f79f",
+                "shasum": ""
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9",
+                "phpunit/phpunit": "~4.0|~5.0"
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Framgia"
+            ],
+            "authors": [
+                {
+                    "name": "Tran Dinh Vi",
+                    "email": "trandinhvi39@gmail.com"
+                }
+            ],
+            "description": "Authentication User Framgia",
+            "keywords": [
+                "Authentication",
+                "laravel",
+                "oauth"
+            ],
+            "time": "2018-12-13T08:58:14+00:00"
+        },
+        {
             "name": "hamcrest/hamcrest-php",
             "version": "v1.2.2",
             "source": {
@@ -4152,16 +4152,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.8.1",
+            "version": "1.9.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "3e01bdad3e18354c3dce54466b7fbe33a9f9f7f8"
+                "reference": "e6828efaba2c9b79f4499dae1d66ef8bfa7b2b72"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/3e01bdad3e18354c3dce54466b7fbe33a9f9f7f8",
-                "reference": "3e01bdad3e18354c3dce54466b7fbe33a9f9f7f8",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/e6828efaba2c9b79f4499dae1d66ef8bfa7b2b72",
+                "reference": "e6828efaba2c9b79f4499dae1d66ef8bfa7b2b72",
                 "shasum": ""
             },
             "require": {
@@ -4196,7 +4196,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2018-06-11T23:09:50+00:00"
+            "time": "2019-04-07T13:18:21+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
