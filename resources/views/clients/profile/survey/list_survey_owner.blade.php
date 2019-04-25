@@ -13,7 +13,7 @@
         <tbody>
             @foreach ($surveys as $survey)
                 <tr>
-                    <td class="text-center">{{ $loop->iteration }}</td>
+                    <td class="text-center">{{ $surveys->currentPage() == 1 ? $loop->iteration : $loop->iteration + $surveys->perPage() * ($surveys->currentPage() - 1) }}</td>
                     <td>
                         @if ($survey->status == config('settings.survey.status.open'))
                             <a href="{{ route('survey.create.do-survey', $survey->token) }}" target="_blank" data-toggle="tooltip" title="{{ $survey->title }}">{{ $survey->trim_title }}</a>
