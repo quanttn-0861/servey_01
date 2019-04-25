@@ -66,7 +66,7 @@ interface SurveyInterface
 
     public function getResultOfQuestions($questions, $survey, $userRepo);
 
-    public function getResultOfEachSection($survey, $userRepo, $section, $redirectQuestionIds = []);
+    public function getResultOfEachSection($survey, $userRepo, $section);
 
     public function getResultFromRedirectSection($section, $userRepo);
 
