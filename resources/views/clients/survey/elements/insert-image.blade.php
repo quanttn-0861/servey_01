@@ -14,9 +14,9 @@
                             <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-upload-image" role="tab" aria-controls="nav-home" aria-selected="true">
                                 @lang('lang.upload_or_by_url')
                             </a>
-                            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-search-image" role="tab" aria-controls="nav-contact" aria-selected="false">
+                            <!-- <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-search-image" role="tab" aria-controls="nav-contact" aria-selected="false">
                                 @lang('lang.search_by_google')
-                            </a>
+                            </a> -->
                         </div>
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
