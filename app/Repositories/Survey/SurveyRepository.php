@@ -34,33 +34,16 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
     public function getResutlSurvey($survey, $userRepo)
     {
-        $redirectQuestionIds = $this->getRedirectQuestionIds($survey);
-
-        if (count($redirectQuestionIds)) {
-            $questions = app(QuestionInterface::class)->whereIn('id', $redirectQuestionIds)->get();
-
-            foreach ($questions as $question) {
-                $result = $this->getResultChoiceQuestion($question, $survey, $userRepo, app(ResultInterface::class));
-                $resultsSurveys[] = [
-                    'section' => $question->section,
-                    'question' => $question,
-                    'question_type' => $question->type,
-                    'count_answer' => $result['total_answer_results'],
-                    'answers' => $result['temp'],
-                ];
+        foreach ($survey->sections as $section) {
+                if (!$section->redirect_id) {
+                    $resultsSurveys[] = [
+                        'section' => $section,
+                        'question_result' => $this->getResultOfEachSection($survey, $userRepo, $section),
+                    ];
+                }
             }
 
             return $resultsSurveys;
-        } else {
-            foreach ($survey->sections as $section) {
-                $resultsSurveys[] = [
-                    'section' => $section,
-                    'question_result' => $this->getResultOfEachSection($survey, $userRepo, $section),
-                ];
-            }
-
-            return $resultsSurveys;
-        }
     }
 
     public function createSurvey($userId, $data, $status, $userRepo)
@@ -1241,10 +1224,9 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         return $newSurvey;
     }
 
-    public function getResultOfEachSection($survey, $userRepo, $section, $redirectQuestionIds = [])
+    public function getResultOfEachSection($survey, $userRepo, $section)
     {
-        $questions = count($redirectQuestionIds) ?
-            $section->questions->whereIn('id', $redirectQuestionIds) : $section->questions;
+        $questions = $section->questions;
 
         return $this->getResultOfQuestions($questions, $survey, $userRepo);
     }
@@ -1312,12 +1294,10 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
     {
         $publicResults = [];
         foreach ($survey->sections as $section) {
-            if (!$section->redirect_id) {
-                $publicResults[] = [
-                    'section' => $section,
-                    'question_result' => $this->getResultOfEachSection($survey, app(UserInterface::class), $section),
-                ];
-            }
+            $publicResults[] = [
+                'section' => $section,
+                'question_result' => $this->getResultOfEachSection($survey, app(UserInterface::class), $section),
+            ];
         }
 
         return $publicResults;

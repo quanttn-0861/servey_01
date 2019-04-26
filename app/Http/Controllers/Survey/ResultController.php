@@ -61,8 +61,6 @@ class ResultController extends Controller
             }
 
             if ($request->ajax()) {
-                $redirectQuestionIds = $this->surveyRepository->getRedirectQuestionIds($survey);
-                $publicResults = $this->surveyRepository->getPublicResults($survey);
 
                 return response()->json([
                     'success' => true,
@@ -70,8 +68,6 @@ class ResultController extends Controller
                         'survey',
                         'resultsSurveys',
                         'months',
-                        'redirectQuestionIds',
-                        'publicResults'
                     ]))->render(),
                 ]);
             }
