@@ -3,8 +3,8 @@
     <li class="p-0">
         <div class="form-header">
             <div class="section-badge section-option-menu">
-                <span class="number-of-section">@lang('lang.section') 
-                    <span class="section-index"></span> / 
+                <span class="number-of-section">@lang('lang.section')
+                    <span class="section-index"></span> /
                     <span class="total-section"></span>
                 </span>
                 <div class="right-header-section">
@@ -37,6 +37,7 @@
                 'data-autoresize',
                 'rows' => 1,
             ]) !!}
+            <br />
             {!! Form::textarea("description[section_$section->id]", $section->description, [
                 'class' => 'form-control input-area auto-resize section-header-description',
                 'data-autoresize',

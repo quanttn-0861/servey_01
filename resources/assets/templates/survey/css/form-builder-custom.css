@@ -2508,9 +2508,9 @@ li.question-active .checkboxes-block .checkbox .remove-other-checkbox-option {
 }
 
 .section-header-description, .section-header-title {
-    background-color: #43add0;
+    background-color: #FFF;
     border: none;
-    color: #fff;
+    color: #555;
 }
 
 .section-header-title {
@@ -2525,22 +2525,22 @@ li.question-active .checkboxes-block .checkbox .remove-other-checkbox-option {
 
 .section-header-description::-webkit-input-placeholder,
 .section-header-title::-webkit-input-placeholder {
-    color: #fff;
+    color: #555;
 }
 
 .section-header-description::-moz-placeholder,
 .section-header-title::-moz-placeholder {
-    color: #fff;
+    color: #555;
 }
 
 .section-header-description:-moz-placeholder,
 .section-header-title:-moz-placeholder {
-    color: #fff;
+    color: #555;
 }
 
 .section-header-description:-ms-input-placeholder,
 .section-header-title:-ms-input-placeholder {
-    color: #fff;
+    color: #555;
 }
 
 .section-header-description:focus::-webkit-input-placeholder,
