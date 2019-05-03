@@ -144,7 +144,7 @@ return [
     'move_section' => 'Move section',
     'delete_section' => 'Delete section',
     'merge_with_above' => 'Merge with above',
-    'section-title' => 'Untitled Section',
+    'section-title' => 'Enter Title of Section',
     'after_section' => 'After section',
     'continue_next_section' => 'Continue to next section',
     'go_to_section' => 'Go to section :part',

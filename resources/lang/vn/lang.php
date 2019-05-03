@@ -150,7 +150,7 @@ return [
     'move_section' => 'Di chuyển phần',
     'delete_section' => 'Xóa phần',
     'merge_with_above' => 'Hợp nhất với phần trên',
-    'section-title' => 'Mẫu không có tiêu đề',
+    'section-title' => 'Nhập tiêu đề',
     'after_section' => 'Sau phần',
     'continue_next_section' => 'Tiếp tục với phần tiếp theo',
     'go_to_section' => 'Chuyển đến phần :part',

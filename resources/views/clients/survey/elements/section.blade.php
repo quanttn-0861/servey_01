@@ -37,6 +37,7 @@
                 'data-autoresize',
                 'rows' => 1,
             ]) !!}
+            <br />
             {!! Form::textarea("description[section_$sectionId]", '', [
                 'class' => 'form-control input-area auto-resize section-header-description',
                 'data-autoresize',
