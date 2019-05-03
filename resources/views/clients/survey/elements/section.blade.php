@@ -17,7 +17,7 @@
                             <li class="copy-section">
                                <span>@lang('lang.duplicate_section')</span>
                             </li>
-                            <li class="move-section">
+                            <li class="move-section" id="move-section_{{ $sectionId }}">
                                 <span>@lang('lang.move_section')</span>
                             </li>
                             <li class="delete-section">
