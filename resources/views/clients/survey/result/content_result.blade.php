@@ -90,8 +90,7 @@
                         <div class="form-header">
                             <div class="section-badge section-option-menu">
                                 <span class="number-of-section">@lang('lang.section')
-                                    <span class="section-index">{{ $loop->iteration }}</span> /
-                                    <span class="total-section"></span>{{ count($resultsSurveys) }}
+                                    <span class="section-index">{{ $loop->iteration }}</span>
                                 </span>
                                 <div class="right-header-section">
                                     <a href="#" class="zoom-in-btn zoom-btn zoom-btn-result">

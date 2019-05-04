@@ -14,7 +14,7 @@ class ElementFetchingController extends Controller
                 'success' => false,
             ]);
         }
-
+        
         $sectionId = $request->sectionId;
         $questionId = $request->questionId;
         $answerId = $request->answerId;

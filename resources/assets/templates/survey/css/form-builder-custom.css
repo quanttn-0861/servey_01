@@ -2464,7 +2464,7 @@ li.question-active .checkboxes-block .checkbox .remove-checkbox-option, li.quest
     right: -9px;
     width: 18px;
     height: inherit;
-    background-color: #e53935;
+    background-color: var(--background-color, #e53935);
     border-radius: 0 4px 4px 0;
 }
 

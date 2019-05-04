@@ -785,7 +785,7 @@ jQuery(document).ready(function () {
                     if (questionType == 11) {
                         var minValueElement = element.find(`select.min-value-${questionId}`);
                         var maxValueElement = element.find(`select.max-value-${questionId}`);
-                        
+
                         createValueForLinearScaleQuestion(minValueElement, maxValueElement);
                         element.find(`label.min-content-${questionId}`).text(minValueElement.val());
                         element.find(`label.max-content-${questionId}`).text(maxValueElement.val());
@@ -929,7 +929,7 @@ jQuery(document).ready(function () {
                     // append redirect question
                     data.view_sections.forEach(function (section, index) {
                         parentElement.append(section);
-                        parentElement.find('.redirect-section-block .section-index').last().html(`${sectionIndex}.${index + 1}.1`);
+                        parentElement.find('.redirect-section-block .section-index').last().html(`1`);
                     });
 
                     parentElement.find('.redirect-section-block').data('number-redirect-section', 1);
@@ -983,6 +983,11 @@ jQuery(document).ready(function () {
                         $(`.redirect-choice-${redirectSection.answerRedirectId}`).css('color', color).attr('color', color);
                         $(`.redirect-section-${redirectSection.answerRedirectId}`).css('border-color', color);
                         $(`.redirect-section-label-${redirectSection.answerRedirectId}`).css('border-color', color).css('background', color);
+                        $(`.redirect-section-${redirectSection.answerRedirectId}`).find('.number-of-section').each(function () {
+                            $(this).css('background', color);
+                            $(this).css("--background-color", color);
+                        })
+
                     });
                 }
             });
@@ -1006,7 +1011,7 @@ jQuery(document).ready(function () {
         var check = true;
 
         while (check) {
-            color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+            color = '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1, 6);
             check = false;
 
             $('.redirect-choice .radio-choice-icon').each(function () {
@@ -1953,7 +1958,7 @@ jQuery(document).ready(function () {
                     element.data('number-redirect-section', 1);
 
                     var redirectIndex = parentElement.find('.redirect-section-block').length;
-                    element.find('.section-index').html(`${sectionIndex}.${redirectIndex}.1`);
+                    element.find('.section-index').html(sectionIndex);
                     element.find('.total-section').html(1);
 
                     formSortable();
@@ -1977,6 +1982,8 @@ jQuery(document).ready(function () {
                     $(`.redirect-choice-${answerRedirectId}`).css('color', color).attr('color', color);
                     $(`.redirect-section-${answerRedirectId}`).css('border-color', color);
                     $(`.redirect-section-label-${answerRedirectId}`).css('border-color', color).css('background', color);
+                    element.find('.number-of-section').css('background-color', color);
+                    element.find('.number-of-section').css('--background-color', color);
 
                     // auto resize for new textarea
                     autoResizeTextarea();
@@ -2220,16 +2227,19 @@ jQuery(document).ready(function () {
                 if (data.success) {
                     var element = $('<div></div>').html(data.html).children().first();
                     var redirectSectionElement = $('li.sort.question-active').closest('.redirect-section-block');
-
                     if (redirectSectionElement.length) {
+                        var firstPageSection = redirectSectionElement.find('.page-section').first();
+                        var color = firstPageSection.find('.number-of-section').css('background-color');
                         redirectSectionElement.append(element);
                         var parentElement = redirectSectionElement.closest('.redirect-question-block');
                         var sectionIndex = parentElement.prevAll('.page-section, .redirect-question-block').length + 1;
                         var numberOfRedirectSections = redirectSectionElement.data('number-redirect-section') + 1;
                         var redirectIndex = redirectSectionElement.prevAll('.redirect-section-block').length + 1;
-
                         redirectSectionElement.data('number-redirect-section', numberOfRedirectSections);
-                        element.find('.section-index').html(`${sectionIndex}.${redirectIndex}.${numberOfRedirectSections}`);
+                        firstPageSection.find('.section-index').html(sectionIndex);
+                        element.find('.section-index').html(numberOfRedirectSections);
+                        element.find('.number-of-section').css('background-color', color);
+                        element.find('.number-of-section').css("--background-color", color);
                         redirectSectionElement.find('.total-section').html(numberOfRedirectSections);
                     } else {
                         element.addClass('normal-section');
@@ -2863,7 +2873,7 @@ jQuery(document).ready(function () {
             return;
         }
 
-        $.get($(this).attr('remove-session-url'));        
+        $.get($(this).attr('remove-session-url'));
 
         $.ajax({
             method: 'POST',
@@ -2872,13 +2882,13 @@ jQuery(document).ready(function () {
                 data: data
             }
         })
-        .done(function (data) {
-            
-            if (data.success) {
-                var redirectWindow = window.open(urlLocation, '_blank');
-                redirectWindow.location;
-            }
-        });
+            .done(function (data) {
+
+                if (data.success) {
+                    var redirectWindow = window.open(urlLocation, '_blank');
+                    redirectWindow.location;
+                }
+            });
     });
 
     // live suggest email
@@ -3101,7 +3111,7 @@ jQuery(document).ready(function () {
             debounceSomething(removeClassErrors);
         }
     });
-    
+
     // add email
     $('.live-suggest-email').on('click', '.email-li-item', function (e) {
         e.stopPropagation();
@@ -3576,7 +3586,6 @@ jQuery(document).ready(function () {
     $('.survey-form').on('click', '.copy-element', function (e) {
         e.preventDefault();
         e.stopPropagation();
-        var questionType = $(this).closest('.form-line').data('question-type');
         var cloneElement = $(this).closest('.form-line').clone();
         var sectionId = $(this).closest('ul.page-section.sortable').data('section-id');
         var questionId = refreshQuestionId();
@@ -3621,7 +3630,6 @@ jQuery(document).ready(function () {
     $('.survey-form').on('click', '.copy-section', function (e) {
         e.preventDefault();
         e.stopPropagation();
-
         var element = $(this);
         var sectionDuplicate = null;
         var isHaveRedirectQuestion = !element.closest('.redirect-section-block').length && element.closest('.redirect-question-block').length;
@@ -3798,10 +3806,11 @@ jQuery(document).ready(function () {
                 redirectSectionsElement = $(this).find('.page-section');
                 $(this).data('number-redirect-section', redirectSectionsElement.length);
                 redirectSectionsElement.find('.total-section').text(redirectSectionsElement.length);
-
-                redirectSectionsElement.each(function (j) {
-                    $(this).find('.section-index').text(`${sectionIndex}.${i + 1}.${j + 1}`);
-                });
+                if (redirectSectionsElement.length > 1) {
+                    redirectSectionsElement.each(function (j) {
+                        $(this).find('.section-index').text(`${j + 1}`);
+                    });
+                }
             });
         });
     }
@@ -4469,6 +4478,8 @@ jQuery(document).ready(function () {
             $(`.redirect-choice-${redirectId}`).css('color', color).attr('color', color);
             $(`.redirect-section-${redirectId}`).css('border-color', color);
             $(`.redirect-section-label-${redirectId}`).css('border-color', color).css('background', color);
+            $(`.redirect-section-${redirectId}`).find('.number-of-section').css('background-color', color);
+            $(`.redirect-section-${redirectId}`).find('.number-of-section').css('--background-color', color);
         });
 
         reloadSectionIndex();
