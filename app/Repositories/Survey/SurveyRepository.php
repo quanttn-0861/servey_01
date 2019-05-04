@@ -980,7 +980,6 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             });
         }
 
-
         if (isset($data['status']) && $data['status']) {
             $survey = $survey->where('status', $data['status']);
         }

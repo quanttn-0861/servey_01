@@ -55,12 +55,21 @@ class SurveyManagementController extends Controller
 
     public function showSurveys()
     {
+        DB::beginTransaction();
         try {
             $user = Auth::user();
             $surveys = $this->surveyRepository->getAuthSurveys(config('settings.survey.members.owner'));
+            foreach ($surveys as $survey) {
+                $timeRemaining = $survey->remaining_time;
+                if (!$timeRemaining)
+                    $this->surveyRepository->updateSurveyByObject($survey, ['status' => config('settings.survey.status.close')]);
+            }
+            DB::commit();
 
             return view('clients.profile.list-survey', compact('user', 'surveys'));
         } catch (Exception $e) {
+            DB::rollback();
+            
             return view('clients.layout.404');
         }
     }
