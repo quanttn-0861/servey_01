@@ -1269,8 +1269,8 @@ jQuery(document).ready(function () {
 
         // if start-time select <= time now
         if (diffdateNow >= 0) {
-            // start-time must after time now 30 min
-            dateSelect = new Date(dateNow.getTime() + 30 * 1000 * 60);
+            // start-time must be equals time now
+            dateSelect = new Date(dateNow.getTime() * 1000 * 60);
             $(this).data('datetimepicker').date(dateSelect);
 
             return;
