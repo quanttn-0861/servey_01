@@ -274,16 +274,22 @@ class SurveyController extends Controller
         $redirectIds = $request->redirect_ids;
         $currentSectionId = $request->current_section_id;
         $currentSection = $survey->sections->where('id', $currentSectionId)->first();
-        $sectionIds = $survey->sections->whereIn('redirect_id', $redirectIds)->sortBy('order')->pluck('id')->all();
+        $redirectSectionIds = $survey->sections->where('redirect_id', '!=', 0)->pluck('redirect_id')->all();
+
+        if (count($redirectSectionIds)) {
+            $sectionIds = $survey->sections->whereIn('redirect_id', $redirectIds)->sortBy('order')->pluck('id')->all();
+            $sectionUpdateIds = $survey->sections->where('update', config('settings.survey.section_update.updated'))->sortBy('order')->pluck('id')->all();
+            if (count($sectionUpdateIds) && count($survey->results->where('user_id', Auth::user()->id))) {
+                $sectionIds = $sectionUpdateIds;
+            }
+            
+        } else {
+            $sectionIds = $survey->sections->pluck('id')->all();
+        }
+        
         $currentSectionIndex = array_search($currentSectionId, $sectionIds) != false ? array_search($currentSectionId, $sectionIds) : 0;
         $indexSection = config('settings.index_section.middle');
-
-        if ($currentSection->update && $currentSection->redirect_id && $currentSectionIndex == 0) {
-            $currentSectionId = $sectionIds[0];
-        } else {
-            $currentSectionId = $sectionIds[$currentSectionIndex + 1];
-        }
-
+        $currentSectionId = $sectionIds[$currentSectionIndex + 1];
         $section = $this->surveyRepository->getSectionCurrent($survey, $currentSectionId);
 
         if ($currentSectionId == end($sectionIds) && !$this->sectionRepository->checkIfExistRedirectQuestion($section)) {
