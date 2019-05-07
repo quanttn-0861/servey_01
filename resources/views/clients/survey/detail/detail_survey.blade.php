@@ -9,11 +9,6 @@
             {{ Html::image(asset(config('settings.background_survey')), '', ['class' => 'image-header']) }}
         @endif
     </div>
-    <div class="info-survey-block">
-        <span>{{ trans('lang.creator') . $data['survey']->owner_name }}</span><br/>
-        <span>{{ trans('lang.date_create') . $data['survey']->created_at }}</span><br/>
-        <span>{{ !empty($data['survey']->time_finish) ? trans('lang.time_finish') . $data['survey']->time_finish : '' }}</span>
-    </div>
     @can('config', $data['survey'])
         <a href="{{ route('survey.management', $data['survey']->token_manage) }}" class="btn btn-primary member-config-btn">
             <i class="fa fa-cog"></i>
