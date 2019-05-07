@@ -2801,6 +2801,8 @@ jQuery(document).ready(function () {
         var emailsSuggested = $('input:hidden[name=emails_invite]').val();
         var emails = emailsSuggested.split(',');
         indexActiveLi = 0;
+        var hasNoEmail = $('.has-no-email');
+        hasNoEmail.empty();
 
         if (keyword) {
             $.ajax({
@@ -2814,14 +2816,21 @@ jQuery(document).ready(function () {
             })
                 .done(function (data) {
                     if (data.success) {
-                        $('.live-suggest-email').empty();
-                        data.emails.forEach(el => {
-                            $('.live-suggest-email').append(`
-                            <li class="email-li-item"><i class="fa fa-envelope"></i>&ensp;<span class="email-span-item">${el}</span></li>
-                        `);
-                        });
-                        $('.live-suggest-email .email-li-item:nth-child(1)').addClass('email-li-item-active');
-                        indexActiveLi = 1;
+                        if (data.emails.length) {
+                            $('.live-suggest-email').empty();
+                            data.emails.forEach(el => {
+                                $('.live-suggest-email').append(`
+                                    <li class="email-li-item"><i class="fa fa-envelope"></i>&ensp;<span class="email-span-item">${el}</span></li>
+                                `);
+                            });
+                            $('.live-suggest-email .email-li-item:nth-child(1)').addClass('email-li-item-active');
+                            indexActiveLi = 1;
+                        } else {
+                            $('.live-suggest-email').empty();
+                            if ($('#confirm-reply').prop('checked')) {
+                                hasNoEmail.text(Lang.get('lang.email_user_not_exist'));
+                            }
+                        }
                     }
                 });
         } else {

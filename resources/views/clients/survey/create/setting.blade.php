@@ -197,6 +197,7 @@
                                     'placeholder' => trans('lang.email_placeholder'),
                                     'id' => 'input-email-send',
                                 ]) !!}
+                                <p class="text-danger has-no-email"></p>
                                 <ul class="live-suggest-email">
                                 </ul>
                             </div>
