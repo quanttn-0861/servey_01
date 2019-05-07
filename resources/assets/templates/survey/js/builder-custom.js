@@ -1087,11 +1087,12 @@ jQuery(document).ready(function () {
     // add validation end time must after now for edit servey
     $.validator.addMethod('end_time_after_now', function (value, element) {
         var today = new Date();
-        var endDate = value;
 
-        today = moment().format('DD/MM/YYYY h:mm A');
-        
-        if (today > value) {
+        var endDate = value;
+        endDate = endDate.split('/')[1] + '-' + endDate.split('/')[0] + endDate.substring(5);
+        endDate = new Date(Date.parse(endDate));        
+
+        if (today.getTime() > endDate.getTime()) {
             return false;
         }
 
