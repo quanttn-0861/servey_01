@@ -142,6 +142,7 @@ return [
         'tailmail' => 'Bạn phải nhập tối thiểu một loại email',
         'start_time_after_now' => 'Thời gian bắt đầu khảo sát phải sau thời gian hiện tại.',
         'after_start_time' => 'Thời gian kết thúc khảo sát phải sau thời gian bắt đầu ít nhất 30 phút.',
+        'end_time_after_now' => 'Thời gian kết thúc khảo sát phải sau thời gian hiện tại.',
         'more_than_30_minutes' => 'Thời gian kết thúc cuộc khảo sát phải sau thời gian hiện tại ít nhất 30 phút.',
         'duplicate_section_title' => 'Tiêu đề phần đã bị trùng',
         'duplicate_question_title' => 'Đã có một câu hỏi trùng với câu hỏi này',

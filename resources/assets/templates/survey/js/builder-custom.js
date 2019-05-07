@@ -1084,6 +1084,20 @@ jQuery(document).ready(function () {
         return true;
     }, Lang.get('validation.msg.after_start_time'));
 
+    // add validation end time must after now for edit servey
+    $.validator.addMethod('end_time_after_now', function (value, element) {
+        var today = new Date();
+        var endDate = value;
+
+        today = moment().format('DD/MM/YYYY h:mm A');
+        
+        if (today > value) {
+            return false;
+        }
+
+        return true;
+    }, Lang.get('validation.msg.end_time_after_now'));
+
     // section unique rule
     $.validator.addMethod('sectionunique', function (value, element) {
         var parentForm = $(element).closest('form');
@@ -1198,6 +1212,9 @@ jQuery(document).ready(function () {
                 title: {
                     required: true,
                     maxlength: 255
+                },
+                end_time: {
+                    end_time_after_now: true,
                 },
             }
         });
