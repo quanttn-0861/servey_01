@@ -1041,7 +1041,7 @@ jQuery(document).ready(function () {
             } else {
                 $('#end-time-error').empty();
             }
-            $('.form-row').css('margin-bottom', '1rem');
+            $('.form-row').css('margin-bottom', '3rem');
         }
     });
 
@@ -4056,7 +4056,7 @@ jQuery(document).ready(function () {
             var sectionID = $(this).data('section-id');
             var sectionTitle = $(this).find('.section-header-title').val();
             var sectionIndex = $(this).find('.section-index').text();
-            var highLight = "move-section_"+sectionID == moveSectionId ? "high-light" : '';
+            var highLight = "move-section_" + sectionID == moveSectionId ? "high-light" : '';
 
             $('.wrap-item-section-reorder').append(`
                 <li class="list-group-item item-reorder ui-sortable ${highLight}" id="section_${sectionID}" data-section-id="${sectionID}">
