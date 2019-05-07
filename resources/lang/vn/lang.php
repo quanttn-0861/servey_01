@@ -178,6 +178,9 @@ return [
         'only_can_contain_one_redirect' => 'Mỗi phần chỉ có thể chứa một câu hỏi chuyển hưóng!',
         'can_not_merge_section' => 'Bạn không thể hợp nhất 2 phần có chứa câu hỏi chuyển hướng!',
     ],
+    'merge_with_above_message' => [
+        'confirm_merge_with_above' => 'Dữ liệu sẽ thay đổi khi hợp nhất 2 section. Bạn có muốn tiếp tục ?'
+    ],
 
     /*
     | 404 page

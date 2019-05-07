@@ -3626,7 +3626,6 @@ jQuery(document).ready(function () {
             confirmWarning({ message: Lang.get('lang.confirm_remove_last_question') }, function () {
                 deleteSection(currentSectionSelected);
             });
-
             return false;
         }
 
@@ -3695,6 +3694,7 @@ jQuery(document).ready(function () {
             }
 
             prevSection = currentSection.closest('.redirect-question-block').prev('.page-section');
+
         } else {
             prevSection = currentSection.prev('.page-section, .redirect-question-block');
 
@@ -3706,40 +3706,43 @@ jQuery(document).ready(function () {
         var prevSectionId = prevSection.data('section-id');
 
         if (prevSection.length) {
-            currentSection.children('.form-line.sort').each(function () {
-                var questionElement = $(this);
-                var questionId = questionElement.data('question-id');
+            confirmWarning({ message: Lang.get('lang.merge_with_above_message.confirm_merge_with_above') }, function () {
+                currentSection.children('.form-line.sort').each(function () {
+                    var questionElement = $(this);
+                    var questionId = questionElement.data('question-id');
 
-                questionElement.find('.question-input').attr('name', `title[section_${prevSectionId}][question_${questionId}]`);
-                questionElement.find('.image-question-hidden').attr('name', `media[section_${prevSectionId}][question_${questionId}]`);
-                questionElement.find('.question-description-input').attr('name', `description[section_${prevSectionId}][question_${questionId}]`)
-                questionElement.find('.checkbox-question-required').attr('name', `require[section_${prevSectionId}][question_${questionId}]`);
-                questionElement.find('.input-image-section-hidden').attr('name', `media[section_${prevSectionId}][question_${questionId}]`);
-                questionElement.find('.video-section-url-hidden').attr('name', `media[section_${prevSectionId}][question_${questionId}]`);
-                questionElement.insertAfter(prevSection.find('.form-line.sort').last());
-            });
-
-            // remove validation tooltip
-            currentSection.find('textarea[data-toggle="tooltip"], input[data-toggle="tooltip"]').each(function () {
-                $(`#${$(this).attr('aria-describedby')}`).remove();
-            });
-
-            if (isHasRedirectQuestion) {
-                prevSection.wrap('<div class="redirect-question-block"></div>');
-                var parentElement = prevSection.closest('.redirect-question-block');
-                currentSection = currentSection.closest('.redirect-question-block');
-
-                currentSection.find('.redirect-section-block').each(function () {
-                    parentElement.append($(this));
+                    questionElement.find('.question-input').attr('name', `title[section_${prevSectionId}][question_${questionId}]`);
+                    questionElement.find('.image-question-hidden').attr('name', `media[section_${prevSectionId}][question_${questionId}]`);
+                    questionElement.find('.question-description-input').attr('name', `description[section_${prevSectionId}][question_${questionId}]`)
+                    questionElement.find('.checkbox-question-required').attr('name', `require[section_${prevSectionId}][question_${questionId}]`);
+                    questionElement.find('.input-image-section-hidden').attr('name', `media[section_${prevSectionId}][question_${questionId}]`);
+                    questionElement.find('.video-section-url-hidden').attr('name', `media[section_${prevSectionId}][question_${questionId}]`);
+                    questionElement.insertAfter(prevSection.find('.form-line.sort').last());
                 });
-            }
 
-            currentSection.remove();
-            reloadSectionIndex();
+                // remove validation tooltip
+                currentSection.find('textarea[data-toggle="tooltip"], input[data-toggle="tooltip"]').each(function () {
+                    $(`#${$(this).attr('aria-describedby')}`).remove();
+                });
 
-            prevSection.find('.form-line.sort').last().click();
-            var questionId = prevSection.children('.form-line.sort').last().data('question-id');
-            scrollToQuestion(questionId);
+                if (isHasRedirectQuestion) {
+                    prevSection.wrap('<div class="redirect-question-block"></div>');
+                    var parentElement = prevSection.closest('.redirect-question-block');
+                    currentSection = currentSection.closest('.redirect-question-block');
+
+                    currentSection.find('.redirect-section-block').each(function () {
+                        parentElement.append($(this));
+                    });
+                }
+
+                currentSection.remove();
+                reloadSectionIndex();
+
+                prevSection.find('.form-line.sort').last().click();
+                var questionId = prevSection.children('.form-line.sort').last().data('question-id');
+                scrollToQuestion(questionId);
+            });
+
         }
     });
 

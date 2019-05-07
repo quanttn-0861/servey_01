@@ -178,6 +178,9 @@ return [
         'only_can_contain_one_redirect' => 'Each section only can contain one redirect question!',
         'can_not_merge_section' => 'You can not merge two section has contain redirect question!',
     ],
+    'merge_with_above_message' => [
+        'confirm_merge_with_above' => 'Data will change when merging 2 sections. Do you want to continue ?'
+    ],
 
     /*
     | 404 page
