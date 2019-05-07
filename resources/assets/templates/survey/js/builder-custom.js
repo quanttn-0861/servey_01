@@ -1124,7 +1124,7 @@ jQuery(document).ready(function () {
 
         var endDate = value;
         endDate = endDate.split('/')[1] + '-' + endDate.split('/')[0] + endDate.substring(5);
-        endDate = new Date(Date.parse(endDate));        
+        endDate = new Date(Date.parse(endDate));
 
         if (today.getTime() > endDate.getTime()) {
             return false;
@@ -2998,8 +2998,10 @@ jQuery(document).ready(function () {
     } else {
         $('.table-show-email-manager').show();
     }
-
     $('#input-email-member').keyup(function (e) {
+        function debounceSomething(debounce) {
+            $(this).keyup(_.debounce(debounce, 1500));
+        }
         var keyword = $(this).val().trim();
         var url = $(this).data('url');
         var emailsMember = [];
@@ -3007,6 +3009,21 @@ jQuery(document).ready(function () {
             emailsMember.push($(this).text());
         });
         indexActiveLi = 0;
+
+        var inputEmailsMember = $('#input-email-member');
+        var inputEmailsMemberErrors = $('.text-danger.input-emails-member-error');
+        function removeClassErrors() {
+            inputEmailsMember.removeClass('errorHighlight');
+            inputEmailsMemberErrors.text('');
+        };
+        function inputEmailsMemberError() {
+            inputEmailsMember.addClass('errorHighlight');
+            inputEmailsMemberErrors.text(Lang.get('lang.input_emails_member_error_message'));
+        }
+        function validateEmailsMessage() {
+            inputEmailsMember.addClass('errorHighlight');
+            inputEmailsMemberErrors.text(Lang.get('lang.emails_error_message'));
+        }
 
         if (keyword) {
             $.ajax({
@@ -3020,21 +3037,35 @@ jQuery(document).ready(function () {
             })
                 .done(function (data) {
                     if (data.success) {
-                        $('.live-suggest-member-email').empty();
-                        data.emails.forEach(el => {
-                            $('.live-suggest-member-email').append(`
-                            <li class="email-li-item"><i class="fa fa-envelope"></i>&ensp;<span class="email-span-item">${el}</span></li>
-                        `);
-                        });
-                        $('.live-suggest-member-email .email-li-item:nth-child(1)').addClass('email-li-item-member-active');
-                        indexActiveLi = 1;
+                        if (data.emails.length > 0) {
+                            $('.live-suggest-member-email').empty();
+                            removeClassErrors();
+                            data.emails.forEach(el => {
+                                $('.live-suggest-member-email').append(`
+                                    <li class="email-li-item"><i class="fa fa-envelope"></i>&ensp;<span class="email-span-item">${el}</span></li>
+                                `);
+                            });
+                            $('.live-suggest-member-email .email-li-item:nth-child(1)').addClass('email-li-item-member-active');
+                            indexActiveLi = 1;
+                        } else {
+                            $('.live-suggest-member-email').empty();
+                            if (isEmail(keyword)) {
+                                debounceSomething(function () {
+                                    removeClassErrors();
+                                    data.emails.length == 0 ? inputEmailsMemberError() : removeClassErrors();
+                                });
+                            } else {
+                                debounceSomething(validateEmailsMessage);
+                            }
+                        }
                     }
                 });
         } else {
             $('.live-suggest-member-email').empty();
+            debounceSomething(removeClassErrors);
         }
     });
-
+    
     // add email
     $('.live-suggest-email').on('click', '.email-li-item', function (e) {
         e.stopPropagation();

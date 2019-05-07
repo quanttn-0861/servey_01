@@ -93,6 +93,7 @@
         {!! Html::script(elixir(config('settings.public_template') . 'js/datepicker/bootstrap-datepicker.min.js')) !!}
         {!! Html::script(elixir(config('settings.public_template') . 'js/auth.js')) !!}
         {!! Html::script(elixir(config('settings.public_template') . 'js/alert.js')) !!}
+        {!! Html::script(elixir(config('settings.public_template') . 'js/lodash.min.js')) !!}
         @stack('scripts')
     </body>
 </html>

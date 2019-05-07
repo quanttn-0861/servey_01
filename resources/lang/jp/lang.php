@@ -181,6 +181,8 @@ return [
     'merge_with_above_message' => [
         'confirm_merge_with_above' => 'Data will change when merging 2 sections. Do you want to continue ?'
     ],
+    'input_emails_member_error_message' => 'This account does not exist in the system !',
+    'emails_error_message' => 'This email is not properly formatted !',
 
     /*
     | 404 page
