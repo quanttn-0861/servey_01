@@ -242,6 +242,7 @@
     {!! Html::script(asset(config('settings.plugins') . 'popper/popper.min.js')) !!}
     {!! Html::script(asset(config('settings.plugins') . 'bootstrap/dist/js/bootstrap.min.js')) !!}
     {!! Html::script(asset(config('settings.plugins') . 'datatables/js/jquery.dataTables.js')) !!}
+    {!! Html::script(asset(config('settings.plugins') . 'jquery-validation/jquery.validate.min.js')) !!}
     {!! Html::script(elixir(config('settings.public_template') . 'js/datatables-script.js')) !!}
     {!! Html::script(elixir(config('settings.public_template') . 'js/manage-invite.js')) !!}
     {!! Html::script(elixir(config('settings.public_template') . 'js/survey.js')) !!}

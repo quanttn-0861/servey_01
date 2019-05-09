@@ -24,7 +24,7 @@
                         <h6 class="title title-top">@lang('profile.change_password')</h6>
                     </div>
                     <div class="ui-block-content">
-                        {!! Form::open(['class' => 'install-form', 'route' => 'survey.profile.changepassword', 'method' => 'post']) !!}
+                        {!! Form::open(['class' => 'install-form', 'id' => 'change-password', 'route' => 'survey.profile.changepassword', 'method' => 'post']) !!}
                             <div class="form-group row">
                                 {!! Form::label('oldpassword', trans('profile.old_password'), ['class' => 'col-sm-3 col-form-label-profile']) !!}
                                 <div class="col-sm-7">
@@ -34,13 +34,13 @@
                             <div class="form-group row">
                                 {!! Form::label('newpassword', trans('profile.new_password'), ['class' => 'col-sm-3 col-form-label-profile']) !!}
                                 <div class="col-sm-7">
-                                    {!! Form::password('newpassword', ['class' => 'form-control', 'required', 'placeholder' => trans('lang.password_placeholder')]) !!}
+                                    {!! Form::password('newpassword', ['class' => 'form-control', 'id' => 'newpassword', 'required', 'placeholder' => trans('lang.password_placeholder')]) !!}
                                 </div>
                             </div>
                             <div class="form-group row">
                                 {!! Form::label('retypepassword', trans('profile.re_type_password'), ['class' => 'col-sm-3 col-form-label-profile']) !!}
                                 <div class="col-sm-7">
-                                    {!! Form::password('retypepassword', ['class' => 'form-control', 'required', 'placeholder' => trans('lang.password_placeholder')]) !!}
+                                    {!! Form::password('retypepassword', ['class' => 'form-control', 'id' => 'retypepassword', 'required', 'placeholder' => trans('lang.password_placeholder')]) !!}
                                 </div>
                             </div>
                             <div class="form-group row">

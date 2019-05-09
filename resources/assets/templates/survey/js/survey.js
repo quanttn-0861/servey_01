@@ -88,6 +88,34 @@ $(document).ready(function () {
     $(document).on('click', '.survey-close', function () {
         alertWarning({message: Lang.get('lang.survey_close')});
     });
+
+    $.validator.addMethod("validatePassword", function (value, element) {
+        return this.optional(element) || /^\S*(?=\S*[a-zA-Z])(?=\S*[\W])(?=\S*[\d])\S*$/.test(value);
+    }, Lang.get('validation.password_without_spaces_and_require_letter_number_special_character'));
+
+    $("#change-password").validate({
+        debug: false,
+        rules: {
+            "newpassword": {
+                validatePassword: true,
+            },
+            "retypepassword": {
+                equalTo: '#newpassword',
+            }
+        },
+        messages: {
+            "oldpassword": {
+                required: Lang.get('validation.msg.required'),
+            },
+            "newpassword": {
+                required: Lang.get('validation.msg.required'),
+            },
+            "retypepassword": {
+                equalTo: Lang.get('validation.msg.re_password'),
+                required: Lang.get('validation.msg.required'),
+            }
+        }
+    });
 });
 
 function listSurvey(url, flag = 'form-search') {
