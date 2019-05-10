@@ -50,7 +50,7 @@ class SectionRepository extends BaseRepository implements SectionInterface
 
     public function getSectionFromRedirectId($redirectId)
     {
-        return $this->model->withTrashed()->where('redirect_id', $redirectId)->first();
+        return $this->model->withTrashed()->where('redirect_id', $redirectId)->get();
     }
 
     public function checkIfExistRedirectQuestion($section)

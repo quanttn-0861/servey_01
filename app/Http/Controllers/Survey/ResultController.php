@@ -122,9 +122,9 @@ class ResultController extends Controller
     public function getRedirectResult(Request $request)
     {
         try {
-            $redirectSection = $this->sectionRepository->getSectionFromRedirectId($request->id);
-            $survey = $redirectSection->survey;
-            $resultsSurveys = $this->surveyRepository->getResultFromRedirectSection($redirectSection, $this->userRepository);
+            $redirectSections = $this->sectionRepository->getSectionFromRedirectId($request->id);
+            $survey = $this->surveyRepository->getSurveyFromToken($request->survey_token);
+            $resultsSurveys = $this->surveyRepository->getResultFromRedirectSection($redirectSections, $this->userRepository);
             $publicResults = $this->surveyRepository->getPublicResults($survey);
 
             return response()->json([
