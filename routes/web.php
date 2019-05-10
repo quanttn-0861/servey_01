@@ -380,6 +380,11 @@ Route::group(['middleware' => 'profile'], function () {
             'uses' => 'PreviewSurveyController@getJson',
             'as' => 'survey.create.get-json',
         ]);
+
+        Route::get('remove-cookie', [
+            'uses' => 'PreviewSurveyController@removeCookie',
+            'as' => 'survey.remove.cookie',
+        ]);
     });
 });
 
