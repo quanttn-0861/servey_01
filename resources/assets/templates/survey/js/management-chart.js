@@ -20,8 +20,9 @@ function getOverviewSurvey() {
         },
 
         yAxis: {
+            allowDecimals: false,
             title: {
-                text: Lang.get('result.number_survey_complete')
+                text: Lang.get('result.number_survey_complete'),
             }
         },
 
