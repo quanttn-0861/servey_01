@@ -262,6 +262,7 @@ return [
     'export_error' => 'Lỗi khi tải xuống!',
     'create_other' => 'Tạo khảo sát khác',
     'not_permission_to_doing_this_survey' => 'Bạn không được phép thực hiện khảo sát này!',
+    'has_replied_the_maximum_number_of_limit_replies' => 'Bạn đã hết số lượt trả lời của khảo sát này!',
 
     /*
         date time format

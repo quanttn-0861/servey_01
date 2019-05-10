@@ -71,7 +71,9 @@ class DoingSurveyMiddleware
 
             if ($limitAnswer != config('settings.survey_setting.answer_unlimited') 
                 && $timesAnswer >= $limitAnswer) {
-                return  new Response(view('clients.survey.detail.complete', compact('title')));
+                $content = trans('lang.has_replied_the_maximum_number_of_limit_replies');
+
+                return  new Response(view('clients.survey.detail.complete', compact('title', 'content')));
             }
         }
 
