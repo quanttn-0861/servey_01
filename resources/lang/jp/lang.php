@@ -339,6 +339,7 @@ return [
     'send_result_failed' => 'Send result failed! Try again!',
     'you_have_answered_this_survey' => 'You have answered this survey!',
     'you_do_not_have_permission' => 'You do not have permission to doing this survey!',
+    'it_is_not_time_for_survey' => 'It is not time for doing survey. Survey will start on :time.',
 
     /*
         Feedback

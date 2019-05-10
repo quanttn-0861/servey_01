@@ -240,6 +240,8 @@ class SurveyController extends Controller
             }
 
             $survey = $this->surveyRepository->getSurvey($token);
+            $title = $survey->title;
+            $content = '';
 
             if ($request->ajax()) {
                 return $this->showAjax($request, $survey);
@@ -252,13 +254,22 @@ class SurveyController extends Controller
                 $inviter = $survey->invite;
 
                 if (empty($inviter) || !in_array(Auth::user()->email, $inviter->invite_mails_array)) {
-                    $title = $survey->title;
                     $content = in_array(Auth::user()->email, $inviter->answer_mails_array)
                         ? trans('lang.you_have_answered_this_survey')
                         : trans('lang.you_do_not_have_permission');
-
-                    return view('clients.survey.detail.complete', compact('title', 'content'));
                 }
+            }
+
+            if ($survey->start_time > Carbon::now()->toDateTimeString()) {
+                $time = Carbon::parse($survey->start_time)->format(trans('lang.date_format') . ' H:i:s');
+                $content = trans('lang.it_is_not_time_for_survey', ['time' => $time]);
+            } elseif (in_array($survey->status, [config('settings.survey.status.draft'), config('settings.survey.status.close')])) {
+                $content = trans('lang.survey_close');
+            }
+
+            if ($content) {
+
+                return view('clients.survey.detail.complete', compact('title', 'content'));
             }
             // at line 42 of file app/Traits/DoSurvey.php
             $data = $this->getFirstSectionSurvey($survey);
