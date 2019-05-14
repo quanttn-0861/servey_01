@@ -654,6 +654,14 @@ jQuery(document).ready(function () {
         }
     }
 
+    $(document).on('change', '#min-value', function () {
+        $('label.min-content').text($('#min-value :selected').text());
+    });
+
+    $(document).on('change', '#max-value', function () {
+        $('label.max-content').text($('#max-value :selected').text());
+    });
+
     // change question elements
     function changeQuestion(option) {
         var currentQuestion = option.closest('li.sort');
@@ -724,6 +732,26 @@ jQuery(document).ready(function () {
             .done(function (data) {
                 if (data.success) {
                     var element = $('<div></div>').html(data.html).children().first();
+
+                    if (questionType == 11) {
+                        var minValue = element.find('#min-value');
+                        var maxValue = element.find('#max-value');
+                        minValue.empty();
+                        maxValue.empty();
+
+                        for (var i = 0; i <= 1; i++) {
+                            minValue.append(`<option value="${i}">${i}</option>`);
+                        }
+
+                        for (var i = 2; i <= 10; i++) {
+                            maxValue.append(`<option value="${i}">${i}</option>`);
+                        }
+
+                        minValue.val('1');
+                        maxValue.val('5');
+                        element.find('label.min-content').text(minValue.val());
+                        element.find('label.max-content').text(maxValue.val());
+                    }
 
                     if (window.questionSelected === null) {
                         window.questionSelected = $(element).insertBefore(endSection);

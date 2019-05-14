@@ -349,6 +349,31 @@ class ElementFetchingController extends Controller
         ]);
     }
 
+    public function fetchLinearScaleQuestion(Request $request)
+    {
+        if (!$request->ajax()) {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+
+        $sectionId = $request->sectionId;
+        $questionId = $request->questionId;
+        $imageURL = $request->imageURL;
+
+        $image = $imageURL ? view('clients.survey.elements.image-question', compact('imageURL'))->render() : '';
+
+        return response()->json([
+            'success' => true,
+            'html' => view('clients.survey.elements.linear_scale', compact(
+                'sectionId',
+                'questionId',
+                'imageURL'
+            ))->render(),
+            'image' => $image,
+        ]);
+    }
+
     public function fetchRedirectSection(Request $request)
     {
         if (!$request->ajax()) {
