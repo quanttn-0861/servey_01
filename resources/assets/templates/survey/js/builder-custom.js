@@ -2828,8 +2828,7 @@ jQuery(document).ready(function () {
             return;
         }
 
-        $.get($(this).attr('remove-cookie-url'));
-        var redirectWindow = window.open(urlLocation, '_blank');
+        $.get($(this).attr('remove-cookie-url'));        
 
         $.ajax({
             method: 'POST',
@@ -2840,6 +2839,7 @@ jQuery(document).ready(function () {
         })
         .done(function (data) {
             if (data.success) {
+                var redirectWindow = window.open(urlLocation, '_blank');
                 redirectWindow.location;
             }
         });
