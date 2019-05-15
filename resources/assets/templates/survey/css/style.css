@@ -4355,3 +4355,15 @@ tr, th, td {
 .high-light {
     background-color: #E6E6E6;
 }
+
+.linear-scale {
+    width: 15%;
+}
+
+div .min-value {
+    margin-left: 25px;
+}
+
+.padding-10 {
+    padding: 10px;
+}

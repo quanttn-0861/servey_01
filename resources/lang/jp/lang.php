@@ -385,4 +385,7 @@ return [
     'close' => 'Close',
     'select_option' => 'You don\'t select any option!',
     'survey_close' => 'The survey has been closed or is in draft!',
+    'linear_scale' => 'Linear Scale',
+    'to' => 'to',
+    'label_option' => 'Label (option)',
 ];

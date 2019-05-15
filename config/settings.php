@@ -221,6 +221,7 @@ return [
         'image' => 8,
         'video' => 9,
         'redirect' => 10,
+        'linear_scale' => 11,
     ],
     'survey_setting' => [
         'default' => 0,
@@ -344,5 +345,6 @@ return [
     'max_size_change_image' => 4096,
     'background_survey' => 'templates/survey/images/title.jpg',
     'path_backup_data' => 'app/backup_data',
-    'number_day_backup' => 7
+    'number_day_backup' => 7,
+    'linear_scale_icon' => '/templates/survey/images/linear_scale.png',
 ];
