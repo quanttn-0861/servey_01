@@ -13,12 +13,12 @@
         </div>
         <br>
         <div class="form-row">
-            <label for="min-content" class="col-1 min-content padding-10">0</label>
-            {!! Form::text('min_content', null, ['class' => 'col-5 form-control', 'placeholder' => trans('lang.label_option')]) !!}
+            <label for="min-content" class="col-1 min-content padding-10"></label>
+            {!! Form::text('min_content', null, ['class' => 'col-5 form-control min-content', 'placeholder' => trans('lang.label_option')]) !!}
         </div>
         <div class="form-row">
-            <label for="max-content" class="col-1 max-content padding-10">5</label>
-            {!! Form::text('max_content', null, ['class' => 'col-5 form-control', 'placeholder' => trans('lang.label_option')]) !!}
+            <label for="max-content" class="col-1 max-content padding-10"></label>
+            {!! Form::text('max_content', null, ['class' => 'col-5 form-control max-content', 'placeholder' => trans('lang.label_option')]) !!}
         </div>
     </div>
 @endsection

@@ -439,6 +439,12 @@ jQuery(document).ready(function () {
             // require if is redirect question
             if (type == 10) {
                 question.require = 1;
+            } else if (type == 11) {
+                question.min_value = $(parentElement).find('#min-value').val();
+                question.max_value = $(parentElement).find('#max-value').val();
+                question.min_content = $(parentElement).find('input.min-content').val();
+                question.max_content = $(parentElement).find('input.max-content').val();
+                question.require = require !== undefined ? parseInt(require.value) : 0;
             } else {
                 var require = data.find(item => item.name === `require[section_${sectionId}][question_${questionId}]`);
                 question.require = require !== undefined ? parseInt(require.value) : 0; // 0: No require, 1: Require

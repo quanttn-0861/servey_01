@@ -93,6 +93,9 @@
                                     <!-- time -->
                                     @elseif ($question->type === config('settings.question_type.time'))
                                         @include ('clients.survey.create.elements-preview.time')
+                                    <!-- linear scale -->
+                                    @elseif ($question->type === config('settings.question_type.linear_scale'))
+                                        @include ('clients.survey.create.elements-preview.linear')
                                     @endif
                                     @if ($question->type == config('settings.question_type.redirect'))
                                         <div class="notice-required">@lang('lang.question_required')</div>
