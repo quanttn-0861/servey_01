@@ -339,6 +339,7 @@ return [
     'send_result_failed' => 'Gửi kết quả thất bại! Hãy thử lại',
     'you_have_answered_this_survey' => 'Bạn đã trả lời khảo sát này!',
     'you_do_not_have_permission' => 'Bạn không được phép thực hiện khảo sát này!',
+    'it_is_not_time_for_survey' => 'Chưa đến lúc thực hiện khảo sát. Khảo sát sẽ bắt đầu vào lúc :time.',
 
     /*
         Feedback
