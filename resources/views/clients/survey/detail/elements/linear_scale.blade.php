@@ -4,12 +4,12 @@
             <div class="content-range-label"></div>
             <div>
                 <div class="content-range-label">
-                    {{ $question->min_content ?? '' }}
+                    {{ $question->setting_value->min_content ?? '' }}
                 </div>
             </div>
         </div>
         <div class="list-radio-container">
-            @for ($i = $question->min_value; $i <= $question->max_value; $i++)
+            @for ($i = $question->setting_value->min_value; $i <= $question->setting_value->max_value; $i++)
                 <label class="content-column">
                     <div class="item-content-column">{{ $i }}</div>
                     <div class="item-content-column-input">
@@ -24,7 +24,7 @@
         <div class="range-label-column">
             <div class="content-range-label"></div>
             <div class="content-range-label">
-                {{ $question->max_content ?? '' }}
+                {{ $question->setting_value->max_content ?? '' }}
             </div>
         </div>
     </div>

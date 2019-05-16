@@ -20,6 +20,7 @@ class Question extends Model
 
     protected $appends = [
         'trim_content',
+        'setting_value',
     ];
 
     protected $dates = ['deleted_at'];
@@ -96,6 +97,18 @@ class Question extends Model
     public function getTrimContentAttribute()
     {
         return (mb_strlen($this->attributes['title']) > 50) ? mb_substr($this->attributes['title'], 0, 50) . '...' : $this->attributes['title'];
+    }
+
+    public function getSettingValueAttribute() {
+        $settingValue = $this->settings->where('key', config('settings.question_type.linear_scale'))->first();
+
+        if ($settingValue) {
+            $data = json_decode($settingValue->value);
+
+            return $data;
+        }
+
+        return null;
     }
 
     public function getVideoThumbnailAttribute()

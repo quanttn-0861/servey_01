@@ -153,6 +153,17 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
                     // create type question in setting
                     $valueSetting = $question['type'] == config('settings.question_type.date') ? $question['date_format'] : '';
+
+                    if ($question['type'] == config('settings.question_type.linear_scale')) {
+                        $attributes = [
+                            'min_value' => $question['min_value'],
+                            'max_value' => $question['max_value'],
+                            'min_content' => $question['min_content'],
+                            'max_content' => $question['max_content'],
+                        ];
+
+                        $valueSetting = json_encode($attributes);
+                    }
                     $questionCreated->settings()->create([
                         'key' => $question['type'],
                         'value' => $valueSetting,
