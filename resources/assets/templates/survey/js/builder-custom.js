@@ -2822,6 +2822,7 @@ jQuery(document).ready(function () {
             return;
         }
 
+        $.get($(this).attr('remove-cookie-url'));
         var redirectWindow = window.open(urlLocation, '_blank');
 
         $.ajax({
@@ -2831,11 +2832,11 @@ jQuery(document).ready(function () {
                 data: data
             }
         })
-            .done(function (data) {
-                if (data.success) {
-                    redirectWindow.location;
-                }
-            });
+        .done(function (data) {
+            if (data.success) {
+                redirectWindow.location;
+            }
+        });
     });
 
     // live suggest email

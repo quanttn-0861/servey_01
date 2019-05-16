@@ -117,4 +117,16 @@ class PreviewSurveyController extends Controller
             return redirect()->route('404');
         }
     }
+
+    public function removeCookie() {
+        
+        if (Cookie::has('section_id') || Cookie::has('redirect_ids')) {
+            Cookie::queue(Cookie::forget('redirect_ids'));
+            Cookie::queue(Cookie::forget('section_id'));
+        }
+
+        return response()->json([
+            'success' => true
+        ]);
+    }
 }
