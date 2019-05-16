@@ -1055,3 +1055,9 @@ input.submit-image-profile:hover {
         width: 100%;
     }
 }
+
+.error {
+    color: #FF0000;
+    font-weight: 100;
+    font-size: 15px;
+}

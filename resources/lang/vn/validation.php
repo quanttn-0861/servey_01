@@ -124,6 +124,7 @@ return [
         'required' => 'Thông tin bắt buộc',
         'remote' => 'Hãy sửa trừờng này.',
         'email' => 'Email không hợp lệ.',
+        're_password' => 'Không khớp với mật khẩu mới',
         'url' => 'Url không hợp lệ.',
         'date' => 'Ngày không hợp lệ.',
         'dateISO' => 'Vui lòng nhập ngày hợp lệ (ISO).',
