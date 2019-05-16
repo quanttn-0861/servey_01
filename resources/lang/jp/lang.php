@@ -262,6 +262,7 @@ return [
     'export_error' => 'Export error!',
     'create_other' => 'Create other survey',
     'not_permission_to_doing_this_survey' => 'You do not have permission to doing this survey!',
+    'has_replied_the_maximum_number_of_limit_replies' => 'You has replied the maximum number of limit replies!',
 
     /*
         date time format
