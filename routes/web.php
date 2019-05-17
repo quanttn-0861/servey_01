@@ -384,9 +384,9 @@ Route::group(['middleware' => 'profile'], function () {
             'as' => 'survey.create.get-json',
         ]);
 
-        Route::get('remove-cookie', [
-            'uses' => 'PreviewSurveyController@removeCookie',
-            'as' => 'survey.remove.cookie',
+        Route::get('remove-session', [
+            'uses' => 'PreviewSurveyController@removeSession',
+            'as' => 'survey.remove.session',
         ]);
     });
 });
