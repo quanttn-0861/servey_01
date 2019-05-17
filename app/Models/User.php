@@ -31,6 +31,7 @@ class User extends Authenticatable
         'status',
         'level',
         'background',
+        'confirmation_code',
     ];
     /**
      * The attributes that should be hidden for arrays.

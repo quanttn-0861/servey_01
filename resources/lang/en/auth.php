@@ -18,4 +18,7 @@ return [
     'failed_password' => 'The password field is required.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
     'requrie_login' => 'You may login to create survey!',
+    'register_success' => 'Registration complete',
+    'confirmation_email' => 'Please checking your email to confirm your account!',
+    'confirmation_failed' => 'Registration failed',
 ];

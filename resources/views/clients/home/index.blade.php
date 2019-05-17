@@ -13,6 +13,9 @@
             'class' => 'btn-show-pupup-login',
         ]) }}
     @endif
+    @if (Session::has('confirmation-failed'))
+        {!! Form::hidden('confirmation-failed', Session::get('confirmation-failed')) !!}
+    @endif
     <main class="site-main">
         <div id="home" class="section block-primary align-c">
             <div id="siteBg" class="site-bg">

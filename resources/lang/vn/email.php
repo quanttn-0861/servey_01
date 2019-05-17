@@ -55,10 +55,12 @@ return [
     'share' => 'Chia sẻ',
     'format_birthday_with_trans' => 'd-m-Y',
     'regards' => 'Trân trọng',
-    'hello' => 'Xin chào!',
+    'hello' => 'Xin chào',
     'start_survey' => 'Bắt đầu',
+    'active_account' => 'Kích hoạt tài khoản',
     'invite_email_subject' => 'Mời khảo sát',
     'manage_email_subject' => 'Quản lý khảo sát',
     'reminder_email_subject' => 'Nhắc nhở khảo sát',
+    'confirmation_register' => 'Bạn nhận được email này vì đã đăng ký tài khoản FSurvey, vui lòng click vào nút dưới đây để hoàn tất đăng ký tài khoản!',
     'thank_you' => 'Thank you',
 ];

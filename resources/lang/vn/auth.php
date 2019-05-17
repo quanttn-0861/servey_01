@@ -18,4 +18,7 @@ return [
     'failed_password' => 'Trường mật khẩu là bắt buộc.',
     'throttle' => 'Lần đăng nhập quá nhiều. Vui lòng thử lại :seconds Giây.',
     'requrie_login' => 'Bạn cần đăng nhập để bắt đầu với khảo sát đầu tiên!',
+    'register_success' => 'Đăng ký thành công',
+    'confirmation_email' => 'Vui lòng kiểm tra email để xác nhận tài khoản!',
+    'confirmation_failed' => 'Đăng ký thất bại',
 ];
