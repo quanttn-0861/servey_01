@@ -181,7 +181,8 @@ return [
     'merge_with_above_message' => [
         'confirm_merge_with_above' => 'Dữ liệu sẽ thay đổi khi hợp nhất 2 section. Bạn có muốn tiếp tục ?'
     ],
-
+    'input_emails_member_error_message' => 'Tài khoản này không có trong hệ thống !',
+    'emails_error_message' => 'Email này không đúng định dạng !',
     /*
     | 404 page
     */

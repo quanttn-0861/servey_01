@@ -44,6 +44,7 @@
     "jquery-validation": "^1.17.0",
     "lightweight-bootstrap": "0.0.1",
     "linkifyjs": "^2.1.6",
+    "lodash": "^4.17.11",
     "moment": "^2.21.0",
     "popper.js": "^1.14.3",
     "redis": "^2.7.1",

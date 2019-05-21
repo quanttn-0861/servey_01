@@ -248,6 +248,7 @@
                                     'autocomplete' => 'off',
                                     'placeholder' => trans('lang.email_placeholder'),
                                 ]) !!}
+                                <p class="text-danger input-emails-member-error"></p>
                                 <ul class="live-suggest-member-email"></ul>
                             </div>
                         </div>
