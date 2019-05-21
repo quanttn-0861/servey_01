@@ -235,6 +235,7 @@ $(document).ready(function () {
         var redirectSectionIds = [];
         var id;
         var detailResult = $('#detail-result-' + redirectQuestionId);
+        var surveyToken = $(this).attr('survey-token');
         detailResult.hide('slow');
         label.each(function () {
             var result = $(this).children('input');
@@ -250,7 +251,8 @@ $(document).ready(function () {
                 url: url,
                 dataType: 'json',
                 data: {
-                    id: id
+                    id: id,
+                    survey_token: surveyToken
                 },
                 success: function (data) {
                     if (data.success) {

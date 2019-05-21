@@ -1242,12 +1242,15 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         return $this->getResultOfQuestions($questions, $survey, $userRepo);
     }
 
-    public function getResultFromRedirectSection($section, $userRepo)
+    public function getResultFromRedirectSection($sections, $userRepo)
     {
-        $result[] = [
-            'section' => $section,
-            'question_result' => $this->getResultOfEachSection($section->survey, $userRepo, $section),
-        ];
+        $results = [];
+        foreach ($sections as $key => $section) {
+            $result[] = [
+                'section' => $section,
+                'question_result' => $this->getResultOfEachSection($section->survey, $userRepo, $section),
+            ];
+        }
 
         return $result;
     }

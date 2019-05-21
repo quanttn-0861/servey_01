@@ -184,7 +184,7 @@
                                                 </div>
                                             @endforeach
                                             <div class="item-answer">
-                                                {!! Form::button(trans('lang.see_more'), ['class' => 'btn btn-info see-more-result']) !!}
+                                                {!! Form::button(trans('lang.see_more'), ['class' => 'btn btn-info see-more-result', 'survey-token' => $survey->token]) !!}
                                             </div>
                                         @endif
                                     @elseif ($result['question_type'] == config('settings.question_type.checkboxes'))
