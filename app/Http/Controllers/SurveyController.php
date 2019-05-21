@@ -82,9 +82,9 @@ class SurveyController extends Controller
 
     public function create()
     {
-        if (Cookie::has('redirect_ids') || Cookie::has('section_id')) {
-            Cookie::queue(Cookie::forget('redirect_ids'));
-            Cookie::queue(Cookie::forget('section_id'));
+        if (Session::has('redirect_ids') || Session::has('section_id')) {
+            Session::forget('redirect_ids');
+            Session::forget('section_id');
         }
 
         return view('clients.survey.create.index');

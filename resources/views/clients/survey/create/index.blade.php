@@ -73,7 +73,7 @@
                             data-trigger="hover"
                             data-toggle="tooltip" title="@lang('lang.preview')">
                             <button type="button" class="btn btn-outline-light text-dark" id="preview-survey-btn"
-                                remove-cookie-url="{{ route('survey.remove.cookie') }}"
+                                remove-session-url="{{ route('survey.remove.session') }}"
                                 data-url="{{ route('survey.create.get-json') }}" url-location="{{ route('survey.create.preview') }}">
                                 <i class="fa fa-fw fa-eye text-dark"></i>
                             </button>

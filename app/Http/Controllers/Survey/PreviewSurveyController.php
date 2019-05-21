@@ -35,12 +35,12 @@ class PreviewSurveyController extends Controller
         try {
             $survey = json_decode(Session::get('data_preview'));
             $survey->background = $this->cutUrlImage($survey->background);
-            $sectionId = Cookie::has('section_id') ? Cookie::get('section_id') : null;
-            $redirectIds = Cookie::has('redirect_ids') ? Cookie::get('redirect_ids') : [null];
+            $sectionId = Session::has('section_id') ? Session::get('section_id') : null;
+            $redirectIds = Session::has('redirect_ids') ? Session::get('redirect_ids') : [null];
 
             if ($request->server->get('HTTP_CACHE_CONTROL') === config('settings.detect_page_refresh')) {
-                Cookie::queue(Cookie::forget('redirect_ids'));
-                Cookie::queue(Cookie::forget('section_id'));
+                Session::forget('section_id');
+                Session::forget('redirect_ids');
                 $sectionId = null;
                 $redirectIds = [null];
             }
@@ -74,18 +74,18 @@ class PreviewSurveyController extends Controller
             $survey = json_decode(Session::get('data_preview'));
             $sections = collect($survey->sections);
             $answerRedirectId = $request->answer_redirect_id ? $request->answer_redirect_id : null;
-            $redirectIds = Cookie::has('redirect_ids') ? Cookie::get('redirect_ids') : [null];
+            $redirectIds = Session::has('redirect_ids') ? Session::get('redirect_ids') : [null];
 
             if ($answerRedirectId) {
                 array_push($redirectIds, $answerRedirectId);
-                Cookie::queue(Cookie::make('redirect_ids', $redirectIds, 60));
+                Session::put('redirect_ids', $redirectIds);
             }
 
             $sections = $sections->whereIn('redirect_id', $redirectIds);
             $sectionIds = $sections->pluck('id')->all();
             $index = array_search($id, $sectionIds);
             $sectionId = $sectionIds[$index + 1];
-            Cookie::queue(Cookie::make('section_id', $sectionId, 60));
+            Session::put('section_id', $sectionId);
 
             return redirect()->route('survey.create.preview');
         } catch (Exception $e) {
@@ -99,17 +99,17 @@ class PreviewSurveyController extends Controller
             $survey = json_decode(Session::get('data_preview'));
             $sections = collect($survey->sections);
             $currentRedirectId = $request->current_redirect_id ? $request->current_redirect_id : null;
-            $redirectIds = Cookie::has('redirect_ids') ? Cookie::get('redirect_ids') : [null];
+            $redirectIds = Session::has('redirect_ids') ? Session::get('redirect_ids') : [null];
             $sections = $sections->whereIn('redirect_id', $redirectIds);
             $sectionIds = $sections->pluck('id')->all();
             $index = array_search($id, $sectionIds);
             $sectionId = $sectionIds[$index - 1];
-            Cookie::queue(Cookie::make('section_id', $sectionId, 60));
+            Session::put('section_id', $sectionId);
             $sectionRedirectIds = !is_null($currentRedirectId) ? $sections->where('redirect_id', $currentRedirectId)->pluck('id')->all() : [];
 
             if (count($sectionRedirectIds) && $sectionRedirectIds[0] == $id) {
                 array_pop($redirectIds);
-                Cookie::queue(Cookie::make('redirect_ids', $redirectIds, 60));
+                Session::put('redirect_ids', $redirectIds);
             }
 
             return redirect()->route('survey.create.preview');
@@ -118,11 +118,11 @@ class PreviewSurveyController extends Controller
         }
     }
 
-    public function removeCookie() {
+    public function removeSession() {
         
-        if (Cookie::has('section_id') || Cookie::has('redirect_ids')) {
-            Cookie::queue(Cookie::forget('redirect_ids'));
-            Cookie::queue(Cookie::forget('section_id'));
+        if (Session::has('redirect_ids') || Session::has('section_id')) {
+            Session::forget('redirect_ids');
+            Session::forget('section_id');
         }
 
         return response()->json([

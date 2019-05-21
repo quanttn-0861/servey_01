@@ -2828,7 +2828,7 @@ jQuery(document).ready(function () {
             return;
         }
 
-        $.get($(this).attr('remove-cookie-url'));        
+        $.get($(this).attr('remove-session-url'));        
 
         $.ajax({
             method: 'POST',
@@ -2838,6 +2838,7 @@ jQuery(document).ready(function () {
             }
         })
         .done(function (data) {
+            
             if (data.success) {
                 var redirectWindow = window.open(urlLocation, '_blank');
                 redirectWindow.location;
