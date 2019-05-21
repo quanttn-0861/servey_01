@@ -48,6 +48,7 @@ class ResultRepository extends BaseRepository implements ResultInterface
                         config('settings.question_type.long_answer'),
                         config('settings.question_type.date'),
                         config('settings.question_type.time'),
+                        config('settings.question_type.linear_scale'),
                     ])) {
                         $temp['content'] = $result['content'];
                     } elseif ($result['answer_id']) {

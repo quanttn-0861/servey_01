@@ -71,6 +71,9 @@
                 <!-- time -->
                 @elseif ($questionSetting == config('settings.question_type.time'))
                     @include ('clients.survey.detail.elements.time')
+                <!-- linear scale -->
+                @elseif ($questionSetting == config('settings.question_type.linear_scale'))
+                    @include ('clients.survey.detail.elements.linear_scale')
                 @endif
             @endif
             @if ($question->required)

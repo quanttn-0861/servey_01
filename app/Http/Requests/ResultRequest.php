@@ -31,6 +31,7 @@ class ResultRequest extends FormRequest
             config('settings.question_type.date'),
             config('settings.question_type.time'),
             config('settings.question_type.redirect'),
+            config('settings.question_type.linear_scale'),
         ]);
 
         $rules = [

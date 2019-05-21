@@ -419,7 +419,21 @@ $(document).ready(function() {
                 var result = {};
                 result.answer_id = '';
                 result.answer_type = '';
-                result.content = $(this).find('.input-answer-other').val();
+                
+                if ($(this).find('.input-answer-other').length) {
+                    result.content = $(this).find('.input-answer-other').val();
+                } else {
+                    $(this).find('.group-radio-answer').each(function () {
+
+                        if ($(this).prop('checked')) {
+                            result.content = $(this).closest('.content-column').find('.item-content-column').text();
+                            
+                            return false;
+                        } else {
+                            result.content = '';
+                        }
+                    })
+                }
                 results.push(result);
             } else {
                 var selectorAnswer = $(this).find('.choice-answer');
