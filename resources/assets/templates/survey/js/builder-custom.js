@@ -26,6 +26,7 @@ jQuery(document).ready(function () {
         var questionsUpdateId = [];
         var answersUpdateId = [];
         var redirectsUpdateId = [];
+        var linearScaleQuestions = $(document).find('.linear-scale-block');
 
         $('.form-line').map(function () {
             var type = $(this).attr('data-question-type');
@@ -42,6 +43,49 @@ jQuery(document).ready(function () {
                 }
             }
         })
+
+        if (linearScaleQuestions.length) {
+
+            $(linearScaleQuestions).each(function (key, question) {
+                var dataQuestionId = $(question).data('question-id');
+                var minValueElement = $(question).find(`select.min-value-${dataQuestionId}`);
+                var maxValueElement = $(question).find(`select.max-value-${dataQuestionId}`);
+                var minValueHidden = $(`input[name="min_value_hidden_${dataQuestionId}"]`).val();
+                var maxValueHidden = $(`input[name="max_value_hidden_${dataQuestionId}"]`).val();
+
+                createValueForLinearScaleQuestion(minValueElement, maxValueElement, minValueHidden, maxValueHidden);
+                $(question).find(`label.min-content-${dataQuestionId}`).text(minValueHidden);
+                $(question).find(`label.max-content-${dataQuestionId}`).text(maxValueHidden);
+
+                onChangeSelectElement(dataQuestionId, minValueElement, maxValueElement, question);
+            })
+        }
+    }
+
+    function createValueForLinearScaleQuestion(minElement, maxElement, minValueHidden = 1, maxValueHidden = 5) {
+        minElement.empty();
+        maxElement.empty();
+
+        for (var i = 0; i <= 1; i++) {
+            minElement.append(`<option value="${i}">${i}</option>`);
+        }
+
+        for (var i = 2; i <= 10; i++) {
+            maxElement.append(`<option value="${i}">${i}</option>`);
+        }
+
+        minElement.val(minValueHidden);
+        maxElement.val(maxValueHidden);
+    }
+
+    function onChangeSelectElement(questionId, minValueElement, maxValueElement, element) {
+        $(document).on('change', `select.min-value-${questionId}`, function () {
+            $(element).find(`label.min-content-${questionId}`).text(minValueElement.val());
+        });
+
+        $(document).on('change', `select.max-value-${questionId}`, function () {
+            $(element).find(`label.max-content-${questionId}`).text(maxValueElement.val());
+        });
     }
 
     function s4() {
@@ -473,6 +517,13 @@ jQuery(document).ready(function () {
                             var newRedirectsUpdateId = collect(question.answers).pluck('id').all();
                             redirectsUpdateId = [... new Set(redirectsUpdateId.concat(newRedirectsUpdateId))];
                         }
+
+                        if (question.type == 11) {
+                            tempData.min_value = question.min_value;
+                            tempData.max_value = question.max_value;
+                            tempData.min_content = question.min_content;
+                            tempData.max_content = question.max_content;
+                        }
                     }
 
                     if (type == 5) {
@@ -660,14 +711,6 @@ jQuery(document).ready(function () {
         }
     }
 
-    $(document).on('change', '#min-value', function () {
-        $('label.min-content').text($('#min-value :selected').text());
-    });
-
-    $(document).on('change', '#max-value', function () {
-        $('label.max-content').text($('#max-value :selected').text());
-    });
-
     // change question elements
     function changeQuestion(option) {
         var currentQuestion = option.closest('li.sort');
@@ -740,23 +783,14 @@ jQuery(document).ready(function () {
                     var element = $('<div></div>').html(data.html).children().first();
 
                     if (questionType == 11) {
-                        var minValue = element.find('#min-value');
-                        var maxValue = element.find('#max-value');
-                        minValue.empty();
-                        maxValue.empty();
+                        var minValueElement = element.find(`select.min-value-${questionId}`);
+                        var maxValueElement = element.find(`select.max-value-${questionId}`);
+                        
+                        createValueForLinearScaleQuestion(minValueElement, maxValueElement);
+                        element.find(`label.min-content-${questionId}`).text(minValueElement.val());
+                        element.find(`label.max-content-${questionId}`).text(maxValueElement.val());
 
-                        for (var i = 0; i <= 1; i++) {
-                            minValue.append(`<option value="${i}">${i}</option>`);
-                        }
-
-                        for (var i = 2; i <= 10; i++) {
-                            maxValue.append(`<option value="${i}">${i}</option>`);
-                        }
-
-                        minValue.val('1');
-                        maxValue.val('5');
-                        element.find('label.min-content').text(minValue.val());
-                        element.find('label.max-content').text(maxValue.val());
+                        onChangeSelectElement(questionId, minValueElement, maxValueElement, element);
                     }
 
                     if (window.questionSelected === null) {
