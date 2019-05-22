@@ -55,10 +55,12 @@ return [
     'share' => 'シェア',
     'format_birthday_with_trans' => 'm-d-Y',
     'regards' => 'Regards',
-    'hello' => 'Hello!',
+    'hello' => 'Hello',
     'start_survey' => 'Start survey',
+    'active_account' => 'Active your account now!',
     'invite_email_subject' => 'Invite Survey',
     'manage_email_subject' => 'Manage Survey',
     'reminder_email_subject' => 'Reminder Survey',
+    'confirmation_register' => 'あなたの新しいアカウントが作成されました。 下のボタンをクリックして登録を完了してください。',
     'thank_you' => 'Thank you',
 ];

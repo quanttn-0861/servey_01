@@ -55,10 +55,12 @@ return [
     'share' => 'Share',
     'format_birthday_with_trans' => 'm-d-Y',
     'regards' => 'Regards',
-    'hello' => 'Hello!',
+    'hello' => 'Hello',
     'start_survey' => 'Start survey',
+    'active_account' => 'Active your account now!',
     'invite_email_subject' => 'Invite Survey',
     'manage_email_subject' => 'Manage Survey',
     'reminder_email_subject' => 'Reminder Survey',
+    'confirmation_register' => 'Your new account has been created. Please click button bellow to complete the registration!',
     'thank_you' => 'Thank you',
 ];

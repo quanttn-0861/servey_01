@@ -6,6 +6,7 @@
     @include('clients.user.auth.register')
     @include('clients.user.auth.login')
     @include('clients.user.auth.forgot-password')
+    @include('clients.user.auth.confirm-password')
 @endif
 @include('clients.feedback.create')
 @include('clients.layout.footer')

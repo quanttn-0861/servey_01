@@ -41,7 +41,8 @@ $(document).ready(function () {
         })
         .done(function (data) {
             if (data) {
-                location.reload();
+                $('#modalRegister').modal('hide');
+                $('#modalConfirm').modal('show');
             }
         })
         .fail(function (data) {
@@ -105,4 +106,23 @@ $(document).ready(function () {
     $(document).on('focus', '.reset-password-email', function () {
         $('.send-mail-fail').addClass('hidden');
     });
+
+    if ($('input[name="confirmation-failed"]').val()) {
+        $('#modalConfirm').find('.modal-content').empty();
+        $('#modalConfirm').find('.modal-content').append(`
+            <div class="modal-header text-center">
+                <h3 class="modal-title w-100 dark-grey-text font-weight-bold my-3" id="myModalLabel">
+                    <strong>${$('input[name="confirmation-failed"]').val()}</strong>
+                </h3>
+                <button type="button" class="close btn-close-form" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-4">
+                <div class="text-center mb-3">
+                    ${Lang.get('lang.email_user_not_exist')}
+                </div>
+            </div>`);
+        $('#modalConfirm').modal('show');
+    }
 });

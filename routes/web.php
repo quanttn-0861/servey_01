@@ -309,6 +309,8 @@ Route::group(['namespace' => 'Auth'], function () {
 
     Route::post('register', 'RegisterController@register')->name('register');
 
+    Route::get('confirmation-register/{code}', 'RegisterController@confirmCode')->name('confirmation-register');
+
     Route::get('logout', 'LoginController@logout')->name('logout');
 
     Route::post('reset-password', 'ForgotPasswordController@sendMailResetPassword')->name('send-mail-reset-password');
