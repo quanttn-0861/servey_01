@@ -31,7 +31,7 @@
                             <div class="form-group row">
                                 {!! Form::label('name', trans('profile.name'), ['class' => 'col-sm-3 col-form-label-profile']) !!}
                                 <div class="col-sm-7">
-                                    {!! Form::text('name', $user->name, ['class' => 'form-control', 'required']) !!}
+                                    {!! Form::text('name', $user->name, ['class' => 'form-control', 'id' => 'name']) !!}
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -49,7 +49,7 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                {!! Form::label('gender', trans('profile.gender'), ['class' => 'col-sm-3 col-form-label-profile']) !!}
+                                {!! Form::label('gender', trans('profile.gender'), ['class' => 'col-sm-3 col-form-label-profile', 'id' => 'gender']) !!}
                                 <div class="col-sm-7">
                                     <label class="container-radio">
                                         {{ Form::radio('gender', config('users.gender.male'), '',
@@ -72,12 +72,13 @@
                                         @lang('profile.other')
                                         <span class="radiobtn"></span>
                                     </label>
+                                    <label id="gender-error" class="error" for="gender"></label>
                                 </div>
                             </div>
                             <div class="form-group row">
                                 {!! Form::label('phone', trans('profile.phone'), ['class' => 'col-sm-3 col-form-label-profile']) !!}
                                 <div class="col-sm-7">
-                                    {!! Form::text('phone', $user->phone, ['class' => 'form-control']) !!}
+                                    {!! Form::text('phone', $user->phone, ['class' => 'form-control', 'id' => 'phone']) !!}
                                 </div>
                             </div>
                             <div class="form-group row">

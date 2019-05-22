@@ -116,6 +116,37 @@ $(document).ready(function () {
             }
         }
     });
+
+    $.validator.addMethod("validateSpace", function (value, element) {
+        return this.optional(element) || /^\S/.test(value);
+    }, Lang.get('validation.msg.required'));
+
+    $("#form-update-profile").validate({
+        debug: false,
+        rules: {
+            "name": {
+                required: true,
+                validateSpace: true,
+            },
+            "phone": {
+                number: true,
+            },
+            "gender": {
+                required: true,
+            },
+        },
+        messages: {
+            "name": {
+                required: Lang.get('validation.msg.required'),
+            },
+            "phone": {
+                number: Lang.get('validation.msg.number'),
+            },
+            "gender": {
+                required: Lang.get('validation.msg.required'),
+            },
+        }
+    });
 });
 
 function listSurvey(url, flag = 'form-search') {
