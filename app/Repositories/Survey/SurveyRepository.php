@@ -421,6 +421,18 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
             $question = $questionRepo->withTrashed()->where('id', $key)->first();
             $question->update($value);
+            
+            if ($question->type == config('settings.question_type.linear_scale')) {
+                $valueSetting = json_encode([
+                    'min_value' => $value['min_value'],
+                    'max_value' => $value['max_value'],
+                    'min_content' => $value['min_content'],
+                    'max_content' => $value['max_content'],
+                ]);
+                $question->settings()->update([
+                    'value' => $valueSetting,
+                ]);
+            }
 
             if ($question->type == config('settings.question_type.date')) {
                 $question->settings()->first()->update([

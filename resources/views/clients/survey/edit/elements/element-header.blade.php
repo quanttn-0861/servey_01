@@ -45,6 +45,11 @@
                     @elseif ($question->type == config('settings.question_type.redirect'))
                         <span class="fa fa-fw fa-sitemap redirect-icon"></span>
                         <span class="option-menu-content">@lang('lang.redirect')</span>
+                    @elseif ($question->type == config('settings.question_type.linear_scale'))
+                        <span>
+                            {{ Html::image(asset(config('settings.linear_scale_icon')), null, ['class' => 'linear-scale']) }}
+                        </span>
+                        <span class="option-menu-content">@lang('lang.linear_scale')</span>
                     @endif
                 </div>
                 <ul class="survey-select-options">
@@ -78,6 +83,13 @@
                     <li data-type="{{ config('settings.question_type.redirect') }}" data-url="{{ route('ajax-fetch-redirect-question') }}" class="clearfix">
                         <span class="fa fa-fw fa-sitemap redirect-icon"></span>
                         <span class="option-menu-content">@lang('lang.redirect')</span>
+                    </li>
+                    <li data-type="{{ config('settings.question_type.linear_scale') }}"
+                        data-url="{{ route('ajax-fetch-linear-scale-question') }}" class="clearfix">
+                        <span>
+                            {{ Html::image(asset(config('settings.linear_scale_icon')), null, ['class' => 'linear-scale']) }}
+                        </span>
+                        <span class="option-menu-content">@lang('lang.linear_scale')</span>
                     </li>
                 </ul>
             </div>
