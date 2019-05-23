@@ -61,7 +61,16 @@
                         @endif
                         @foreach ($result->groupBy('question_id') as $answers)
                             @if ($answers->count() == 1)
-                                <td>{!! $answers->first()->content_answer !!}</td>
+                                @if($answers->first()->question->settings->first()->key == config('settings.question_type.linear_scale'))
+                                    @php
+                                        $settingValue = $answers->first()->question->setting_value;
+                                    @endphp
+                                    <td>
+                                        {!! $answers->first()->content_answer !!} ( {{ $settingValue->min_value }} = {{ $settingValue->min_content }}, {{ $settingValue->max_value }} = {{ $settingValue->max_content }} )
+                                    </td>
+                                @else
+                                    <td>{!! $answers->first()->content_answer !!}</td>
+                                @endif
                             @else
                                 <td>
                                     {{ $answers->implode('content_answer', ', ') }}
