@@ -126,6 +126,19 @@ function results() {
         createPieChart($(this).attr('id'), dataRedirect, true);
     });
 
+    $('.linearscale-result').each(function() {
+        var value = $(this).data('linear');
+        var text = createDataLinrearForChart($(this).attr('data'), value);
+        var dataLinearScale = $.parseJSON(text);
+        var arrLinear = [];
+
+        for (var i = parseInt(value.min_value); i <= parseInt(value.max_value); i++) {
+            arrLinear.push(i);
+        }
+
+        createBarChartColumn($(this).attr('id'), dataLinearScale, value, arrLinear);
+    });
+
     // excel option menu
     $('.option-menu-group').on('click', function(e) {
         e.stopPropagation();
@@ -144,6 +157,51 @@ function results() {
     $(document).on('click', '.submit-export-excel', function(event) {
         event.preventDefault();
         $('.info-export').submit();
+    });
+}
+
+function createBarChartColumn(id, data, value, arr = []) {
+    Highcharts.chart(id, {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: ''
+        },
+        subtitle: {
+            text: ''
+        },
+        xAxis: {
+            type: 'category',
+            categories: arr,
+        },
+        yAxis: {
+            title: {
+                text: ''
+            }
+        },
+        legend: {
+            enabled: false
+        },
+        tooltip: {
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+        },
+        series: [{
+            name: 'Population',
+            data: data,
+            dataLabels: {
+                enabled: true,
+                rotation: -90,
+                color: '#FFFFFF',
+                align: 'right',
+                format: '{point.y:.1f}', // one decimal
+                y: 10, // 10 pixels down from the top
+                style: {
+                    fontSize: '13px',
+                    fontFamily: 'Verdana, sans-serif'
+                }
+            }
+        }]
     });
 }
 
@@ -299,6 +357,18 @@ function createPieChart(id, data, redirect = false) {
     });
 }
 
+function createDataLinrearForChart(data, value) {
+    var newData = $.parseJSON(data.replace(/\\r\\n/g, " / "));
+    var text = '';
+
+    $.each(newData, function(index, item) {
+        text += `{"name": ${item['content']}, "y": ${item['percent']}}`;
+        text += (index == newData.length - 1) ? '' : ',';
+    });
+
+    return '[' + text + ']';
+}
+
 function createDataForChart(data) {
     var newData = $.parseJSON(data.replace(/\\r\\n/g, " / "));
     var text = '';
@@ -314,9 +384,7 @@ function createDataForChart(data) {
         text += (index == newData.length - 1) ? '' : ',';
     });
 
-    text = '[' + text + ']';
-
-    return text;
+    return '[' + text + ']';
 }
 
 function subResults() {

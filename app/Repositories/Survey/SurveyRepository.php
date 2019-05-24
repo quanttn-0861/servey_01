@@ -1270,6 +1270,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                     config('settings.question_type.long_answer'),
                     config('settings.question_type.date'),
                     config('settings.question_type.time'),
+                    config('settings.question_type.linear_scale'),                    
                 ])) {
                     $resultQuestion = $this->getTextQuestionResult($question, $survey, $userRepo);
                 } else {
