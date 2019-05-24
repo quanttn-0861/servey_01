@@ -51,31 +51,6 @@
             </div>
             <div class="bottom-bar">
                 <div class="container center">
-                    <ul class="social-icons list-inline">
-                        <li class="list-inline-item">
-                            <a href="{{ config('settings.company.twitter_company') }}"><i class="fa fa-twitter"></i></a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="{{ config('settings.company.fb_company') }}">
-                                <i class="fa fa-facebook"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="{{ config('settings.company.github_company') }}">
-                                <i class="fa fa-github"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="{{ config('settings.company.linkedin_company') }}">
-                                <i class="fa fa-linkedin"></i>
-                            </a>
-                        </li>
-                        <li class="last list-inline-item">
-                            <a href="#">
-                                <i class="fa fa-google-plus"></i>
-                            </a>
-                        </li>
-                    </ul>
                     <small class="copyright text-center">@lang('lang.copyright')</small>
                 </div>
             </div>

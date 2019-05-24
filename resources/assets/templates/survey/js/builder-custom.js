@@ -484,10 +484,10 @@ jQuery(document).ready(function () {
             if (type == 10) {
                 question.require = 1;
             } else if (type == 11) {
-                question.min_value = $(parentElement).find('#min-value').val();
-                question.max_value = $(parentElement).find('#max-value').val();
-                question.min_content = $(parentElement).find('input.min-content').val();
-                question.max_content = $(parentElement).find('input.max-content').val();
+                question.min_value = $(parentElement).find(`select.min-value-${questionId}`).val();
+                question.max_value = $(parentElement).find(`select.max-value-${questionId}`).val();
+                question.min_content = $(parentElement).find(`input.min-content-${questionId}`).val();
+                question.max_content = $(parentElement).find(`input.max-content-${questionId}`).val();
                 question.require = require !== undefined ? parseInt(require.value) : 0;
             } else {
                 var require = data.find(item => item.name === `require[section_${sectionId}][question_${questionId}]`);
@@ -510,19 +510,19 @@ jQuery(document).ready(function () {
                     tempData.order = orderQuestion;
                     tempData.required = question.require;
 
+                    if (question.type == 11) {
+                        tempData.min_value = question.min_value;
+                        tempData.max_value = question.max_value;
+                        tempData.min_content = question.min_content;
+                        tempData.max_content = question.max_content;
+                    }
+
                     if (question.status == 1) {
                         tempData.update = question.status;
 
-                        if (question.type = 10) {
+                        if (question.type == 10) {
                             var newRedirectsUpdateId = collect(question.answers).pluck('id').all();
                             redirectsUpdateId = [... new Set(redirectsUpdateId.concat(newRedirectsUpdateId))];
-                        }
-
-                        if (question.type == 11) {
-                            tempData.min_value = question.min_value;
-                            tempData.max_value = question.max_value;
-                            tempData.min_content = question.min_content;
-                            tempData.max_content = question.max_content;
                         }
                     }
 
