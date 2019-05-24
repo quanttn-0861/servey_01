@@ -1374,6 +1374,11 @@ nav ul a:hover {
     background-color: #f1f1f1;
     border-radius: 4px !important;
     margin-top: 2px;
+    width: 105%;
+}
+
+.option-linear-scale {
+    margin-right: 2%;
 }
 
 .survey-select-styled:after {
