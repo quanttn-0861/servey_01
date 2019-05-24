@@ -22,7 +22,9 @@ class PreviewSurveyController extends Controller
         }
 
         $data = $request->data;
-        $request->Session()->put('data_preview', $data);
+        $request->session()->put('data_preview', $data);
+        $request->session()->forget('section_id');
+        $request->session()->forget('redirect_ids');
 
         return response()->json([
             'success' => true,
@@ -33,14 +35,14 @@ class PreviewSurveyController extends Controller
     public function preview(Request $request)
     {
         try {
-            $survey = json_decode(Session::get('data_preview'));
+            $survey = json_decode($request->session()->get('data_preview'));
             $survey->background = $this->cutUrlImage($survey->background);
-            $sectionId = Session::has('section_id') ? Session::get('section_id') : null;
-            $redirectIds = Session::has('redirect_ids') ? Session::get('redirect_ids') : [null];
+            $sectionId = $request->session()->has('section_id') ? $request->session()->get('section_id') : null;
+            $redirectIds = $request->session()->has('redirect_ids') ? $request->session()->get('redirect_ids') : [null];
 
             if ($request->server->get('HTTP_CACHE_CONTROL') === config('settings.detect_page_refresh')) {
-                Session::forget('section_id');
-                Session::forget('redirect_ids');
+                $request->session()->forget('section_id');
+                $request->session()->forget('redirect_ids');
                 $sectionId = null;
                 $redirectIds = [null];
             }
@@ -71,21 +73,21 @@ class PreviewSurveyController extends Controller
     public function nextSection(Request $request, $id)
     {
         try {
-            $survey = json_decode(Session::get('data_preview'));
+            $survey = json_decode($request->session()->get('data_preview'));
             $sections = collect($survey->sections);
             $answerRedirectId = $request->answer_redirect_id ? $request->answer_redirect_id : null;
-            $redirectIds = Session::has('redirect_ids') ? Session::get('redirect_ids') : [null];
+            $redirectIds = $request->session()->has('redirect_ids') ? $request->session()->get('redirect_ids') : [null];
 
             if ($answerRedirectId) {
                 array_push($redirectIds, $answerRedirectId);
-                Session::put('redirect_ids', $redirectIds);
+                $request->session()->put('redirect_ids', $redirectIds);
             }
 
             $sections = $sections->whereIn('redirect_id', $redirectIds);
             $sectionIds = $sections->pluck('id')->all();
             $index = array_search($id, $sectionIds);
             $sectionId = $sectionIds[$index + 1];
-            Session::put('section_id', $sectionId);
+            $request->session()->put('section_id', $sectionId);
 
             return redirect()->route('survey.create.preview');
         } catch (Exception $e) {
@@ -96,20 +98,20 @@ class PreviewSurveyController extends Controller
     public function previousSection(Request $request, $id)
     {
         try {
-            $survey = json_decode(Session::get('data_preview'));
+            $survey = json_decode($request->session()->get('data_preview'));
             $sections = collect($survey->sections);
             $currentRedirectId = $request->current_redirect_id ? $request->current_redirect_id : null;
-            $redirectIds = Session::has('redirect_ids') ? Session::get('redirect_ids') : [null];
+            $redirectIds = $request->session()->has('redirect_ids') ? $request->session()->get('redirect_ids') : [null];
             $sections = $sections->whereIn('redirect_id', $redirectIds);
             $sectionIds = $sections->pluck('id')->all();
             $index = array_search($id, $sectionIds);
             $sectionId = $sectionIds[$index - 1];
-            Session::put('section_id', $sectionId);
+            $request->session()->put('section_id', $sectionId);
             $sectionRedirectIds = !is_null($currentRedirectId) ? $sections->where('redirect_id', $currentRedirectId)->pluck('id')->all() : [];
 
             if (count($sectionRedirectIds) && $sectionRedirectIds[0] == $id) {
                 array_pop($redirectIds);
-                Session::put('redirect_ids', $redirectIds);
+                $request->session()->put('redirect_ids', $redirectIds);
             }
 
             return redirect()->route('survey.create.preview');
@@ -118,11 +120,11 @@ class PreviewSurveyController extends Controller
         }
     }
 
-    public function removeSession() {
+    public function removeSession(Request $request) {
         
-        if (Session::has('redirect_ids') || Session::has('section_id')) {
-            Session::forget('redirect_ids');
-            Session::forget('section_id');
+        if ($request->session()->has('redirect_ids') || $request->session()->has('section_id')) {
+            $request->session()->forget('redirect_ids');
+            $request->session()->forget('section_id');
         }
 
         return response()->json([
