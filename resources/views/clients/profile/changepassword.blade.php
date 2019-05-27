@@ -28,7 +28,13 @@
                             <div class="form-group row">
                                 {!! Form::label('oldpassword', trans('profile.old_password'), ['class' => 'col-sm-3 col-form-label-profile']) !!}
                                 <div class="col-sm-7">
-                                    {!! Form::password('oldpassword', ['class' => 'form-control', 'required', 'placeholder' => trans('lang.password_placeholder')]) !!}
+                                    {!! Form::password('oldpassword', [
+                                        'id' => 'oldpassword',
+                                        'class' => 'form-control',
+                                        'required',
+                                        'placeholder' => trans('lang.password_placeholder'),
+                                        ]) !!}
+                                    <span class="error change-password-messages"></span>
                                 </div>
                             </div>
                             <div class="form-group row">

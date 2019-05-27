@@ -159,26 +159,23 @@ class ProfileController extends Controller
 
             if (!Hash::check($request->oldpassword, $user->password)) {
                 $error = trans('profile.password_wrong');
-                throw new Exception('Old password wrong');
-            }
-
-            if ($request->newpassword != $request->retypepassword) {
-                $error = trans('profile.password_confirm_wrong');
-                throw new Exception('Password confirm wrong!');
+                
+                return response()->json([
+                    'success' => false, 
+                    'error' => $error
+                ]);
             }
 
             $updateData['password'] = $request->newpassword;
             $this->userRepository->updateUser($user, $updateData);
             Session::flash('success', trans('profile.edit_success'));
+
+            return response()->json([
+                'success' => true,
+            ]);
         } catch (Exception $e) {
-            if (!isset($error)) {
-                $error = trans('profile.edit_error');
-            }
-
-            Session::flash('error', $error);
+            return redirect()->back()->with('error', trans('profile.edit_error'));
         }
-
-        return redirect()->back();
     }
 
     public function changeAvatar(UpdateImageRequest $request)

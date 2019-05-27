@@ -102,7 +102,29 @@ $(document).ready(function () {
             $('.email-reset-messages').text(errors.email);
         });
     });
+    $(document).on('submit', '#change-password', function (e) {
+        e.preventDefault();
+        $.ajax({
+            method: $(this).attr('method'),
+            url: $(this).attr('action'),
+            data: $(this).serialize(),
+            dataType: 'json'
+        })
+        .done(function (data) {
+            if (data.success) {
+                location.reload();
+            } else {
+                $('.change-password-messages').text(data.error);
+                $('#oldpassword').css('border-color', 'red');
+            }
+        })
+    });
 
+    $(document).on('focus', '#oldpassword', function () {
+        $('.change-password-messages').text('');
+        $('#oldpassword').css('border-color', '#ced4da');
+    });
+    
     $(document).on('focus', '.reset-password-email', function () {
         $('.send-mail-fail').addClass('hidden');
     });
