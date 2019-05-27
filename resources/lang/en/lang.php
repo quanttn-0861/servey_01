@@ -380,7 +380,7 @@ return [
     'edit' => 'Edit',
     'edit_status_user_error' => 'Edit unccessfull!',
     //export
-    'framgia_vn' => 'Framgia Vietnam Company',
+    'sun_asterisk_vn' => 'Sun-Asterisk Vietnam Company',
 
     /*
         Result

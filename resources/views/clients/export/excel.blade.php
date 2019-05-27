@@ -13,7 +13,7 @@
         <tbody>
             <tr>
                 <td height="20" colspan="4">
-                    <h3>@lang('lang.framgia_vn')</h3>
+                    <h3>@lang('lang.sun_asterisk_vn')</h3>
                 </td>
             </tr>
             <tr>
@@ -43,8 +43,16 @@
                         config('settings.question_type.image'),
                         config('settings.question_type.video'),
                     ]))
-                        <th width="30">{!! $question['title'] !!}</th>
+                        @if($question->settings->first()->key == config('settings.question_type.linear_scale'))
+                            @php
+                                $settingValue = $question->setting_value;
+                            @endphp
+                            <th width="50">{!! $question['title'] !!} ( {{ $settingValue->min_value }} = {{ $settingValue->min_content }}, {{ $settingValue->max_value }} = {{ $settingValue->max_content }} )</th>
+                        @else
+                            <th width="30">{!! $question['title'] !!}</th>
+                        @endif
                     @endif
+                   
                 @endforeach
             </tr>
         </thead>
@@ -61,16 +69,7 @@
                         @endif
                         @foreach ($result->groupBy('question_id') as $answers)
                             @if ($answers->count() == 1)
-                                @if($answers->first()->question->settings->first()->key == config('settings.question_type.linear_scale'))
-                                    @php
-                                        $settingValue = $answers->first()->question->setting_value;
-                                    @endphp
-                                    <td>
-                                        {!! $answers->first()->content_answer !!} ( {{ $settingValue->min_value }} = {{ $settingValue->min_content }}, {{ $settingValue->max_value }} = {{ $settingValue->max_content }} )
-                                    </td>
-                                @else
-                                    <td>{!! $answers->first()->content_answer !!}</td>
-                                @endif
+                                <td>{!! $answers->first()->content_answer !!}</td>
                             @else
                                 <td>
                                     {{ $answers->implode('content_answer', ', ') }}
