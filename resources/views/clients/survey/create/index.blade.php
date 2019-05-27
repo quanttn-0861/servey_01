@@ -113,7 +113,7 @@
                             ]) !!}
                         </div>
                         <label>@lang('lang.time')</label>
-                        <div class="form-group form-row">
+                        <div class="form-group form-row time-survey">
                             <div class="col">
                                 {!! Form::text('start_time', '', [
                                     'class' => 'form-control datetimepicker-input start-time',

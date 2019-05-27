@@ -132,7 +132,7 @@ return [
         'digits' => 'Xin vui lòng chỉ nhập các chữ số.',
         'creditcard' => 'Số thẻ tín dụng không hợp lệ.',
         'equalTo' => 'Vui lòng nhập giá trị tương tự một lần nữa.',
-        'maxlength' => 'Hãy nhập không lớn hơn {0} ký tự.',
+        'maxlength' => 'Chỉ được phép nhập tối đa {0} ký tự.',
         'minlength' => 'Hãy nhập ít nhất {0} ký tự.',
         'rangelength' => 'Hãy nhập một giá trị giữa {0} và {1} ký tự.',
         'range' => 'Hãy nhập một giá trị giữa {0} và {1}.',
