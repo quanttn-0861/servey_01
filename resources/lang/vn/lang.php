@@ -379,7 +379,7 @@ return [
     'edit' => 'Chỉnh sửa',
     'edit_status_user_error' => 'Chỉnh sửa không thành công!',
     //export
-    'framgia_vn' => 'Công ty Framgia Việt Nam',
+    'sun_asterisk_vn' => 'Công ty Sun-Asterisk Việt Nam',
 
     /*
         Result

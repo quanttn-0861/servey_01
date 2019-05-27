@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Survey;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Survey\SurveyInterface;
+use PHPExcel_Style_Alignment;
 use Excel;
 use Exception;
 
@@ -34,13 +35,19 @@ class ExportController extends Controller
                     $excel->sheet($title, function($sheet) use ($title, $data, $survey) {
                         $data['title'] = $title;
                         $sheet->loadView('clients.export.excel', compact('data', 'survey'));
-                        $sheet->setOrientation('landscape');
+                        $sheet->setOrientation('landscape')
+                        ->getDefaultStyle()
+                        ->getAlignment()
+                        ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                     });
                 } else {
                     foreach ($data as $dataRedirect) {
                         $excel->sheet($dataRedirect['title'], function($sheet) use ($dataRedirect, $survey) {
                             $sheet->loadView('clients.export.excel', ['data' => $dataRedirect, 'survey' => $survey]);
-                            $sheet->setOrientation('landscape');
+                            $sheet->setOrientation('landscape')
+                            ->getDefaultStyle()
+                            ->getAlignment()
+                            ->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);;
                         });
                     }
                 }
