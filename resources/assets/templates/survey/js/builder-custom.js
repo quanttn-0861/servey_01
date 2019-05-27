@@ -1109,7 +1109,8 @@ jQuery(document).ready(function () {
             } else {
                 $('#end-time-error').empty();
             }
-            $('.form-row').css('margin-bottom', '3rem');
+            $('.form-row').css('margin-bottom', '1rem');
+            $('.form-group.form-row').css('margin-bottom', '3rem');
         }
     });
 
