@@ -80,12 +80,9 @@ class SurveyController extends Controller
         return view('clients.home.index', compact('data'));
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        if (Session::has('redirect_ids') || Session::has('section_id')) {
-            Session::forget('redirect_ids');
-            Session::forget('section_id');
-        }
+        $request->session()->forget(['data_preview', 'redirect_ids', 'section_id']);
 
         return view('clients.survey.create.index');
     }
@@ -322,12 +319,9 @@ class SurveyController extends Controller
         ]);
     }
 
-    public function edit($tokenManage)
+    public function edit(Request $request, $tokenManage)
     {
-        if (Cookie::has('redirect_ids') || Cookie::has('section_id')) {
-            Cookie::queue(Cookie::forget('redirect_ids'));
-            Cookie::queue(Cookie::forget('section_id'));
-        }
+        $request->session()->forget(['data_preview', 'redirect_ids', 'section_id']);
 
         // check survey owner authorization
         // check survey exists with token manage and get data

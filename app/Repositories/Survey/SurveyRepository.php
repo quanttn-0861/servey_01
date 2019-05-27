@@ -99,6 +99,10 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         $inviteData = $data['invited_email'];
 
         if (count($inviteData['emails'])) {
+
+            if ($data['setting']['privacy'] == config('settings.survey_setting.privacy.private')) {
+                array_push($inviteData['emails'], Auth::user()->email);
+            }
             $inviteMails = $this->formatInviteMailsString($inviteData['emails']);
 
             $survey->invite()->create([
