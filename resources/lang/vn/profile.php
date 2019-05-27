@@ -12,7 +12,7 @@ return [
     'edit_error' => 'Thay đổi thất bại!',
     'edit_success' => 'Thay đổi thành công!',
     'password_confirm_wrong' => 'Sai mật khẩu xác nhận!',
-    'password_wrong' => 'Sai mật khẩu cũ!',
+    'password_wrong' => 'Mật khẩu cũ không đúng!',
     'change' => 'Thay đổi',
     'male' => 'Nam',
     'female' => 'Nữ',
