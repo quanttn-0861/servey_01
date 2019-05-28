@@ -604,6 +604,21 @@ jQuery(document).ready(function () {
                 question.min_content = $(parentElement).find(`input.min-content-${questionId}`).val();
                 question.max_content = $(parentElement).find(`input.max-content-${questionId}`).val();
                 question.require = require !== undefined ? parseInt(require.value) : 0;
+            } else if (type == 12) {
+                var subQuestions = [];
+                var listOfRow = $('.list-of-row').find('.row-column-content');
+                listOfRow.each(function () {
+                    subQuestions.push($(this).find('.sub-question-input').val());
+                });
+                question.subQuestion = subQuestions;
+
+                var colQuestions = [];
+                var listOfColumn = $('.list-of-column').find('.row-column-content');
+                listOfColumn.each(function () {
+                    colQuestions.push($(this).find('.sub-question-option').val());
+                });
+                question.listColumn = colQuestions;
+                question.require = require !== undefined ? parseInt(require.value) : 0;
             } else {
                 var require = data.find(item => item.name === `require[section_${sectionId}][question_${questionId}]`);
                 question.require = require !== undefined ? parseInt(require.value) : 0; // 0: No require, 1: Require

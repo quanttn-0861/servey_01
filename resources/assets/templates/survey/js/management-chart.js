@@ -34,6 +34,10 @@ function getOverviewSurvey() {
                 enableMouseTracking: false
             }
         },
+        
+        credits: {
+            enabled: false,
+        },
 
         series: [{
             name: '',

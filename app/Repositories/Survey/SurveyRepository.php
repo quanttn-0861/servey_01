@@ -168,6 +168,24 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
                         $valueSetting = json_encode($attributes);
                     }
+
+                    if ($question['type'] == config('settings.question_type.grid')) {
+                        $valueGrids = $question['subQuestion'];
+                        $orderSubQuestion = 0;
+
+                        foreach($valueGrids as $subQuestion) {
+                            $subQuestionData['title'] = $subQuestion;
+                            $subQuestionData['description'] = '';
+                            $subQuestionData['required'] = config('settings.question.not_required');
+                            $subQuestionData['order'] = ++ $orderSubQuestion;
+                            $subQuestionData['update'] = config('settings.survey.question_update.default');
+                            $subQuestionData['main_id'] = $questionCreated->id;
+                            $sectionCreated->questions()->create($subQuestionData);
+                        }
+
+                        $valueSetting = json_encode($question['listColumn']);
+                    }
+
                     $questionCreated->settings()->create([
                         'key' => $question['type'],
                         'value' => $valueSetting,

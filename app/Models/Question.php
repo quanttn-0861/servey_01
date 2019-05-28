@@ -16,6 +16,7 @@ class Question extends Model
         'order',
         'update',
         'section_id',
+        'main_id',
     ];
 
     protected $appends = [
