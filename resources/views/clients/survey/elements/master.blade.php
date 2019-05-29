@@ -58,6 +58,10 @@
                         <span>{{ Html::image(asset(config('settings.linear_scale_icon')), null, ['class' => 'linear-scale']) }}</span>
                         <span class="option-menu-content option-linear-scale">@lang('lang.linear_scale')</span>
                     </li>
+                    <li data-type="{{ config('settings.question_type.grid') }}" data-url="{{ route('ajax-fetch-grid-question') }}" class="clearfix">
+                        <span class="fa fa-th grid-quetion-icon"></span>
+                        <span class="option-menu-content option-grid">@lang('lang.grid')</span>
+                    </li>
                 </ul>
             </div>
         </div>

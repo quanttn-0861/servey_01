@@ -397,4 +397,29 @@ class ElementFetchingController extends Controller
             'html' => view('clients.survey.elements.section-redirect')->with($data)->render(),
         ]);
     }
+
+    public function fetchGridQuestion(Request $request)
+    {
+        if (!$request->ajax()) {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+
+        $sectionId = $request->sectionId;
+        $questionId = $request->questionId;
+        $imageURL = $request->imageURL;
+
+        $image = $imageURL ? view('clients.survey.elements.image-question', compact('imageURL'))->render() : '';
+
+        return response()->json([
+            'success' => true,
+            'html' => view('clients.survey.elements.grid', compact(
+                'sectionId',
+                'questionId',
+                'imageURL'
+            ))->render(),
+            'image' => $image,
+        ]);
+    }
 }

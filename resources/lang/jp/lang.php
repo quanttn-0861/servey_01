@@ -392,4 +392,9 @@ return [
     'linear_scale' => 'Linear Scale',
     'to' => 'to',
     'label_option' => 'Label (option)',
+    'grid' => 'Multiple-choice grid',
+    'row' => 'Row',
+    'add_row' => 'Add row',
+    'column' => 'Column',
+    'add_column' => 'Add column',
 ];

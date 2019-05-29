@@ -4249,3 +4249,94 @@ div .min-value {
 .time-survey {
     margin-bottom: 3rem !important;
 }
+
+.grid-quetion-icon {
+    font-size: 19px;
+    margin-left: 4%;
+    float: left;
+    margin-top: 2%;
+}
+
+.grid-question-block {
+    display: flex;
+}
+
+.list-of-row-column {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.row-column-element {
+    margin-bottom: 3%;
+    padding-left: 5%;
+}
+
+.row-column-content {
+    margin-bottom: 5%;
+}
+
+.sub-question-content {
+    display: flex;
+    padding-left: 5%;
+    width: 80%;
+    margin-bottom: 3%;
+}
+
+.row-index {
+    margin: 5% 5% 0% -5%;
+}
+
+.sub-question-content > input[type="text"] {
+    max-width: none;
+    width: 180px;
+}
+
+.delete-row {
+    padding-top: 5%;
+    margin-left: 10%;
+    font-size: 18px;
+    cursor: pointer;
+    opacity: .6;
+    display: none;
+}
+
+.delete-column {
+    padding-top: 5%;
+    margin-left: 10%;
+    font-size: 18px;
+    cursor: pointer;
+    opacity: .6;
+    display: none;
+}
+
+span > div.draggable-area {
+    float: left;
+    transform: rotate(90deg);
+    bottom: 5px;
+    display: none;
+}
+
+.column-icon {
+    font-size: 25px;
+    opacity: .65;
+    margin: 5% 9% 0% -10%;
+}
+
+.add-more-row {
+    display: inline-block;
+    cursor: pointer;
+    color: #4285f4;
+    font-weight: bold;
+    font-size: 15px;
+    margin-left: 13%;
+}
+
+.add-more-column {
+    display: inline-block;
+    cursor: pointer;
+    color: #4285f4;
+    font-weight: bold;
+    font-size: 15px;
+    margin-left: 13%;
+}
