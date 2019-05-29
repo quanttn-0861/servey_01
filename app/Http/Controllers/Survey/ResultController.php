@@ -141,13 +141,13 @@ class ResultController extends Controller
 
     public function getPersonalResult(Request $request)
     {
-        $section = $this->sectionRepository->getSectionFromRedirectId($request->id);
-        $details = $this->resultRepository->getResultFromToken($request->token, $section);
+        $sections = $this->sectionRepository->getSectionFromRedirectId($request->id);
+        $details = $this->resultRepository->getResultFromToken($request->token, $sections);
 
         return response()->json([
             'success' => true,
-            'html' => view('clients.survey.result.personal_redirect_result', compact([
-                'section',
+            'html' => view('clients.survey.result.get_personal_ajax', compact([
+                'sections',
                 'details',
             ]))->render(),
         ]);

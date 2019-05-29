@@ -16,5 +16,5 @@ interface ResultInterface
 
     public function deleteFromSurvey($survey);
 
-    public function getResultFromToken($token, $section);
+    public function getResultFromToken($token, $sections);
 }

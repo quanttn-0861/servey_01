@@ -158,9 +158,15 @@ class ResultRepository extends BaseRepository implements ResultInterface
         return $survey->results()->withTrashed()->forceDelete();
     }
 
-    public function getResultFromToken($token, $section)
+    public function getResultFromToken($token, $sections)
     {
-        return $this->model->withTrashed()->where('token', $token)
-            ->whereIn('question_id', $section->questions->pluck('id')->all())->get();
+        $results = [];
+
+        foreach ($sections as $section) {
+            $results[$section->id] = $this->model->withTrashed()->where('token', $token)
+                ->whereIn('question_id', $section->questions->pluck('id')->all())->get();
+        }
+
+        return $results;
     }
 }
