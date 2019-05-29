@@ -391,4 +391,9 @@ return [
     'linear_scale' => 'Phạm vi tuyến tính',
     'to' => 'đến',
     'label_option' => 'Nhãn (tùy chọn)',
+    'grid' => 'Lưới trắc nghiệm',
+    'row' => 'Hàng',
+    'add_row' => 'Thêm hàng',
+    'column' => 'Cột',
+    'add_column' => 'Thêm cột',
 ];

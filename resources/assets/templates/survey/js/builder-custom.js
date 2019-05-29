@@ -62,6 +62,99 @@ jQuery(document).ready(function () {
         }
     }
 
+    $(document).on('click', '.delete-row', function () {
+        $(this).closest('.row-column-content').remove();
+        refreshRowInput();
+        displayDeleteIcon();
+    });
+
+    $(document).on('click', '.delete-column', function () {
+        $(this).closest('.row-column-content').remove();
+        refreshColumnInput();
+        displayDeleteIcon();
+    });
+
+    $(document).on('click', '.add-more-row', function () {
+        var listOfRow = $(this).closest('.list-of-row-column').find('.list-of-row');
+        var index = $(this).closest('.list-of-row-column').find('.list-of-row .row-index').last().text();
+        listOfRow.append(`
+            <span class="row-column-content">
+                <div class="draggable-area"></div>
+                <div class="sub-question-content">
+                    <label for="sub-question" class="col-1 row-index sub-question">${++index}</label>
+                    <input type="text" name="sub-question" value="${Lang.get('lang.row')} ${index}"
+                        class="col-5 form-control sub-question-input"/>
+                    <div class="delete-row fa fa-times"></div>
+                </div>
+            </span>
+        `);
+        displayDeleteIcon();
+    });
+
+    $(document).on('click', '.add-more-column', function () {
+        var listOfColumn = $(this).closest('.list-of-row-column').find('.list-of-column');
+        var index = $(this).closest('.list-of-row-column').find('.list-of-column .column-icon').last().data('index');
+        listOfColumn.append(`
+            <span class="row-column-content">
+                <div class="draggable-area"></div>
+                <div class="sub-question-content">
+                    <span class="col-1 fa fa-circle-o column-icon" data-index="${++index}"></span>
+                    <input type="text" name="sub-question-option" value="${Lang.get('lang.column')} ${index}"
+                        class="col-5 form-control sub-question-option"/>
+                    <div class="delete-column fa fa-times"></div>
+                </div>
+            </span>
+        `);
+        displayDeleteIcon();
+    });
+
+    $(document).on('mouseover', '.sub-question-content', function () {
+        $(this).closest('.row-column-content').find('div.draggable-area').css('display', 'block');
+    });
+
+    $(document).on('mouseout', '.sub-question-content', function () {
+        $(this).closest('.row-column-content').find('div.draggable-area').css('display', 'none');
+    });
+
+    function refreshRowInput() {
+        var listOfRow = $('.list-of-row .row-column-content');
+
+        for (var i = 0; i < listOfRow.length; i++) {
+            $(listOfRow[i]).find('.row-index').text(i + 1);
+            $(listOfRow[i]).find('.sub-question-input').val(`${Lang.get('lang.row')} ${i + 1}`);
+        }
+    }
+
+    function refreshColumnInput() {
+        var listOfColumn = $('.list-of-column .row-column-content');
+
+        for (var i = 0; i < listOfColumn.length; i++) {
+            $(listOfColumn[i]).find('.column-icon').attr('data-index', i + 1);
+            $(listOfColumn[i]).find('.sub-question-option').val(`${Lang.get('lang.column')} ${i + 1}`);
+        }
+    }
+
+    function displayDeleteIcon() {
+        var listOfRow = $('.list-of-row').find('.row-column-content');
+        var listOfColumn = $('.list-of-column').find('.row-column-content');
+
+        if (listOfRow.length == 1) {
+            listOfRow.find('.delete-row').css('display', 'none');
+        } else if (listOfRow.length > 1) {
+            listOfRow.each(function () {
+                $(this).find('.delete-row').css('display', 'block');
+            })
+        }
+
+        if (listOfColumn.length == 1) {
+            listOfColumn.find('.delete-column').css('display', 'none');
+        } else if (listOfColumn.length > 1) {
+            listOfColumn.each(function () {
+                $(this).find('.delete-column').css('display', 'block');
+            })
+        }
+    }
+
     function createValueForLinearScaleQuestion(minElement, maxElement, minValueHidden = 1, maxValueHidden = 5) {
         minElement.empty();
         maxElement.empty();

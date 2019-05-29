@@ -222,6 +222,7 @@ return [
         'video' => 9,
         'redirect' => 10,
         'linear_scale' => 11,
+        'grid' => 12,
     ],
     'survey_setting' => [
         'default' => 0,
