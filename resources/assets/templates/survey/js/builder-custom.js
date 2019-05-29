@@ -785,7 +785,7 @@ jQuery(document).ready(function () {
                     if (questionType == 11) {
                         var minValueElement = element.find(`select.min-value-${questionId}`);
                         var maxValueElement = element.find(`select.max-value-${questionId}`);
-                        
+
                         createValueForLinearScaleQuestion(minValueElement, maxValueElement);
                         element.find(`label.min-content-${questionId}`).text(minValueElement.val());
                         element.find(`label.max-content-${questionId}`).text(maxValueElement.val());
@@ -863,6 +863,7 @@ jQuery(document).ready(function () {
 
                     // add validation rules for question
                     addValidationRuleForQuestion(questionId);
+                    addValidationRuleForMinMaxContent(questionId);
                 }
             });
 
@@ -1089,7 +1090,7 @@ jQuery(document).ready(function () {
             }
 
             $('html, body').animate({ scrollTop: $('.errorHighlight').offset().top - 100 }, 500);
-            $('.form-row').css('margin-bottom', '3rem');
+            $('.form-row').css('margin-bottom', '1rem');
         },
         highlight: function (element) {
             $(element).removeClass("successHighlight");
@@ -1110,7 +1111,6 @@ jQuery(document).ready(function () {
                 $('#end-time-error').empty();
             }
             $('.form-row').css('margin-bottom', '1rem');
-            $('.form-group.form-row').css('margin-bottom', '3rem');
         }
     });
 
@@ -1235,6 +1235,21 @@ jQuery(document).ready(function () {
         $(`#question_${questionId} textarea:regex(name, ^title\\[section_.*\\]\\[question_.*\\]$)`).each(function () {
             $(this).rules('add', {
                 required: true,
+                maxlength: 255,
+                questionunique: false,
+            });
+        });
+    }
+
+    function addValidationRuleForMinMaxContent(questionId) {
+        $(`#question_${questionId} input:regex(name, min_content_${questionId})`).each(function () {
+            $(this).rules('add', {
+                maxlength: 255,
+                questionunique: false,
+            });
+        });
+        $(`#question_${questionId} input:regex(name, max_content_${questionId})`).each(function () {
+            $(this).rules('add', {
                 maxlength: 255,
                 questionunique: false,
             });
@@ -2863,7 +2878,7 @@ jQuery(document).ready(function () {
             return;
         }
 
-        $.get($(this).attr('remove-session-url'));        
+        $.get($(this).attr('remove-session-url'));
 
         $.ajax({
             method: 'POST',
@@ -2872,13 +2887,13 @@ jQuery(document).ready(function () {
                 data: data
             }
         })
-        .done(function (data) {
-            
-            if (data.success) {
-                var redirectWindow = window.open(urlLocation, '_blank');
-                redirectWindow.location;
-            }
-        });
+            .done(function (data) {
+
+                if (data.success) {
+                    var redirectWindow = window.open(urlLocation, '_blank');
+                    redirectWindow.location;
+                }
+            });
     });
 
     // live suggest email
@@ -3101,7 +3116,7 @@ jQuery(document).ready(function () {
             debounceSomething(removeClassErrors);
         }
     });
-    
+
     // add email
     $('.live-suggest-email').on('click', '.email-li-item', function (e) {
         e.stopPropagation();
@@ -4455,6 +4470,10 @@ jQuery(document).ready(function () {
                     addValidationRuleForQuestion($(this).data('question-id'));
 
                     $(this).find('div.form-row.option').each(function () {
+                        addValidationRuleForAnswer($(this).data('answer-id'));
+                    });
+                } else {
+                    $(this).find('.form-row.option.redirect-choice').each(function () {
                         addValidationRuleForAnswer($(this).data('answer-id'));
                     });
                 }
