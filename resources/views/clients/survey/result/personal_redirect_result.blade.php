@@ -4,8 +4,7 @@
             <div class="section-badge section-option-menu">
                 @if (!$section->redirect_id)
                     <span class="number-of-section">@lang('lang.section')
-                        <span class="section-index">{{ $index }}</span> /
-                        <span class="total-section"></span>{{ $countSection }}
+                        <span class="section-index">{{ $index }}</span>
                     </span>
                 @endif
                 <div class="right-header-section">

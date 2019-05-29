@@ -1,12 +1,12 @@
 <ul class="clearfix form-wrapper page-section sortable"
-    id="section_{{ $sectionId }}" data-section-id="{{ $sectionId }}">
+id="section_{{ $sectionId }}" data-section-id="{{ $sectionId }}">
     <li class="p-0">
         <div class="form-header">
             <div class="section-badge section-option-menu">
-                <span class="number-of-section">
+            <span class="number-of-section">
                     @lang('lang.section')
-                    <span class="section-index"></span> /
-                    <span class="total-section"></span></span>
+                    <span class="section-index"></span>
+                    </span>
                 <div class="right-header-section">
                     <a href="" class="zoom-in-btn zoom-btn">
                         <span class="zoom-icon"></span>
