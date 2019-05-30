@@ -49,7 +49,7 @@
                                 </li>
                                 @if(!Auth::guard()->check() || !Auth::user()->isAdmin())
                                     <li class="nav-item">
-                                        {{ Html::link('javascript:void(0)', trans('lang.feedback'), [
+                                        {{ Html::link(route('home'), trans('lang.feedback'), [
                                             'class' => 'nav-link',
                                             'data-toggle' => 'modal',
                                             'data-target' => '#modal-feedback',
@@ -58,14 +58,14 @@
                                 @endif
                                 @if (!Auth::guard()->check())
                                     <li class="nav-item">
-                                        {{ Html::link('javascript:void(0)', trans('lang.login'), [
+                                        {{ Html::link(route('home'), trans('lang.login'), [
                                             'class' => 'nav-link',
                                             'data-toggle' => 'modal',
                                             'data-target' => '#modalLogin',
                                         ]) }}
                                     </li>
                                     <li class="nav-item">
-                                        {{ Html::link('javascript:void(0)', trans('lang.register'), [
+                                        {{ Html::link(route('home'), trans('lang.register'), [
                                             'class' => 'nav-link',
                                             'data-toggle' => 'modal',
                                             'data-target' => '#modalRegister'
@@ -129,7 +129,7 @@
                                         </ul>
                                     </li>
                                     <li class="nav-item user-dropdown last">
-                                        <a class="nav-link dropdown-toggle user-nav-show" href="javascript:void(0)" id="navbarDropdownProfile"
+                                        <a class="nav-link dropdown-toggle user-nav-show" href="{{ route('home') }}" id="navbarDropdownProfile"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <span class="user-profile">
                                                 {{ Html::image(Auth::user()->image_path, '', ['class' => 'user-images']) }}
