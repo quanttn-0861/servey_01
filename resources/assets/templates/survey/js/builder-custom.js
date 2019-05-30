@@ -63,14 +63,38 @@ jQuery(document).ready(function () {
     }
 
     $(document).on('click', '.delete-row', function () {
+        var subQuestion = [];
+        var index = $(this).closest('.row-column-content').find('.row-index').text();
+        var listOfRow = $(this).closest('.list-of-row').find('.row-column-content');
+
+        listOfRow.each(function () {
+            subQuestion.push($(this).find('.sub-question-input').val());
+        });
         $(this).closest('.row-column-content').remove();
-        refreshRowInput();
+        listOfRow.splice(index - 1, 1);
+        subQuestion.splice(index - 1, 1);
+
+        if (index != listOfRow.length) {
+            refreshRowLabel(subQuestion, listOfRow);
+        }
         displayDeleteIcon();
     });
 
     $(document).on('click', '.delete-column', function () {
+        var subOption = [];
+        var index = $(this).closest('.row-column-content').find('.column-icon').data('index');
+        var listOfColumn = $(this).closest('.list-of-column').find('.row-column-content');
+
+        listOfColumn.each(function () {
+            subOption.push($(this).find('.sub-question-option').val());
+        });
         $(this).closest('.row-column-content').remove();
-        refreshColumnInput();
+        listOfColumn.splice(index - 1, 1);
+        subOption.splice(index - 1, 1);
+
+        if (index != listOfColumn.length) {
+            refreshColumnIndex(subOption, listOfColumn);
+        }
         displayDeleteIcon();
     });
 
@@ -116,21 +140,19 @@ jQuery(document).ready(function () {
         $(this).closest('.row-column-content').find('div.draggable-area').css('display', 'none');
     });
 
-    function refreshRowInput() {
-        var listOfRow = $('.list-of-row .row-column-content');
+    function refreshRowLabel(subQuestion, listOfRow) {
 
-        for (var i = 0; i < listOfRow.length; i++) {
+        for (var i = 0; i < subQuestion.length; i++) {
+            $(listOfRow[i]).find('.sub-question-input').val(subQuestion[i]);
             $(listOfRow[i]).find('.row-index').text(i + 1);
-            $(listOfRow[i]).find('.sub-question-input').val(`${Lang.get('lang.row')} ${i + 1}`);
         }
     }
 
-    function refreshColumnInput() {
-        var listOfColumn = $('.list-of-column .row-column-content');
+    function refreshColumnIndex(subOption, listOfColumn) {
 
-        for (var i = 0; i < listOfColumn.length; i++) {
-            $(listOfColumn[i]).find('.column-icon').attr('data-index', i + 1);
-            $(listOfColumn[i]).find('.sub-question-option').val(`${Lang.get('lang.column')} ${i + 1}`);
+        for (var i = 0; i < subOption.length; i++) {
+            $(listOfColumn[i]).find('.sub-question-option').val(subOption[i]);
+            $(listOfColumn[i]).find('.column-icon').data('index', i + 1);
         }
     }
 
