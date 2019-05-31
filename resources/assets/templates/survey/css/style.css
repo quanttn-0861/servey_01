@@ -4148,10 +4148,6 @@ tr, th, td {
     width: 15%;
 }
 
-div .min-value {
-    margin-left: 25px;
-}
-
 .padding-10 {
     padding: 10px;
 }
@@ -4287,7 +4283,7 @@ div .min-value {
     margin: 5% 5% 0% -5%;
 }
 
-.sub-question-content > input[type="text"] {
+.sub-question-content>input[type="text"] {
     max-width: none;
     width: 180px;
 }
@@ -4310,7 +4306,7 @@ div .min-value {
     display: none;
 }
 
-span > div.draggable-area {
+span>div.draggable-area {
     float: left;
     transform: rotate(90deg);
     bottom: 5px;
