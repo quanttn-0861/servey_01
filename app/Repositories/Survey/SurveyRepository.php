@@ -170,7 +170,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                     }
 
                     if ($question['type'] == config('settings.question_type.grid')) {
-                        $valueGrids = $question['subQuestion'];
+                        $valueGrids = $question['subQuestions'];
                         $orderSubQuestion = 0;
 
                         foreach($valueGrids as $subQuestion) {
@@ -183,7 +183,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                             $sectionCreated->questions()->create($subQuestionData);
                         }
 
-                        $valueSetting = json_encode($question['listColumn']);
+                        $valueSetting = json_encode($question['subOptions']);
                     }
 
                     $questionCreated->settings()->create([
