@@ -71,6 +71,20 @@
                                 </p>
                             @endforeach
                         </div>
+                    @elseif ($result['question_type'] == config('settings.question_type.linear_scale'))
+                        <div class="answer-result chart-result-answer sub-linearscale-result"
+                            id="{{ $result['question']->id }}"
+                            data="{{ json_encode($result['answers']) }}"
+                            data-linear="{{ json_encode($result['question']->setting_value) }}">
+                        </div>
+                        <span class="linear-min">
+                            {{ $result['question']->setting_value->min_value }} :
+                            {{ $result['question']->setting_value->min_content }}
+                        </span>
+                        <span class="linear-max">
+                            {{ $result['question']->setting_value->max_value }} :
+                            {{ $result['question']->setting_value->max_content }}
+                        </span>
                     @elseif ($result['question_type'] == config('settings.question_type.multiple_choice'))
                         @if ($result['question']->answers->count())
                             <div class="answer-result sub-multiple-choice-result"

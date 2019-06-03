@@ -401,4 +401,11 @@ function subResults() {
 
         createPieChart($(this).attr('id'), dataMultipleChoice);
     });
+
+    $('.sub-linearscale-result').each(function() {
+        var text = createDataLinrearForChart($(this).attr('data'));
+        var dataLinearScale = $.parseJSON(text);
+
+        createBarChartColumn($(this).attr('id'), dataLinearScale);
+    });
 }
