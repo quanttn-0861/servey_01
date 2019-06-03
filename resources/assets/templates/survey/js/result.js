@@ -186,6 +186,9 @@ function createBarChartColumn(id, data, value, arr = []) {
         tooltip: {
             pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
         },
+        credits: {
+            enabled: false,
+        },
         series: [{
             name: 'Population',
             data: data,
