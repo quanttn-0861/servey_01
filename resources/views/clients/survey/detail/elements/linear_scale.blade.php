@@ -13,7 +13,7 @@
                 <label class="content-column">
                     <div class="item-content-column">{{ $i }}</div>
                     <div class="item-content-column-input">
-                        {!! Form::radio('answer', '', false, [
+                        {!! Form::radio("answer_$question->id", '', false, [
                             'class' => 'group-radio-answer',
                         ]) !!}
                         <span class="group-radio"></span>
