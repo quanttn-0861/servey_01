@@ -65,7 +65,7 @@ jQuery(document).ready(function () {
     $(document).on('click', '.delete-row', function () {
         var subQuestion = [];
         var index = $(this).closest('.row-column-content').find('.row-index').text();
-        var listOfRow = $(this).closest('.list-of-row').find('.row-column-content');
+        var listOfRow = $(this).closest(`div:regex(class, ^list-of-row)`).find('.row-column-content');
 
         listOfRow.each(function () {
             subQuestion.push($(this).find('.sub-question-input').val());
@@ -83,7 +83,7 @@ jQuery(document).ready(function () {
     $(document).on('click', '.delete-column', function () {
         var subOption = [];
         var index = $(this).closest('.row-column-content').find('.column-icon').data('index');
-        var listOfColumn = $(this).closest('.list-of-column').find('.row-column-content');
+        var listOfColumn = $(this).closest(`div:regex(class, ^list-of-column)`).find('.row-column-content');
 
         listOfColumn.each(function () {
             subOption.push($(this).find('.sub-question-option').val());
@@ -99,8 +99,8 @@ jQuery(document).ready(function () {
     });
 
     $(document).on('click', '.add-more-row', function () {
-        var listOfRow = $(this).closest('.list-of-row-column').find('.list-of-row');
-        var index = $(this).closest('.list-of-row-column').find('.list-of-row .row-index').last().text();
+        var listOfRow = $(this).closest('.list-of-row-column').find(`div:regex(class, ^list-of-row)`);
+        var index = $(this).closest('.list-of-row-column').find(`div:regex(class, ^list-of-row) .row-index`).last().text();
         listOfRow.append(`
             <span class="row-column-content">
                 <div class="draggable-area"></div>
@@ -116,8 +116,8 @@ jQuery(document).ready(function () {
     });
 
     $(document).on('click', '.add-more-column', function () {
-        var listOfColumn = $(this).closest('.list-of-row-column').find('.list-of-column');
-        var index = $(this).closest('.list-of-row-column').find('.list-of-column .column-icon').last().data('index');
+        var listOfColumn = $(this).closest('.list-of-row-column').find(`div:regex(class, ^list-of-column)`);
+        var index = $(this).closest('.list-of-row-column').find(`div:regex(class, ^list-of-column) .column-icon`).last().data('index');
         listOfColumn.append(`
             <span class="row-column-content">
                 <div class="draggable-area"></div>
@@ -157,8 +157,8 @@ jQuery(document).ready(function () {
     }
 
     function displayDeleteIcon() {
-        var listOfRow = $('.list-of-row').find('.row-column-content');
-        var listOfColumn = $('.list-of-column').find('.row-column-content');
+        var listOfRow = $(`div:regex(class, ^list-of-row)`).find('.row-column-content');
+        var listOfColumn = $(`div:regex(class, ^list-of-column)`).find('.row-column-content');
 
         if (listOfRow.length == 1) {
             listOfRow.find('.delete-row').css('display', 'none');
@@ -606,18 +606,20 @@ jQuery(document).ready(function () {
                 question.require = require !== undefined ? parseInt(require.value) : 0;
             } else if (type == 12) {
                 var subQuestions = [];
-                var listOfRow = $('.list-of-row').find('.row-column-content');
+                var subOptions = [];
+                var listOfRow = $(parentElement).find(`.list-of-row-${questionId} .row-column-content`);
+                var listOfColumn = $(parentElement).find(`.list-of-column-${questionId} .row-column-content`);
+
                 listOfRow.each(function () {
                     subQuestions.push($(this).find('.sub-question-input').val());
                 });
-                question.subQuestion = subQuestions;
 
-                var colQuestions = [];
-                var listOfColumn = $('.list-of-column').find('.row-column-content');
                 listOfColumn.each(function () {
-                    colQuestions.push($(this).find('.sub-question-option').val());
+                    subOptions.push($(this).find('.sub-question-option').val());
                 });
-                question.listColumn = colQuestions;
+
+                question.subQuestions = subQuestions;
+                question.subOptions = subOptions;
                 question.require = require !== undefined ? parseInt(require.value) : 0;
             } else {
                 var require = data.find(item => item.name === `require[section_${sectionId}][question_${questionId}]`);

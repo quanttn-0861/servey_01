@@ -4,7 +4,7 @@
     <div class="col-12 grid-question-block">
         <div class="list-of-row-column">
             <div class="form-row row-column-element">@lang('lang.row')</div>
-            <div class="list-of-row">
+            <div class="list-of-row-{{ $questionId }}">
                 <span class="row-column-content">
                     <div class="draggable-area"></div>
                     <div class="sub-question-content">
@@ -26,7 +26,7 @@
         </div>
         <div class="list-of-row-column">
             <div class="form-row row-column-element">@lang('lang.column')</div>
-            <div class="list-of-column">
+            <div class="list-of-column-{{ $questionId }}">
                 <span class="row-column-content">
                     <div class="draggable-area"></div>
                     <div class="sub-question-content">

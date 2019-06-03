@@ -96,6 +96,9 @@
                                     <!-- linear scale -->
                                     @elseif ($question->type === config('settings.question_type.linear_scale'))
                                         @include ('clients.survey.create.elements-preview.linear')
+                                    <!-- multiple choice grid -->
+                                    @elseif ($question->type === config('settings.question_type.grid'))
+                                        @include ('clients.survey.create.elements-preview.grid')
                                     @endif
                                     @if ($question->type == config('settings.question_type.redirect'))
                                         <div class="notice-required">@lang('lang.question_required')</div>
