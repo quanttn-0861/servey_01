@@ -1375,6 +1375,7 @@ nav ul a:hover {
     border-radius: 4px !important;
     margin-top: 2px;
     width: 105%;
+    min-width: 192px;
 }
 
 .option-linear-scale {

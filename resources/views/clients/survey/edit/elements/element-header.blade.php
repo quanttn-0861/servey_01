@@ -49,7 +49,7 @@
                         <span>
                             {{ Html::image(asset(config('settings.linear_scale_icon')), null, ['class' => 'linear-scale']) }}
                         </span>
-                        <span class="option-menu-content">@lang('lang.linear_scale')</span>
+                        <span class="option-menu-content option-linear-scale">@lang('lang.linear_scale')</span>
                     @endif
                 </div>
                 <ul class="survey-select-options">
@@ -89,7 +89,7 @@
                         <span>
                             {{ Html::image(asset(config('settings.linear_scale_icon')), null, ['class' => 'linear-scale']) }}
                         </span>
-                        <span class="option-menu-content">@lang('lang.linear_scale')</span>
+                        <span class="option-menu-content option-linear-scale">@lang('lang.linear_scale')</span>
                     </li>
                 </ul>
             </div>

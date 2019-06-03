@@ -1210,7 +1210,6 @@ jQuery(document).ready(function () {
             }
 
             $('html, body').animate({ scrollTop: $('.errorHighlight').offset().top - 100 }, 500);
-            $('.form-row').css('margin-bottom', '1rem');
         },
         highlight: function (element) {
             $(element).removeClass("successHighlight");
@@ -1230,7 +1229,6 @@ jQuery(document).ready(function () {
             } else {
                 $('#end-time-error').empty();
             }
-            $('.form-row').css('margin-bottom', '1rem');
         }
     });
 
@@ -3936,11 +3934,9 @@ jQuery(document).ready(function () {
                 redirectSectionsElement = $(this).find('.page-section');
                 $(this).data('number-redirect-section', redirectSectionsElement.length);
                 redirectSectionsElement.find('.total-section').text(redirectSectionsElement.length);
-                if (redirectSectionsElement.length > 1) {
-                    redirectSectionsElement.each(function (j) {
-                        $(this).find('.section-index').text(`${j + 1}`);
-                    });
-                }
+                redirectSectionsElement.each(function (j) {
+                    $(this).find('.section-index').text(`${j + 1}`);
+                });
             });
         });
     }
