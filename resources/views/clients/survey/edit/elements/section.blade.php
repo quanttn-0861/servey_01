@@ -112,6 +112,12 @@
                 'question' => $question,
                 'type' => $question->type,
             ])
+        @elseif ($question->type == config('settings.question_type.grid'))
+            @include('clients.survey.edit.elements.grid', [
+                'sectionId' => $section->id,
+                'question' => $question,
+                'type' => $question->type,
+            ])
         @endif
     @endforeach
     <li class="end-section" style="display: none;">

@@ -171,18 +171,10 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
                     if ($question['type'] == config('settings.question_type.grid')) {
                         $valueGrids = $question['subQuestions'];
-                        $orderSubQuestion = 0;
-
-                        foreach($valueGrids as $subQuestion) {
-                            $subQuestionData['title'] = $subQuestion;
-                            $subQuestionData['description'] = '';
-                            $subQuestionData['required'] = config('settings.question.not_required');
-                            $subQuestionData['order'] = ++ $orderSubQuestion;
-                            $subQuestionData['update'] = config('settings.survey.question_update.default');
-                            $subQuestionData['main_id'] = $questionCreated->id;
-                            $sectionCreated->questions()->create($subQuestionData);
-                        }
-
+                        
+                        $questionCreated->update([
+                            'sub_questions' => json_encode($valueGrids),
+                        ]);
                         $valueSetting = json_encode($question['subOptions']);
                     }
 
@@ -451,6 +443,19 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                     'min_content' => $value['min_content'],
                     'max_content' => $value['max_content'],
                 ]);
+                $question->settings()->update([
+                    'value' => $valueSetting,
+                ]);
+            }
+
+            if ($question->type == config('settings.question_type.grid')) {
+                $valueGrids = $value['subQuestions'];
+
+                $question->update([
+                    'sub_questions' => json_encode($valueGrids),
+                ]);
+                $valueSetting = json_encode($value['subOptions']);
+                
                 $question->settings()->update([
                     'value' => $valueSetting,
                 ]);
