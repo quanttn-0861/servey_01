@@ -74,6 +74,8 @@
                 <!-- linear scale -->
                 @elseif ($questionSetting == config('settings.question_type.linear_scale'))
                     @include ('clients.survey.detail.elements.linear_scale')
+                @elseif ($questionSetting == config('settings.question_type.grid'))
+                    @include ('clients.survey.detail.elements.grid')
                 @endif
             @endif
             @if ($question->required)

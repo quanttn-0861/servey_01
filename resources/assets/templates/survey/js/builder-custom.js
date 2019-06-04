@@ -649,6 +649,11 @@ jQuery(document).ready(function () {
                         tempData.max_content = question.max_content;
                     }
 
+                    if (question.type == 12) {
+                        tempData.subQuestions = question.subQuestions;
+                        tempData.subOptions = question.subOptions;
+                    }
+
                     if (question.status == 1) {
                         tempData.update = question.status;
 

@@ -16,7 +16,7 @@ class Question extends Model
         'order',
         'update',
         'section_id',
-        'main_id',
+        'sub_questions',
     ];
 
     protected $appends = [
@@ -165,5 +165,23 @@ class Question extends Model
     public function getSectionOrderAttribute()
     {
         return $this->section ? $this->section->order : '';
+    }
+
+    public function getSubQuestionsAttribute()
+    {
+        return json_decode($this->attributes['sub_questions']);
+    }
+
+    public function getSubOptionsAttribute()
+    {
+        $settingValue = $this->settings->where('key', config('settings.question_type.grid'))->first();
+
+        if ($settingValue) {
+            $data = json_decode($settingValue->value);
+
+            return $data;
+        }
+
+        return null;
     }
 }
