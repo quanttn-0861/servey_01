@@ -4337,11 +4337,6 @@ span>div.draggable-area {
     margin-left: 13%;
 }
 
-.grid-container {
-    display: flex;
-    flex-direction: row;
-}
-
 .content-col {
     display: flex;
     width: 40%;
@@ -4430,4 +4425,64 @@ span>div.draggable-area {
     height: 9px;
     border-radius: 50%;
     background: white;
+}
+
+/* grid */
+
+.grid-container {
+    overflow: hidden;
+    position: relative;
+}
+
+.grid-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 8px;
+}
+
+.grid-head {
+    border-collapse: collapse;
+    display: table;
+    width: 100%;
+}
+
+.grid-colum-head {
+    display: table-row;
+}
+
+.grid-row {
+    display: table-row-group;
+}
+
+.grid-row-span {
+    border-bottom: 1px solid #ffffff;
+    display: table-row;
+}
+
+.grid-colum {
+    position: relative;
+    left: 17%;
+    display: table-cell;
+    height: 2.5em;
+    min-width: 90px;
+    padding: .25em;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.grid-first-colum {
+    position: absolute;
+    width: 25%;
+    max-width: 145px;
+    padding: 8px;
+    text-align: left;
+    display: table-cell;
+    height: 2.5em;
+    vertical-align: middle;
+    z-index: 1000;
+    background-color: #fff;
+}
+
+.none-colum {
+    height: 50%;
 }
