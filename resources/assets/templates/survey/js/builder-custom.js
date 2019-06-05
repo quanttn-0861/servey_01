@@ -1109,12 +1109,14 @@ jQuery(document).ready(function () {
 
                     // add validation rules for question
                     addValidationRuleForQuestion(questionId);
+                    addValidationRuleForMinMaxContent(questionId);
 
                     // add validation rules for answer and section redirect
                     redirectSectionData.forEach(function (redirectSection) {
                         addValidationRuleForAnswer(redirectSection.answerRedirectId);
                         addValidationRuleForSection(redirectSection.sectionId);
                         addValidationRuleForQuestion(redirectSection.questionId);
+                        addValidationRuleForMinMaxContent(redirectSection.questionId);
                         addValidationRuleForAnswer(redirectSection.answerId);
 
                         var color = makeRandomRedirectColor();
@@ -2125,6 +2127,7 @@ jQuery(document).ready(function () {
                     // add validation rules for section and question
                     addValidationRuleForSection(sectionId);
                     addValidationRuleForQuestion(questionId);
+                    addValidationRuleForMinMaxContent(questionId);
                     addValidationRuleForAnswer(answerId);
 
                     var color = makeRandomRedirectColor();
@@ -2304,6 +2307,7 @@ jQuery(document).ready(function () {
 
                     // add validation rules for question
                     addValidationRuleForQuestion(questionId);
+                    addValidationRuleForMinMaxContent(questionId);
 
                     // mark question required
                     markQuestionRequired();
@@ -2352,6 +2356,7 @@ jQuery(document).ready(function () {
 
                     // add validation rules for question
                     addValidationRuleForQuestion(questionId);
+                    addValidationRuleForMinMaxContent(questionId);
                 }
             });
     });
@@ -2415,6 +2420,7 @@ jQuery(document).ready(function () {
                     // add validation rules for section and question
                     addValidationRuleForSection(sectionId);
                     addValidationRuleForQuestion(questionId);
+                    addValidationRuleForMinMaxContent(questionId);
                     addValidationRuleForAnswer(answerId);
 
 
@@ -3873,6 +3879,7 @@ jQuery(document).ready(function () {
             });
 
             addValidationRuleForQuestion(questionId);
+            addValidationRuleForMinMaxContent(questionId);
         });
 
         addValidationRuleForSection(sectionId);
@@ -4608,8 +4615,9 @@ jQuery(document).ready(function () {
             $(this).find('li.form-line').each(function () {
                 var questionType = parseInt($(this).data('question-type'));
 
-                if (questionType > 0 && questionType <= 7) {
+                if (questionType > 0 && questionType <= 7 || $.inArray(questionType, [10, 11, 12])) {
                     addValidationRuleForQuestion($(this).data('question-id'));
+                    addValidationRuleForMinMaxContent($(this).data('question-id'));
 
                     $(this).find('div.form-row.option').each(function () {
                         addValidationRuleForAnswer($(this).data('answer-id'));
