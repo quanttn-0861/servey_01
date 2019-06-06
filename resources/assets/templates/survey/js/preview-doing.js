@@ -413,6 +413,7 @@ $(document).ready(function() {
         var checkResult = false;
 
         $(element).find('.item-answer').each(function () {
+            var questionType = $(this).closest('li.form-line').find('.question-survey').data('type');
             var answerId = $(this).attr('data-id');
             if (!answerId) {
                 checkResult = true;
@@ -423,16 +424,53 @@ $(document).ready(function() {
                 if ($(this).find('.input-answer-other').length) {
                     result.content = $(this).find('.input-answer-other').val();
                 } else {
-                    $(this).find('.group-radio-answer').each(function () {
+                    if (questionType == 11) {
+                        $(this).find('.group-radio-answer').each(function () {
 
-                        if ($(this).prop('checked')) {
-                            result.content = $(this).closest('.content-column').find('.item-content-column').text();
-                            
-                            return false;
-                        } else {
-                            result.content = '';
+                            if ($(this).prop('checked')) {
+                                result.content = $(this).closest('.content-column').find('.item-content-column').text();
+                                
+                                return false;
+                            } else {
+                                result.content = '';
+                            }
+                        });
+                    }
+
+                    if (questionType == 12) {
+                        var column = [];
+                        var row = [];
+
+                        $(this).find('.grid-row').each(function () {
+                            var parentElement = $(this);
+
+                            $(parentElement).find('.grid-colum .radio-answer-preview').each(function (key, value) {
+                                if ($(this).prop('checked')) {
+                                    column.push($(this).closest('.container-radio-setting-survey').data('col-index'));
+
+                                    return false;
+                                } else if (key == $(parentElement).find('.grid-colum .radio-answer-preview').length - 1) {
+                                    column.push('');
+                                }
+                            });
+                        });
+
+                        $(this).find('.grid-row .grid-first-colum').each(function () {
+                            row.push($(this).data('row-index'));
+                        });
+
+                        var str = '{';
+
+                        for (var i = 0; i < row.length; i++) {
+                            if (i == row.length - 1) {
+                                str += `"${row[i]}":"${column[i]}"}`;
+                            } else {
+                                str += `"${row[i]}":"${column[i]}",`;
+                            }
                         }
-                    })
+                        
+                        result.content = str;
+                    }
                 }
                 results.push(result);
             } else {
