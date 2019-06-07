@@ -85,6 +85,13 @@
                             {{ $result['question']->setting_value->max_value }} :
                             {{ $result['question']->setting_value->max_content }}
                         </span>
+                    @elseif ($result['question_type'] == config('settings.question_type.grid'))
+                        <div class="answer-result chart-result-answer sub-grid-result"
+                            id="{{ $result['question']->id }}"
+                            data="{{ json_encode($result['answers']) }}"
+                            data-sub-questions="{{ json_encode($result['question']->sub_questions) }}"
+                            data-sub-options="{{ json_encode($result['question']->sub_options) }}">
+                        </div>
                     @elseif ($result['question_type'] == config('settings.question_type.multiple_choice'))
                         @if ($result['question']->answers->count())
                             <div class="answer-result sub-multiple-choice-result"

@@ -68,4 +68,9 @@ class Result extends Model
     {
         return strtoupper($this->attributes['content']);
     }
+
+    public function getArrayContentAttribute()
+    {
+        return $this->question->type == config('settings.question_type.grid') ? json_decode($this->attributes['content'], true) : [];
+    }
 }

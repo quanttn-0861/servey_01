@@ -139,6 +139,15 @@ function results() {
         createBarChartColumn($(this).attr('id'), dataLinearScale, value, arrLinear);
     });
 
+    $('.grid-result').each(function () {
+        var text = $(this).attr('data');
+        var dataChart = $.parseJSON(text);
+        var subQuestions = $(this).data('sub-questions');
+        var subOptions = $(this).data('sub-options');
+
+        createCombineChart($(this).attr('id'), subQuestions, subOptions, dataChart);
+    });
+
     // excel option menu
     $('.option-menu-group').on('click', function(e) {
         e.stopPropagation();
@@ -157,6 +166,67 @@ function results() {
     $(document).on('click', '.submit-export-excel', function(event) {
         event.preventDefault();
         $('.info-export').submit();
+    });
+}
+
+function getDataCol(index, dataOfOneRow = []) {
+
+    for (var i = 0; i < dataOfOneRow.length; i++) {
+
+        if (dataOfOneRow[i].content == index) {
+
+            return dataOfOneRow[i].count;
+        } else if (i == dataOfOneRow.length - 1) {
+
+            return 0;
+        }
+    }
+}
+
+function createCombineChart(id, subQuestions, subOptions, dataChart) {
+    var dataColumns = [];
+
+    for (var i = 0; i < subOptions.length; i++) {
+        var countEachRow = [];
+        var index = i + 1;
+
+        $.each(dataChart, function (key, dataOfOneRow) {
+            countEachRow.push(getDataCol(index, dataOfOneRow));
+        });
+
+        dataColumns.push(countEachRow);
+    }
+
+    Highcharts.chart(id, {
+        title: {
+            text: ''
+        },
+        xAxis: {
+            categories: subQuestions
+        },
+        yAxis: {
+            title: {
+                text: ''
+            },
+            allowDecimals: false
+        },
+        credits: {
+            enabled: false,
+        },
+        
+        series: (function() {
+            var series = [];
+
+            for (var i = 0; i < subOptions.length; i++) {
+                series.push({
+                    type: 'column',
+                    name: subOptions[i],
+                    data: dataColumns[i]
+                });
+            }
+
+            return series;
+        }())
     });
 }
 
@@ -410,5 +480,14 @@ function subResults() {
         var dataLinearScale = $.parseJSON(text);
 
         createBarChartColumn($(this).attr('id'), dataLinearScale);
+    });
+
+    $('.sub-grid-result').each(function () {
+        var text = $(this).attr('data');
+        var dataChart = $.parseJSON(text);
+        var subQuestions = $(this).data('sub-questions');
+        var subOptions = $(this).data('sub-options');
+
+        createCombineChart($(this).attr('id'), subQuestions, subOptions, dataChart);
     });
 }
