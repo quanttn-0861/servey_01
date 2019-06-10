@@ -46,6 +46,13 @@
                         <a href="{{ route('survey.management', $survey->token_manage) }}" class="btn btn-info" data-toggle="tooltip" title="@lang('lang.setting')">
                             <i class="fa fa-cog" aria-hidden="true"></i>
                         </a>
+                        @can('delete', $survey)
+                            <a href="javascript:void(0)" class="btn btn-danger" id="delete-survey"
+                                data-toggle="tooltip" title="@lang('survey.delete')"
+                                data-url="{{ route('ajax-survey-delete', $survey->token_manage) }}">
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </a>
+                        @endcan
                     </td>
                 </tr>
             @endforeach
