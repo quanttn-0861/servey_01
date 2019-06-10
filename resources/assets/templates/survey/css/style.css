@@ -4461,19 +4461,22 @@ span>div.draggable-area {
 
 .grid-colum {
     position: relative;
-    left: 17%;
+    left: 1.5em;
     display: table-cell;
     height: 2.5em;
-    min-width: 90px;
+    min-width: 85px;
     padding: .25em;
     text-align: center;
     vertical-align: middle;
 }
 
+.multiple-option {
+    left: 9.5em;
+}
+
 .grid-first-colum {
     position: absolute;
-    width: 25%;
-    max-width: 145px;
+    width: 9em;
     padding: 8px;
     text-align: left;
     display: table-cell;

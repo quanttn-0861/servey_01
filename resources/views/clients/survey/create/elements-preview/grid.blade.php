@@ -1,11 +1,11 @@
 <div class="item-answer">
     <div class="grid-container">
-        <div class="grid-scroll">
+        <div class="{{ count($question->subOptions) > config('settings.number_2') ? "grid-scroll" : "" }}">
             <div class="grid-head">
                 <div class="grid-colum-head">
                     <div class="grid-first-colum none-colum"></div>
                     @foreach ($question->subOptions as $option)
-                        <div class="grid-colum">{{$option}}</div>  
+                        <div class="grid-colum {{ count($question->subOptions) > config('settings.number_2') ? "multiple-option" : "" }}">{{$option}}</div>  
                     @endforeach
                 </div>
                 @foreach ($question->subQuestions as $subQuestion)
@@ -13,7 +13,7 @@
                         <span class="grid-row-span">
                         <div class="grid-first-colum">{{$subQuestion}}</div>
                             @foreach ($question->subOptions as $option)
-                                <div class="grid-colum">
+                                <div class="grid-colum {{ count($question->subOptions) > config('settings.number_2') ? "multiple-option" : "" }}">
                                     <label class="container-radio-setting-survey">
                                         {!! Form::radio('answer_' . $loop->parent->iteration, '', false, [
                                             'class' => 'radio-answer-preview',

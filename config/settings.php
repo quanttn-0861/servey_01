@@ -309,6 +309,7 @@ return [
     'roundPercent' => 2,
     'number_0' => 0,
     'number_1' => 1,
+    'number_2' => 2,
     'number_100' => 100,
     'limit_answer_content' => 80,
     'detect_page_refresh' => 'max-age=0',
