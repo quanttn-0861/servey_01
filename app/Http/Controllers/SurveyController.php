@@ -328,7 +328,7 @@ class SurveyController extends Controller
         $survey = $this->surveyRepository->getSurveyByTokenManage($tokenManage);
 
         if (Auth::user()->cannot('edit', $survey)) {
-            return view('clients.layout.404');
+            return redirect()->route('survey.survey.show-surveys')->with('error', trans('lang.confirm_close_to_edit'));
         }
 
         if (!$survey) {
