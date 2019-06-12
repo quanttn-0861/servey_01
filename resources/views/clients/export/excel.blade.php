@@ -48,6 +48,16 @@
                                 $settingValue = $question->setting_value;
                             @endphp
                             <th width="50">{!! $question['title'] !!} ( {{ $settingValue->min_value }} = {{ $settingValue->min_content }}, {{ $settingValue->max_value }} = {{ $settingValue->max_content }} )</th>
+                        @elseif($question->settings->first()->key == config('settings.question_type.grid'))
+                            @php
+                                $options = json_decode($question->settings->first()->value, true);
+                            @endphp
+                            <th width="50">
+                                {{ $question->title }}
+                                @foreach ($options as $option)
+                                    ({{ $option }})
+                                @endforeach
+                            </th>
                         @else
                             <th width="30">{!! $question['title'] !!}</th>
                         @endif
@@ -62,20 +72,33 @@
                     @php
                         $result = $result->sortBy('order')->sortBy('section_order');
                     @endphp
-                    <tr height="20">
+                    <tr height="40">
                         <td>{{ $result->first()->created_at }}</td>
-                        @if ($data['requiredSurvey'] != config('settings.survey_setting.answer_required.none'))
-                            <td>{{ $result->first()->user ? $result->first()->user->email : trans('lang.incognito') }}</td>
-                        @endif
-                        @foreach ($result->groupBy('question_id') as $answers)
-                            @if ($answers->count() == 1)
-                                <td>{!! $answers->first()->content_answer !!}</td>
-                            @else
-                                <td>
-                                    {{ $answers->implode('content_answer', ', ') }}
-                                </td>
+                        @if($result->first()->question->type == config('settings.question_type.grid'))
+                            @php
+                                $subQuestions = $result->first()->question->sub_questions;
+                                $subOptions = json_decode($result->first()->question->settings->first()->value);
+                                $gridResult = json_decode($result->first()->content, true);
+                            @endphp
+                            <td width="50">
+                                @foreach ($subQuestions as $subQuestion)
+                                <br />{{ $subQuestion }} : {{ $subOptions[$gridResult[$loop->iteration] - 1] }}
+                                @endforeach
+                            </td>
+                        @else
+                            @if ($data['requiredSurvey'] != config('settings.survey_setting.answer_required.none'))
+                                <td>{{ $result->first()->user ? $result->first()->user->email : trans('lang.incognito') }}</td>
                             @endif
-                        @endforeach
+                            @foreach ($result->groupBy('question_id') as $answers)
+                                @if ($answers->count() == 1)
+                                    <td>{!! $answers->first()->content_answer !!}</td>
+                                @else
+                                    <td>
+                                        {{ $answers->implode('content_answer', ', ') }}
+                                    </td>
+                                @endif
+                            @endforeach
+                        @endif
                     </tr>
                 @endforeach
             @endif
