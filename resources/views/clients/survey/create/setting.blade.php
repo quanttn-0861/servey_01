@@ -26,6 +26,7 @@
                         answer-limited="{{ config('settings.survey_setting.answer_unlimited') }}"
                         reminder-email="{{ config('settings.survey_setting.reminder_email.none') }}"
                         privacy="{{ config('settings.survey_setting.privacy.public') }}"
+                        edit-answer="{{ config('settings.survey_setting.edit_answer.no_edit') }}"
                         time="">
                     <div class="setting-email-create-survey">
                         <div class="item-setting">
@@ -148,6 +149,18 @@
                                     'default' => config('settings.survey_setting.privacy.public'),
                                     'val' => config('settings.survey_setting.privacy.private'),
                                     'id' => 'security-survey',
+                                ]) !!}
+                                <span class="checkmark-setting-survey"></span>
+                            </label>
+                        </div>
+                        <div class="item-setting">
+                            <label class="container-checkbox-setting-survey col-12">
+                                <span>@lang('lang.edit_after_submit')</span>
+                                {!! Form::checkbox('edit_answer', '', false, [
+                                    'class' => 'edit_answer',
+                                    'default' => config('settings.survey_setting.edit_answer.no_edit'),
+                                    'val' => config('settings.survey_setting.edit_answer.edit'),
+                                    'id' => 'edit-answer',
                                 ]) !!}
                                 <span class="checkmark-setting-survey"></span>
                             </label>

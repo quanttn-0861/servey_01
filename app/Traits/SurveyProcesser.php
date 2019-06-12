@@ -41,6 +41,8 @@ trait SurveyProcesser
                 return config('settings.setting_type.question_type.key');
             case config('settings.setting_type.answer_type.content'):
                 return config('settings.setting_type.answer_type.key');
+            case config('settings.setting_type.edit_answer.content'):
+                return config('settings.setting_type.edit_answer.key');
             default:
                 throw new Exception("Error Processing Request", 1);
         }

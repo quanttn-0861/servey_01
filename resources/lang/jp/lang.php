@@ -397,4 +397,6 @@ return [
     'add_row' => 'Add row',
     'column' => 'Column',
     'add_column' => 'Add column',
+    'edit_after_submit' => 'Edit after submit',
+    'edit_your_answer' => 'Edit your answer',
 ];
