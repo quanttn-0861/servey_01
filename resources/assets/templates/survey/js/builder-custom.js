@@ -101,25 +101,30 @@ jQuery(document).ready(function () {
     });
 
     $(document).on('click', '.add-more-row', function () {
+        var questionId = $(this).closest('li.form-line').data('question-id');
         var listOfRow = $(this).closest('.list-of-row-column').find(`div:regex(class, ^list-of-row)`);
         var element = $(this).closest('li.form-line');
         var index = $(this).closest('.list-of-row-column').find(`div:regex(class, ^list-of-row) .row-index`).last().text();
+        
         listOfRow.append(`
             <span class="row-column-content">
                 <div class="draggable-area"></div>
                 <div class="sub-question-content">
                     <label for="sub-question" class="col-1 row-index sub-question">${++index}</label>
-                    <input type="text" name="sub-question" value="${Lang.get('lang.row')} ${index}"
+                    <input type="text" name="sub-question-${index}" value="${Lang.get('lang.row')} ${index}"
                         class="col-5 form-control sub-question-input"/>
                     <div class="delete-row fa fa-times"></div>
                 </div>
             </span>
         `);
+
         displayDeleteIcon(element);
+        addValidationRuleForRowAndColumn(questionId);
     });
 
     $(document).on('click', '.add-more-column', function () {
         var element = $(this).closest('li.form-line');
+        var questionId = $(this).closest('li.form-line').data('question-id');
         var listOfColumn = $(this).closest('.list-of-row-column').find(`div:regex(class, ^list-of-column)`);
         var index = $(this).closest('.list-of-row-column').find(`div:regex(class, ^list-of-column) .column-icon`).last().data('index');
         listOfColumn.append(`
@@ -127,13 +132,15 @@ jQuery(document).ready(function () {
                 <div class="draggable-area"></div>
                 <div class="sub-question-content">
                     <span class="col-1 fa fa-circle-o column-icon" data-index="${++index}"></span>
-                    <input type="text" name="sub-question-option" value="${Lang.get('lang.column')} ${index}"
+                    <input type="text" name="sub-question-option-${index}" value="${Lang.get('lang.column')} ${index}"
                         class="col-5 form-control sub-question-option"/>
                     <div class="delete-column fa fa-times"></div>
                 </div>
             </span>
         `);
+
         displayDeleteIcon(element);
+        addValidationRuleForRowAndColumn(questionId);
     });
 
     $(document).on('mouseover', '.sub-question-content', function () {
@@ -1008,6 +1015,7 @@ jQuery(document).ready(function () {
                     // add validation rules for question
                     addValidationRuleForQuestion(questionId);
                     addValidationRuleForMinMaxContent(questionId);
+                    addValidationRuleForRowAndColumn(questionId);
                 }
             });
 
@@ -1117,6 +1125,7 @@ jQuery(document).ready(function () {
                     // add validation rules for question
                     addValidationRuleForQuestion(questionId);
                     addValidationRuleForMinMaxContent(questionId);
+                    addValidationRuleForRowAndColumn(questionId);
 
                     // add validation rules for answer and section redirect
                     redirectSectionData.forEach(function (redirectSection) {
@@ -1124,6 +1133,7 @@ jQuery(document).ready(function () {
                         addValidationRuleForSection(redirectSection.sectionId);
                         addValidationRuleForQuestion(redirectSection.questionId);
                         addValidationRuleForMinMaxContent(redirectSection.questionId);
+                        addValidationRuleForRowAndColumn(redirectSection.questionId);
                         addValidationRuleForAnswer(redirectSection.answerId);
 
                         var color = makeRandomRedirectColor();
@@ -1401,6 +1411,21 @@ jQuery(document).ready(function () {
             $(this).rules('add', {
                 maxlength: 255,
                 questionunique: false,
+            });
+        });
+    }
+
+    // add validation rule for row and column of grid question
+    function addValidationRuleForRowAndColumn(questionId) {
+        $(`#question_${questionId} .sub-question-input`).each(function () {
+            $(this).rules('add', {
+                required: true,
+            });
+        });
+
+        $(`#question_${questionId} .sub-question-option`).each(function () {
+            $(this).rules('add', {
+                required: true,
             });
         });
     }
@@ -2135,6 +2160,7 @@ jQuery(document).ready(function () {
                     addValidationRuleForSection(sectionId);
                     addValidationRuleForQuestion(questionId);
                     addValidationRuleForMinMaxContent(questionId);
+                    addValidationRuleForRowAndColumn(questionId);
                     addValidationRuleForAnswer(answerId);
 
                     var color = makeRandomRedirectColor();
@@ -2315,6 +2341,7 @@ jQuery(document).ready(function () {
                     // add validation rules for question
                     addValidationRuleForQuestion(questionId);
                     addValidationRuleForMinMaxContent(questionId);
+                    addValidationRuleForRowAndColumn(questionId);
 
                     // mark question required
                     markQuestionRequired();
@@ -2364,6 +2391,7 @@ jQuery(document).ready(function () {
                     // add validation rules for question
                     addValidationRuleForQuestion(questionId);
                     addValidationRuleForMinMaxContent(questionId);
+                    addValidationRuleForRowAndColumn(questionId);
                 }
             });
     });
@@ -2428,6 +2456,7 @@ jQuery(document).ready(function () {
                     addValidationRuleForSection(sectionId);
                     addValidationRuleForQuestion(questionId);
                     addValidationRuleForMinMaxContent(questionId);
+                    addValidationRuleForRowAndColumn(questionId);
                     addValidationRuleForAnswer(answerId);
 
 
@@ -3887,6 +3916,7 @@ jQuery(document).ready(function () {
 
             addValidationRuleForQuestion(questionId);
             addValidationRuleForMinMaxContent(questionId);
+            addValidationRuleForRowAndColumn(questionId);
         });
 
         addValidationRuleForSection(sectionId);
@@ -4638,6 +4668,7 @@ jQuery(document).ready(function () {
                 if (questionType > 0 && questionType <= 7 || $.inArray(questionType, [10, 11, 12])) {
                     addValidationRuleForQuestion($(this).data('question-id'));
                     addValidationRuleForMinMaxContent($(this).data('question-id'));
+                    addValidationRuleForRowAndColumn($(this).data('question-id'));
 
                     $(this).find('div.form-row.option').each(function () {
                         addValidationRuleForAnswer($(this).data('answer-id'));
