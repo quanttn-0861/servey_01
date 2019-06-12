@@ -38,28 +38,21 @@
                             </div>
                             <div class="section-content">
                                 <div class="row" id="countdown_dashboard">
-                                    <div class="col-xl-3 col-md-3 col-sm-3 col-6 dash days_dash">
+                                    <div class="col-xl-4 col-md-4 col-sm-4 col-6 dash days_dash">
                                         <div class="counter digit" data-count="{{ $data['users'] }}">
                                             {{ config('settings.counter_default_value') }}
                                         </div>
                                         <span class="dash_title">@lang('lang.users')</span>
                                     </div>
 
-                                    <div class="col-xl-3 col-md-3 col-sm-3 col-6 dash">
+                                    <div class="col-xl-4 col-md-4 col-sm-4 col-6 dash">
                                         <div class="counter digit" data-count="{{ $data['surveys'] }}">
                                             {{ config('settings.counter_default_value') }}
                                         </div>
                                         <span class="dash_title">@lang('lang.surveys')</span>
                                     </div>
-
-                                    <div class="col-xl-3 col-md-3 col-sm-3 col-6 dash">
-                                        <div class="counter digit" data-count="{{ $data['surveys_open'] }}">
-                                            {{ config('settings.counter_default_value') }}
-                                        </div>
-                                        <span class="dash_title">@lang('lang.surveys_open')</span>
-                                    </div>
-
-                                    <div class="col-xl-3 col-md-3 col-sm-3 col-6 dash">
+                                    
+                                    <div class="col-xl-4 col-md-4 col-sm-4 col-6 dash">
                                         <div class="counter digit" data-count="{{ $data['feedbacks'] }}">
                                             {{ config('settings.counter_default_value') }}
                                         </div>

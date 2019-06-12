@@ -30,6 +30,12 @@
                                 {{ isset($content) ? $content : trans('lang.your_answer_has_been_recorded') }}
                             </span>
                         </div>
+
+                        @if (isset($isEditAnswer) && isset($survey) && $isEditAnswer)
+                            <div class="edit-answer-survey">
+                                <span class="back-home-description-complete"><a href="{{ route('survey.create.edit-answer', ['token' => $survey->token]) }}">@lang('lang.edit_your_answer')</a></span>
+                            </div>
+                        @endif
                         <div class="back-home-complete">
                             <span class="back-home-description-complete"><a href="{{ route('home') }}">&#10149; @lang('lang.home')</a></span>
                         </div>

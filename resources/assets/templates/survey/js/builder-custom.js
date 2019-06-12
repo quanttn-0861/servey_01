@@ -751,6 +751,7 @@ jQuery(document).ready(function () {
         var reminderEmail = $('#survey-setting').attr('reminder-email');
         var nextTime = $('#survey-setting').attr('time');
         var privacy = $('#survey-setting').attr('privacy');
+        var editAnswer = $('#survey-setting').attr('edit-answer');
 
         var settings = {
             "answer_required": answerRequired,
@@ -759,7 +760,8 @@ jQuery(document).ready(function () {
                 "type": reminderEmail,
                 "next_time": nextTime
             },
-            "privacy": privacy
+            "privacy": privacy,
+            "edit_answer": editAnswer
         }
 
         return settings;
@@ -4108,6 +4110,12 @@ jQuery(document).ready(function () {
             $('#survey-setting').attr('privacy', $('#security-survey').attr('default'));
         }
 
+        if ($('#edit-answer').prop('checked')) {
+            $('#survey-setting').attr('edit-answer', $('#edit-answer').attr('val'));
+        } else {
+            $('#survey-setting').attr('edit-answer', $('#edit-answer').attr('default'));
+        }
+
         // save member setting tab
         var memberMailLists = '';
 
@@ -4215,6 +4223,7 @@ jQuery(document).ready(function () {
         var answerLimited = $('#survey-setting').attr('answer-limited');
         var reminderEmail = $('#survey-setting').attr('reminder-email');
         var privacy = $('#survey-setting').attr('privacy');
+        var editAnswer = $('#survey-setting').attr('edit-answer');
 
         if (answerRequired != $('#confirm-reply').attr('default')) {
             $('#confirm-reply').prop('checked', 'checked');
@@ -4256,6 +4265,12 @@ jQuery(document).ready(function () {
             $('#security-survey').prop('checked', 'checked');
         } else {
             $('#security-survey').prop('checked', '');
+        }
+
+        if (editAnswer != $('#edit-answer').attr('default')) {
+            $('#edit-answer').prop('checked', 'checked');
+        } else {
+            $('#edit-answer').prop('checked', '');
         }
 
         // member setting tab

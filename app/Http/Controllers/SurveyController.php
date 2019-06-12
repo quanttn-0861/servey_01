@@ -851,8 +851,9 @@ class SurveyController extends Controller
                 || ($survey->status !=  config('settings.survey.status.open'))) ?
                     trans('lang.not_permission_to_doing_this_survey') : null;
             $title = $survey->title;
+            $isEditAnswer = $survey->settings->where('key', config('settings.setting_type.edit_answer.key'))->first()->value;
 
-            return view('clients.survey.detail.complete', compact('title', 'content'));
+            return view('clients.survey.detail.complete', compact('title', 'content', 'isEditAnswer', 'survey'));
         } catch (Exception $e) {
             return redirect()->route('404');
         }
@@ -938,6 +939,51 @@ class SurveyController extends Controller
                 'message' => trans('lang.save_survey_draft_failed'),
                 'redirect' => ($e->getCode() == 403) ? route('403') : '',
             ]);
+        }
+    }
+
+    public function editAnswer(Request $request, $token)
+    {
+        try {
+            $survey = $this->surveyRepository->getSurvey($token);
+            $title = $survey->title;
+            $content = '';
+
+            if ($request->ajax()) {
+
+                return $this->showAjax($request, $survey, $tokenResult);
+            }
+
+            $privacy = $survey->getPrivacy();
+
+            if ($privacy == config('settings.survey_setting.privacy.private')
+                && !in_array(Auth::user()->id, $survey->members()->pluck('user_id')->all())) {
+                $inviter = $survey->invite;
+
+                if (empty($inviter) || !in_array(Auth::user()->email, $inviter->invite_mails_array)) {
+                    $content = in_array(Auth::user()->email, $inviter->answer_mails_array)
+                        ? trans('lang.you_have_answered_this_survey')
+                        : trans('lang.you_do_not_have_permission');
+                }
+            }
+
+            if ($survey->start_time > Carbon::now()->toDateTimeString()) {
+                $time = Carbon::parse($survey->start_time)->format(trans('lang.date_format') . ' H:i:s');
+                $content = trans('lang.it_is_not_time_for_survey', ['time' => $time]);
+            } elseif (in_array($survey->status, [config('settings.survey.status.draft'), config('settings.survey.status.close')])) {
+                $content = trans('lang.survey_close');
+            }
+
+            if ($content) {
+
+                return view('clients.survey.detail.complete', compact('title', 'content'));
+            }
+            // at line 42 of file app/Traits/DoSurvey.php
+            $data = $this->getFirstSectionSurvey($survey);
+
+            return view('clients.survey.result.edit-answer.index', compact('data', 'survey'));
+        } catch(Exception $e) {
+            return view('clients.layout.404');
         }
     }
 }

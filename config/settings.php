@@ -243,6 +243,10 @@ return [
             'public' => 2,
             'private' => 1,
         ],
+        'edit_answer' => [
+            'no_edit' => 0,
+            'edit' => 1,
+        ],
     ],
     'answer_type' => [
         'option' => 1,
@@ -302,6 +306,10 @@ return [
         'option_update_survey' => [
             'content' => 'option_update',
             'key' => 9,
+        ],
+        'edit_answer' => [
+            'content' => 'edit_answer',
+            'key' => 10,
         ],
     ],
 

@@ -401,6 +401,11 @@ Route::post('store-result', [
     'as' => 'survey.create.storeresult',
 ]);
 
+Route::get('edit-answer/{token}', [
+    'uses' => 'SurveyController@editAnswer',
+    'as' => 'survey.create.edit-answer',
+]);
+
 Route::get('surveys-{token}', [
     'uses' => 'SurveyController@show',
     'as' => 'survey.create.do-survey',
