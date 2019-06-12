@@ -138,6 +138,45 @@ trait SurveyProcesser
         ];
     }
 
+    public function getResultGridQuestion($question, $survey, $userRepo)
+    {
+        $answerResults = $question->answerResults()->where('content', '<>', config('settings.group_content_result'));
+        $answerResults = $this->getResultsFollowOptionUpdate($survey, $answerResults, $userRepo)->get();
+        $totalAnswerResults = $answerResults->count();
+        $temp = [];
+        $subQuestions = $question->sub_questions;
+
+        if ($totalAnswerResults) {
+            
+            foreach ($subQuestions as $key => $subQuestion) {
+                $resultOfEachRow = [];
+
+                foreach ($answerResults as $answerResult) {
+
+                    if ($answerResult->array_content[$key + config('settings.number_1')] == '') {
+                        continue;
+                    }
+                    $resultOfEachRow[] = (int)$answerResult->array_content[$key + config('settings.number_1')];
+                }
+                $resultOfEachRow = array_count_values($resultOfEachRow);
+                $resultOfEachColumnByRow = [];
+
+                foreach ($resultOfEachRow as $indexColumn => $result) {
+                    $resultOfEachColumnByRow[] = [
+                        'content' => $indexColumn,
+                        'count' => $result,
+                    ];
+                }
+                $temp[$subQuestion] = $resultOfEachColumnByRow;
+            }
+        }
+
+        return [
+            'temp' => $temp,
+            'total_answer_results' => $totalAnswerResults,
+        ];
+    }
+
     // get result choice quesion
     public function getResultChoiceQuestion($question, $survey, $userRepo, $resultRepo)
     {

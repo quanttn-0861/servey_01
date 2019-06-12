@@ -1312,6 +1312,8 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                     config('settings.question_type.linear_scale'),                    
                 ])) {
                     $resultQuestion = $this->getTextQuestionResult($question, $survey, $userRepo);
+                } elseif ($question->type == config('settings.question_type.grid')) {
+                    $resultQuestion = $this->getResultGridQuestion($question, $survey, $userRepo);
                 } else {
                     if ($question->answers->count()) {
                         $resultQuestion = $this->getResultChoiceQuestion($question, $survey, $userRepo, app(ResultInterface::class));

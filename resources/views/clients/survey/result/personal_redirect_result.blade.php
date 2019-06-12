@@ -77,6 +77,9 @@
                     @case (config('settings.question_type.linear_scale'))
                         @include ('clients.survey.result.elements.linear-scale')
                         @break
+                    @case (config('settings.question_type.grid'))
+                        @include ('clients.survey.result.elements.grid')
+                        @break
                     @case (config('settings.question_type.multiple_choice'))
                         @include ('clients.survey.result.elements.multiple-choice')
                         @break
