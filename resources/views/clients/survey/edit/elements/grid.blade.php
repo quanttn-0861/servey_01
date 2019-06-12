@@ -48,3 +48,4 @@
         </span>
     </div>
 </div>
+@include('clients.survey.edit.elements.element-footer')
