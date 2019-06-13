@@ -4461,7 +4461,7 @@ span>div.draggable-area {
 
 .grid-colum {
     position: relative;
-    left: 1.5em;
+    left: 2em;
     display: table-cell;
     height: 2.5em;
     min-width: 85px;
