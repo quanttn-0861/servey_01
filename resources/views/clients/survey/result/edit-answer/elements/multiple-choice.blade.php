@@ -4,7 +4,8 @@
             data-id="{{ $answer->id }}"
             data-type="{{ $answer->type }}">
             @if ($answer->media->count())
-                <div class="img-preview-answer-survey img-radio-preview">
+                <div class="img-preview-answer-survey img-radio-preview
+                {{ $result->answer_id ==  $answer->id ? 'image-active-result' : '' }}">
                     {!! Html::image($answer->url_media, '',
                         ['class' => 'img-answer']) !!}
                 </div>
