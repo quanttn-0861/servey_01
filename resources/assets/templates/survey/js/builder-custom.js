@@ -1420,12 +1420,14 @@ jQuery(document).ready(function () {
         $(`#question_${questionId} .sub-question-input`).each(function () {
             $(this).rules('add', {
                 required: true,
+                maxlength: 255,
             });
         });
 
         $(`#question_${questionId} .sub-question-option`).each(function () {
             $(this).rules('add', {
                 required: true,
+                maxlength: 255,
             });
         });
     }
