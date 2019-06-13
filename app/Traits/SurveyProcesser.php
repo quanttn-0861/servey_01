@@ -274,6 +274,24 @@ trait SurveyProcesser
 
             // create type question in setting
             $valueSetting = $question['type'] == config('settings.question_type.date') ? $question['date_format'] : '';
+
+            if ($question['type'] == config('settings.question_type.linear_scale')) {
+                $valueSetting = json_encode([
+                    'min_value' => $question['min_value'],
+                    'max_value' => $question['max_value'],
+                    'min_content' => $question['min_content'],
+                    'max_content' => $question['max_content'],
+                ]);
+            }
+
+            if ($question['type'] == config('settings.question_type.grid')) {
+                $valueGrids = $question['subQuestions'];
+
+                $questionCreated->update([
+                    'sub_questions' => json_encode($valueGrids),
+                ]);
+                $valueSetting = json_encode($question['subOptions']);
+            }
             $questionCreated->settings()->create([
                 'key' => $question['type'],
                 'value' => $valueSetting,
