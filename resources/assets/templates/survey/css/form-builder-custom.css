@@ -3075,6 +3075,7 @@ input[name="quantity-answer"]::-webkit-outer-spin-button, input[type="number"]::
 
 .image-question {
     margin-top: 15px;
+    margin-bottom: 15px;
 }
 
 .image-answer {

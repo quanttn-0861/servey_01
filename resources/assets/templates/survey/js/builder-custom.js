@@ -62,6 +62,10 @@ jQuery(document).ready(function () {
         }
     }
 
+    $(document).ready(function () {
+        displayDeleteIcon($('li.form-line.question-active'));
+    });
+
     $(document).on('click', '.delete-row', function () {
         var subQuestion = [];
         var element = $(this).closest('li.form-line');
@@ -611,6 +615,7 @@ jQuery(document).ready(function () {
             if (type == 10) {
                 question.require = 1;
             } else if (type == 11) {
+                var require = data.find(item => item.name === `require[section_${sectionId}][question_${questionId}]`);
                 question.min_value = $(parentElement).find(`select.min-value-${questionId}`).val();
                 question.max_value = $(parentElement).find(`select.max-value-${questionId}`).val();
                 question.min_content = $(parentElement).find(`input.min-content-${questionId}`).val();
@@ -621,6 +626,7 @@ jQuery(document).ready(function () {
                 var subOptions = [];
                 var listOfRow = $(parentElement).find(`.list-of-row-${questionId} .row-column-content`);
                 var listOfColumn = $(parentElement).find(`.list-of-column-${questionId} .row-column-content`);
+                var require = data.find(item => item.name === `require[section_${sectionId}][question_${questionId}]`);
 
                 listOfRow.each(function () {
                     subQuestions.push($(this).find('.sub-question-input').val());
