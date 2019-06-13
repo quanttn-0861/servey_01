@@ -10,7 +10,7 @@
                     <label for="sub-question" class="col-1 row-index sub-question">
                         {{ $loop->iteration }}
                     </label>
-                    {!! Form::text("sub-question", $subQuestion, [
+                    {!! Form::text("sub-question-" . $loop->iteration, $subQuestion, [
                         'class' => "col-5 form-control sub-question-input",
                     ]) !!}
                     <div class="delete-row fa fa-times"></div>
@@ -33,7 +33,7 @@
                 <div class="sub-question-content">
                     <span class="col-1 fa fa-circle-o column-icon" data-index="{{ $loop->iteration }}">
                     </span>
-                    {!! Form::text("sub-question-option", $subOption, [
+                    {!! Form::text("sub-question-option-" . $loop->iteration, $subOption, [
                         'class' => "col-5 form-control sub-question-option",
                     ]) !!}
                     <div class="delete-column fa fa-times"></div>

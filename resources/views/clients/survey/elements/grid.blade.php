@@ -11,7 +11,7 @@
                         <label for="sub-question" class="col-1 row-index sub-question">
                             {{ config('settings.number_1') }}
                         </label>
-                        {!! Form::text("sub-question", trans('lang.row') . " " . config('settings.number_1'), [
+                        {!! Form::text("sub-question-" . config('settings.number_1'), trans('lang.row') . " " . config('settings.number_1'), [
                             'class' => "col-5 form-control sub-question-input",
                         ]) !!}
                         <div class="delete-row fa fa-times"></div>
@@ -32,7 +32,7 @@
                     <div class="sub-question-content">
                         <span class="col-1 fa fa-circle-o column-icon" data-index="{{ config('settings.number_1') }}">
                         </span>
-                        {!! Form::text("sub-question-option", trans('lang.column') . " " . config('settings.number_1'), [
+                        {!! Form::text("sub-question-option-" . config('settings.number_1'), trans('lang.column') . " " . config('settings.number_1'), [
                             'class' => "col-5 form-control sub-question-option",
                         ]) !!}
                         <div class="delete-column fa fa-times"></div>
