@@ -64,6 +64,7 @@ jQuery(document).ready(function () {
 
     $(document).on('click', '.delete-row', function () {
         var subQuestion = [];
+        var element = $(this).closest('li.form-line');
         var index = $(this).closest('.row-column-content').find('.row-index').text();
         var listOfRow = $(this).closest(`div:regex(class, ^list-of-row)`).find('.row-column-content');
 
@@ -77,11 +78,12 @@ jQuery(document).ready(function () {
         if (index != listOfRow.length) {
             refreshRowLabel(subQuestion, listOfRow);
         }
-        displayDeleteIcon();
+        displayDeleteIcon(element);
     });
 
     $(document).on('click', '.delete-column', function () {
         var subOption = [];
+        var element = $(this).closest('li.form-line');
         var index = $(this).closest('.row-column-content').find('.column-icon').data('index');
         var listOfColumn = $(this).closest(`div:regex(class, ^list-of-column)`).find('.row-column-content');
 
@@ -95,11 +97,12 @@ jQuery(document).ready(function () {
         if (index != listOfColumn.length) {
             refreshColumnIndex(subOption, listOfColumn);
         }
-        displayDeleteIcon();
+        displayDeleteIcon(element);
     });
 
     $(document).on('click', '.add-more-row', function () {
         var listOfRow = $(this).closest('.list-of-row-column').find(`div:regex(class, ^list-of-row)`);
+        var element = $(this).closest('li.form-line');
         var index = $(this).closest('.list-of-row-column').find(`div:regex(class, ^list-of-row) .row-index`).last().text();
         listOfRow.append(`
             <span class="row-column-content">
@@ -112,10 +115,11 @@ jQuery(document).ready(function () {
                 </div>
             </span>
         `);
-        displayDeleteIcon();
+        displayDeleteIcon(element);
     });
 
     $(document).on('click', '.add-more-column', function () {
+        var element = $(this).closest('li.form-line');
         var listOfColumn = $(this).closest('.list-of-row-column').find(`div:regex(class, ^list-of-column)`);
         var index = $(this).closest('.list-of-row-column').find(`div:regex(class, ^list-of-column) .column-icon`).last().data('index');
         listOfColumn.append(`
@@ -129,7 +133,7 @@ jQuery(document).ready(function () {
                 </div>
             </span>
         `);
-        displayDeleteIcon();
+        displayDeleteIcon(element);
     });
 
     $(document).on('mouseover', '.sub-question-content', function () {
@@ -156,9 +160,10 @@ jQuery(document).ready(function () {
         }
     }
 
-    function displayDeleteIcon() {
-        var listOfRow = $(`div:regex(class, ^list-of-row)`).find('.row-column-content');
-        var listOfColumn = $(`div:regex(class, ^list-of-column)`).find('.row-column-content');
+    function displayDeleteIcon(element) {
+        var questionId = element.data('question-id');
+        var listOfRow = $(`div:regex(class, list-of-row-${questionId})`).find('.row-column-content');
+        var listOfColumn = $(`div:regex(class, ^list-of-column-${questionId})`).find('.row-column-content');
 
         if (listOfRow.length == 1) {
             listOfRow.find('.delete-row').css('display', 'none');
