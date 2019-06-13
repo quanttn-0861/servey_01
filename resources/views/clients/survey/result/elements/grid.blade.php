@@ -6,13 +6,13 @@
                 <div class="grid-colum-head">
                     <div class="grid-first-colum none-colum"></div>
                     @foreach ($question->sub_options as $option)
-                        <div class="grid-colum">{{$option}}</div>  
+                        <div class="grid-colum">{{$option}}</div>
                     @endforeach
                 </div>
                 @foreach ($question->sub_questions as $subQuestion)
                 <div class="grid-row">
                     <span class="grid-row-span">
-                    <div class="grid-first-colum">{{$subQuestion}}</div>
+                    <div class="grid-first-colum" title="{{ $subQuestion }}">{{ str_limit($subQuestion, config('settings.limit_grid')) }}</div>
                         @foreach ($question->sub_options as $option)
                             <div class="grid-colum">
                                 <label class="container-radio-setting-survey">
