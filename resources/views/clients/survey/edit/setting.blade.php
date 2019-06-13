@@ -26,6 +26,7 @@
                         answer-limited="{{ $survey->getSetting(config('settings.setting_type.answer_limited.key')) }}"
                         reminder-email="{{ $survey->getSetting(config('settings.setting_type.reminder_email.key')) }}"
                         privacy="{{ $survey->getSetting(config('settings.setting_type.privacy.key')) }}"
+                        edit-answer="{{ config('settings.survey_setting.edit_answer.no_edit') }}"
                         time="{{ $survey->getSetting(config('settings.setting_type.next_remind_time.key')) }}">
                     <div class="setting-email-create-survey">
                         <div class="item-setting">
@@ -148,6 +149,18 @@
                                     'default' => config('settings.survey_setting.privacy.public'),
                                     'val' => config('settings.survey_setting.privacy.private'),
                                     'id' => 'security-survey',
+                                ]) !!}
+                                <span class="checkmark-setting-survey"></span>
+                            </label>
+                        </div>
+                        <div class="item-setting">
+                            <label class="container-checkbox-setting-survey col-12">
+                                <span>@lang('lang.edit_after_submit')</span>
+                                {!! Form::checkbox('edit_answer', '', false, [
+                                    'class' => 'edit_answer',
+                                    'default' => config('settings.survey_setting.edit_answer.no_edit'),
+                                    'val' => config('settings.survey_setting.edit_answer.edit'),
+                                    'id' => 'edit-answer',
                                 ]) !!}
                                 <span class="checkmark-setting-survey"></span>
                             </label>

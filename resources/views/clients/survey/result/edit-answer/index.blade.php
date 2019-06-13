@@ -32,7 +32,7 @@
         <div class="background-user-profile"></div>
         @if (!isset($requiredLogin))
             <div class="page-doing-survey">
-                @include('clients.survey.detail.detail_survey')
+                @include('clients.survey.result.edit-answer.detail_survey')
             </div>
         @endif
 

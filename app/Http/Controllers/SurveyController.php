@@ -946,12 +946,13 @@ class SurveyController extends Controller
     {
         try {
             $survey = $this->surveyRepository->getSurvey($token);
+            $results = $survey->results->groupBy('token')->last();
             $title = $survey->title;
             $content = '';
 
             if ($request->ajax()) {
 
-                return $this->showAjax($request, $survey, $tokenResult);
+                return $this->showResults($request, $survey, $results);
             }
 
             $privacy = $survey->getPrivacy();
@@ -981,9 +982,95 @@ class SurveyController extends Controller
             // at line 42 of file app/Traits/DoSurvey.php
             $data = $this->getFirstSectionSurvey($survey);
 
-            return view('clients.survey.result.edit-answer.index', compact('data', 'survey'));
+            return view('clients.survey.result.edit-answer.index', compact('data', 'results'));
         } catch(Exception $e) {
             return view('clients.layout.404');
         }
+    }
+
+    public function showResults($request, $survey, $results)
+    {
+        $redirectIds = $request->redirect_ids;
+        $currentSectionId = $request->current_section_id;
+        $sectionIds = $this->getSectionIds($survey, $currentSectionId, $redirectIds);
+        $currentSectionIndex = array_search($currentSectionId, $sectionIds) != false ? array_search($currentSectionId, $sectionIds) : 0;
+        $indexSection = config('settings.index_section.middle');
+        $currentSectionId = $sectionIds[$currentSectionIndex + 1];
+        $section = $this->surveyRepository->getSectionCurrent($survey, $currentSectionId);
+
+        if ($currentSectionId == end($sectionIds) && !$this->sectionRepository->checkIfExistRedirectQuestion($section)) {
+            $indexSection = config('settings.index_section.end');
+        }
+
+        $sectionOrder = 'section-' . $section->order;
+
+        $data = [
+            'section' => $section,
+            'survey' => $survey,
+            'index_section' => $indexSection,
+        ];
+
+        return response()->json([
+            'success' => true,
+            'html' => view('clients.survey.result.edit-answer.content-survey', compact('data', 'results'))->render(),
+            'section_order' => $sectionOrder,
+        ]);
+    }
+
+    public function storeNewResults(ResultRequest $request)
+    {
+        $dataJSON = [];
+
+        if (!$request->ajax()) {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $survey = $this->surveyRepository->getSurveyFromToken($request->json()->get('survey_token'));
+            $currentResults = $survey->results->groupBy('token')->last();
+            $tokenResult = $currentResults->first()->token;
+            $newResultsData = $this->resultRepository->getNewResults($request->json(), $tokenResult);
+            $this->resultRepository->updateNewResults($newResultsData, $currentResults);
+            $request->session()->forget('current_section_survey');
+
+            DB::commit();
+
+            $dataJSON['success'] = true;
+        } catch (Exception $e) {
+            DB::rollback();
+            $dataJSON = [
+                'success' => false,
+                'message' => trans('lang.send_result_failed'),
+            ];
+
+            if ($e->getCode() == 403) {
+                $dataJSON['success'] = true;
+            }
+        }
+
+        return response()->json($dataJSON);
+    }
+
+    public function getSectionIds($survey, $currentSectionId, $redirectIds)
+    {
+        $currentSection = $survey->sections->where('id', $currentSectionId)->first();
+        $redirectSectionIds = $survey->sections->where('redirect_id', '!=', 0)->pluck('redirect_id')->all();
+
+        if (count($redirectSectionIds)) {
+            $sectionIds = $survey->sections->whereIn('redirect_id', $redirectIds)->sortBy('order')->pluck('id')->all();
+            $sectionUpdateIds = $survey->sections->where('update', config('settings.survey.section_update.updated'))->sortBy('order')->pluck('id')->all();
+            if (count($sectionUpdateIds) && count($survey->results->where('user_id', Auth::user()->id))) {
+                $sectionIds = $sectionUpdateIds;
+            }
+            
+        } else {
+            $sectionIds = $survey->sections->pluck('id')->all();
+        }
+
+        return $sectionIds;
     }
 }

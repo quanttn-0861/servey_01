@@ -396,6 +396,6 @@ return [
     'add_row' => 'Thêm hàng',
     'column' => 'Cột',
     'add_column' => 'Thêm cột',
-    'edit_after_submit' => 'Chỉnh sửa sau khi gửi',
+    'edit_after_submit' => 'Cho phép người dùng chỉnh sửa câu trả lời đã gửi',
     'edit_your_answer' => 'Chỉnh sửa câu trả lời của bạn',
 ];

@@ -170,4 +170,53 @@ class ResultRepository extends BaseRepository implements ResultInterface
 
         return $results;
     }
+
+    public function getNewResults($data, $tokenResult)
+    {
+        $sections = $data->get('sections');
+        $newResultsData = [];
+
+        foreach ($sections as $section) {
+            $temp = [];
+            
+            foreach ($section['questions'] as $key => $question) {
+                $temp['question_id'] = $question['question_id'];
+
+                foreach ($question['results'] as $result) {
+                    $temp['answer_id'] = 0;
+                    $temp['content'] = '';
+                    $temp['token'] = $tokenResult;
+
+                    if (in_array($question['type'], [
+                        config('settings.question_type.short_answer'),
+                        config('settings.question_type.long_answer'),
+                        config('settings.question_type.date'),
+                        config('settings.question_type.time'),
+                        config('settings.question_type.linear_scale'),
+                        config('settings.question_type.grid'),
+                    ])) {
+                        $temp['content'] = $result['content'];
+                    } elseif ($result['answer_id']) {
+                        $temp['answer_id'] = $result['answer_id'];
+
+                        if ($result['answer_type'] == config('settings.answer_type.other_option')) {
+                            $temp['content'] = $result['content'];
+                        }
+                    }
+
+                    array_push($newResultsData, $temp);
+                }
+            }
+        }
+
+        return $newResultsData;
+    }
+
+    public function updateNewResults($newResultsData, $currentResults)
+    {
+        
+        foreach ($newResultsData as $newResult) {
+            $currentResults->where('question_id', $newResult['question_id'])->first()->update($newResult);
+        }
+    }
 }
