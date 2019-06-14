@@ -6,7 +6,6 @@
             <div class="form-row row-column-element">@lang('lang.row')</div>
             <div class="list-of-row-{{ $questionId }}">
                 <span class="row-column-content">
-                    <div class="draggable-area"></div>
                     <div class="sub-question-content">
                         <label for="sub-question" class="col-1 row-index sub-question">
                             {{ config('settings.number_1') }}
@@ -28,7 +27,6 @@
             <div class="form-row row-column-element">@lang('lang.column')</div>
             <div class="list-of-column-{{ $questionId }}">
                 <span class="row-column-content">
-                    <div class="draggable-area"></div>
                     <div class="sub-question-content">
                         <span class="col-1 fa fa-circle-o column-icon" data-index="{{ config('settings.number_1') }}">
                         </span>
