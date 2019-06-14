@@ -17,6 +17,8 @@
                                 <label class="container-radio-setting-survey" data-col-index="{{ $loop->iteration }}">
                                     {!! Form::radio('answer_' . $loop->parent->iteration, '', false, [
                                         'class' => 'radio-answer-preview',
+                                        ($result->array_content[$loop->parent->iteration] != ''
+                                        && $result->array_content[$loop->parent->iteration] == $loop->iteration) ? 'checked' : '',
                                     ]) !!}
                                     <span class="checkmark-radio"></span>
                                 </label>
