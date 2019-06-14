@@ -186,6 +186,8 @@ class ResultRepository extends BaseRepository implements ResultInterface
                     $temp['answer_id'] = 0;
                     $temp['content'] = '';
                     $temp['token'] = $tokenResult;
+                    $temp['user_id'] = Auth::user()->id;
+                    $temp['client_ip'] = '';
 
                     if (in_array($question['type'], [
                         config('settings.question_type.short_answer'),
@@ -212,11 +214,40 @@ class ResultRepository extends BaseRepository implements ResultInterface
         return $newResultsData;
     }
 
-    public function updateNewResults($newResultsData, $currentResults)
+    public function updateNewResults($newResultsData, $currentResults, $survey)
     {
-        
-        foreach ($newResultsData as $newResult) {
-            $currentResults->where('question_id', $newResult['question_id'])->first()->update($newResult);
+        $allSectionRedirectIds = $survey->sections->where('redirect_id', '<>', 0)->pluck('id')->all();
+        $allQuestionRedirectIds = $survey->questions->whereIn('section_id', $allSectionRedirectIds)->pluck('id')->all();
+
+        foreach ($survey->questions as $question) {
+
+            if (in_array($question->id, $allQuestionRedirectIds)) {
+                continue;
+            }
+
+            if ($question->type == config('settings.question_type.checkboxes')) {
+                $oldResults = $currentResults->where('question_id', $question->id);
+
+                foreach ($oldResults as $oldResult) {
+                    $oldResult->forceDelete();
+                }
+                $survey->results()->createMany(collect($newResultsData)->where('question_id', $question->id)->toArray());
+            } else {
+                $result = collect($newResultsData)->where('question_id', $question->id)->first();
+                $currentResults->where('question_id', $question->id)->first()->update($result);
+
+                if ($question->type == config('settings.question_type.redirect')) {
+                    $sectionRedirectIds = $survey->sections->whereIn('redirect_id', $question->answers->pluck('id')->all())->pluck('id')->all();
+                    $questionRedirectIds = $survey->questions->whereIn('section_id', $sectionRedirectIds)->pluck('id')->all();
+                    $oldRedirectResults = $currentResults->whereIn('question_id', $questionRedirectIds);
+
+                    foreach ($oldRedirectResults as $oldRedirectResult) {
+                        $oldRedirectResult->forceDelete();
+                    }
+                    $questionIds = $survey->sections->where('redirect_id', $result['answer_id'])->first()->questions->pluck('id')->all();
+                    $survey->results()->createMany(collect($newResultsData)->whereIn('question_id', $questionIds)->toArray());
+                }
+            }
         }
     }
 }

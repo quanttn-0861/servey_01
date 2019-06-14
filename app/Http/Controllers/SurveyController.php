@@ -1034,7 +1034,7 @@ class SurveyController extends Controller
             $currentResults = $survey->results->groupBy('token')->last();
             $tokenResult = $currentResults->first()->token;
             $newResultsData = $this->resultRepository->getNewResults($request->json(), $tokenResult);
-            $this->resultRepository->updateNewResults($newResultsData, $currentResults);
+            $this->resultRepository->updateNewResults($newResultsData, $currentResults, $survey);
             $request->session()->forget('current_section_survey');
 
             DB::commit();
