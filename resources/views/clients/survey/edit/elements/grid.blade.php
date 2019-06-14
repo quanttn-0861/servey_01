@@ -5,7 +5,6 @@
         <div class="list-of-row-{{ $question->id }}">
             @foreach ($question->sub_questions as $subQuestion)
             <span class="row-column-content">
-                <div class="draggable-area"></div>
                 <div class="sub-question-content">
                     <label for="sub-question" class="col-1 row-index sub-question">
                         {{ $loop->iteration }}
@@ -29,7 +28,6 @@
         <div class="list-of-column-{{ $question->id }}">
             @foreach ($question->sub_options as $subOption)
             <span class="row-column-content">
-                <div class="draggable-area"></div>
                 <div class="sub-question-content">
                     <span class="col-1 fa fa-circle-o column-icon" data-index="{{ $loop->iteration }}">
                     </span>

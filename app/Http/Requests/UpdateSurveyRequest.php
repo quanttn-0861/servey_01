@@ -29,8 +29,6 @@ class UpdateSurveyRequest extends FormRequest
             'start_time' => 'date',
             'end_time' => 'date|after:start_time',
             'option' => 'between:0,1',
-            'update.sections.*.title' => 'distinct',
-            'create.sections.*.title' => 'distinct',
             'delete.sections.*' => 'integer',
             'delete.questions.*' => 'integer',
             'delete.answers.*' => 'integer',

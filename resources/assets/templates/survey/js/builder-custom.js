@@ -112,7 +112,6 @@ jQuery(document).ready(function () {
         
         listOfRow.append(`
             <span class="row-column-content">
-                <div class="draggable-area"></div>
                 <div class="sub-question-content">
                     <label for="sub-question" class="col-1 row-index sub-question">${++index}</label>
                     <input type="text" name="sub-question-${index}" value="${Lang.get('lang.row')} ${index}"
@@ -133,7 +132,6 @@ jQuery(document).ready(function () {
         var index = $(this).closest('.list-of-row-column').find(`div:regex(class, ^list-of-column) .column-icon`).last().data('index');
         listOfColumn.append(`
             <span class="row-column-content">
-                <div class="draggable-area"></div>
                 <div class="sub-question-content">
                     <span class="col-1 fa fa-circle-o column-icon" data-index="${++index}"></span>
                     <input type="text" name="sub-question-option-${index}" value="${Lang.get('lang.column')} ${index}"
