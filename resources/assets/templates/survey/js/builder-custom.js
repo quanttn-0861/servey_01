@@ -116,7 +116,7 @@ jQuery(document).ready(function () {
                 <div class="sub-question-content">
                     <label for="sub-question" class="col-1 row-index sub-question">${++index}</label>
                     <input type="text" name="sub-question-${index}" value="${Lang.get('lang.row')} ${index}"
-                        class="col-5 form-control sub-question-input"/>
+                        class="col-5 form-control sub-question-input" row-question="row-question-index-${index}" />
                     <div class="delete-row fa fa-times"></div>
                 </div>
             </span>
@@ -137,7 +137,7 @@ jQuery(document).ready(function () {
                 <div class="sub-question-content">
                     <span class="col-1 fa fa-circle-o column-icon" data-index="${++index}"></span>
                     <input type="text" name="sub-question-option-${index}" value="${Lang.get('lang.column')} ${index}"
-                        class="col-5 form-control sub-question-option"/>
+                        class="col-5 form-control sub-question-option" col-value="col-value-index-${index}"/>
                     <div class="delete-column fa fa-times"></div>
                 </div>
             </span>
@@ -1384,6 +1384,40 @@ jQuery(document).ready(function () {
 
     }, Lang.get('validation.msg.duplicate_answer_title'));
 
+    // sub question unique rule for grid question
+    $.validator.addMethod('subquestionunique', function (value, element) {
+        var parentForm = $(element).closest('form');
+        var timeRepeated = 0;
+
+        if (value.trim()) {
+            $(parentForm.find('li.form-line.sort div.form-row input:regex(row-question, row-question-index-*)')).each(function () {
+                if ($(this).val() === value) {
+                    timeRepeated++;
+                }
+            });
+        }
+
+        return timeRepeated === 1 || timeRepeated === 0;
+
+    }, Lang.get('validation.msg.duplicate_question_title'));
+
+    // sub option unique rule for grid question
+    $.validator.addMethod('suboptionunique', function (value, element) {
+        var parentForm = $(element).closest('form');
+        var timeRepeated = 0;
+
+        if (value.trim()) {
+            $(parentForm.find('li.form-line.sort div.form-row input:regex(col-value, col-value-index-*)')).each(function () {
+                if ($(this).val() === value) {
+                    timeRepeated++;
+                }
+            });
+        }
+
+        return timeRepeated === 1 || timeRepeated === 0;
+
+    }, Lang.get('validation.msg.duplicate_answer_title'));
+
     // add validation rule for section input element
     function addValidationRuleForSection(sectionId) {
         $(`#section_${sectionId} textarea:regex(name, ^title\\[section_.*\\]$)`).each(function () {
@@ -1427,6 +1461,7 @@ jQuery(document).ready(function () {
             $(this).rules('add', {
                 required: true,
                 maxlength: 255,
+                subquestionunique: true,
             });
         });
 
@@ -1434,6 +1469,7 @@ jQuery(document).ready(function () {
             $(this).rules('add', {
                 required: true,
                 maxlength: 255,
+                suboptionunique: true,
             });
         });
     }
