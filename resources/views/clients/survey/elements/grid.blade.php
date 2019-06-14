@@ -13,6 +13,7 @@
                         </label>
                         {!! Form::text("sub-question-" . config('settings.number_1'), trans('lang.row') . " " . config('settings.number_1'), [
                             'class' => "col-5 form-control sub-question-input",
+                            'row-question' => 'row-question-index-' . config('settings.number_1'),
                         ]) !!}
                         <div class="delete-row fa fa-times"></div>
                     </div>
@@ -34,6 +35,7 @@
                         </span>
                         {!! Form::text("sub-question-option-" . config('settings.number_1'), trans('lang.column') . " " . config('settings.number_1'), [
                             'class' => "col-5 form-control sub-question-option",
+                            'col-value' => 'col-value-index-' . config('settings.number_1'),
                         ]) !!}
                         <div class="delete-column fa fa-times"></div>
                     </div>
