@@ -20,5 +20,5 @@ interface ResultInterface
 
     public function getNewResults($data, $tokenResult);
 
-    public function updateNewResults($newResultsData, $currentResults);
+    public function updateNewResults($newResultsData, $currentResults, $survey);
 }
