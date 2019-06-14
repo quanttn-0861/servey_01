@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'web_title' => 'FSurvey',
+    'web_title' => 'Sun* Survey',
     'survey' => 'Survey',
     'home' => 'Trang chủ',
     'feedback' => 'Phản hồi',
@@ -27,7 +27,7 @@ return [
     'address' => 'Địa chỉ',
     'image' => 'Hình ảnh',
     'more_info' => 'Thông tin thêm',
-    'more_info_content' => 'FSurvey - Một hệ thống khảo sát nhanh, đơn giản và tiện lợi',
+    'more_info_content' => 'Sun* Survey - Một hệ thống khảo sát nhanh, đơn giản và tiện lợi',
     'more_tools' => 'Các công cụ khác...',
     'copyright' => 'Bản quyền tập đoàn Sun* &copy;2018.',
     'date_format' => 'd/m/Y',
@@ -56,7 +56,7 @@ return [
     'features_description' => 'Dễ dàng sử dụng và đo lường kết quả nhanh chóng',
     'feature_1' => 'Tính năng #1',
     'feature_1_title' => 'Đơn giản và Đáp ứng đầy đủ',
-    'feature_1_content' => 'FSurvey cung cấp một loạt các dạng câu hỏi mà bạn có thể tự do lựa chọn như: trắc nghiệm, ngày & giờ, kiểu văn bản,… Điều này sẽ giúp bạn dễ dàng hơn trong việc tạo ra một cuộc khảo sát hiệu quả.',
+    'feature_1_content' => 'Sun* Survey cung cấp một loạt các dạng câu hỏi mà bạn có thể tự do lựa chọn như: trắc nghiệm, ngày & giờ, kiểu văn bản,… Điều này sẽ giúp bạn dễ dàng hơn trong việc tạo ra một cuộc khảo sát hiệu quả.',
     'feature_2' => 'Tính năng #2',
     'feature_2_title' => 'Số liệu điều tra hữu dụng',
     'feature_2_content' => 'Khảo sát trực tuyến có thể được thay đổi được tình hình. Toàn bộ thời gian thu thập dữ liệu được rút ngắn đáng kể. Bạn có thể gửi đến nhiều người cùng một lúc. Thu thập dữ liệu với một cái nhìn tổng quan thông qua màn hình hiển thị chi tiết kết quả và bảng xếp hạng.',
@@ -66,7 +66,7 @@ return [
     'vn' => 'Tiếng Việt',
     'en' => 'Tiếng Anh',
     'jp' => 'Tiếng Nhật',
-    'reason_send_mail_reset' => 'Bạn nhận được email này bởi vì chúng tôi nhận được yêu cầu đặt lại mật khẩu từ tài khoản Fsurvey của bạn.',
+    'reason_send_mail_reset' => 'Bạn nhận được email này bởi vì chúng tôi nhận được yêu cầu đặt lại mật khẩu từ tài khoản Sun* Survey của bạn.',
     'thank_you_use_application' => 'Cảm ơn bạn đã sử dụng ứng dụng của chúng tôi!',
     'email_user_not_exist' => 'Email này chưa được đăng ký hoặc sai thông tin.',
     'send_mail_reset_password_success' => 'Email đặt lại mật khẩu đã được gửi thành công!',
@@ -113,6 +113,7 @@ return [
     */
 
     'create_survey' => 'Tạo khảo sát',
+    'edit_survey' => 'Chỉnh sửa khảo sát',
     'title' => 'Tiêu đề',
     'title_placeholder' => 'Tiêu đề khảo sát',
     'time' => 'Thời gian',

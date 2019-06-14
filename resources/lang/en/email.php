@@ -29,7 +29,7 @@ return [
     'participant' => 'You have been invited to participant this survey.',
     'from' => 'From',
     'title' => 'Title',
-    'title_web' => 'FSurvey',
+    'title_web' => 'Sun* Survey',
     'description' => 'Description',
     'info_survey' => 'Info survey',
     'click_participant' => "Let's click link below to participant.",
