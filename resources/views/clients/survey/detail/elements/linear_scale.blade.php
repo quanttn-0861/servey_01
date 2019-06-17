@@ -14,7 +14,7 @@
                     <div class="item-content-column">{{ $i }}</div>
                     <div class="item-content-column-input">
                         {!! Form::radio("answer_$question->id", '', false, [
-                            'class' => 'group-radio-answer',
+                            'class' => 'choice-answer group-radio-answer',
                         ]) !!}
                         <span class="group-radio"></span>
                     </div>
