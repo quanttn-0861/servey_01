@@ -73,6 +73,8 @@ class ResultRequest extends FormRequest
                 config('settings.question_type.long_answer'),
                 config('settings.question_type.date'),
                 config('settings.question_type.time'),
+                config('settings.question_type.linear_scale'),
+                config('settings.question_type.grid'),
             ])) {
                 $rules['sections.' . $sectionIndex . '.questions.' . $questionIndex . '.results.*.content'] = 'required';
             } else {
