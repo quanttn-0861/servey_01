@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'title_web' => 'FSurvey',
+    'title_web' => 'Sun*Survey',
     'image_system' => '/user/images/',
     'image_user_default' => '/templates/survey/images/default_user.png',
     'background_profile' => '/templates/survey/images/background_profile.jpg',
@@ -140,7 +140,7 @@ return [
     ],
     'public_template' => '/templates/survey/',
     'plugins' => '/plugins/',
-    'logo_content' => '<span class="highlight">F</span>Survey',
+    'logo_content' => '<span class="highlight">Sun*</span>Survey',
     'counter_default_value' => 0,
     'feature_icon' => [
         'icon_1' => '/templates/survey/images/icon/about1.png',
@@ -154,7 +154,7 @@ return [
         'list_feedback' => '3',
     ],
     'vn' => 'vn',
-    'fsurvey' => 'FSurvey',
+    'fsurvey' => 'Sun* Survey',
     'max_size_image' => 5120,
     'quantity_answer' => [
         'default' => 1,

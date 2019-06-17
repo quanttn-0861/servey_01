@@ -29,7 +29,7 @@ return [
     'participant' => 'このアンケートに参加者に招待されました。',
     'from' => 'から',
     'title' => 'タイトル',
-    'title_web' => 'FSurvey',
+    'title_web' => 'Sun* Survey',
     'description' => 'デスクリプション',
     'info_survey' => '情報調査',
     'click_participant' => '下のリンクをクリックしてください。',

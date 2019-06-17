@@ -72,7 +72,7 @@ a.btn-cta-secondary:hover,
     color: #fff;
 }
 .highlight {
-    color: #71c4e0;
+    color: #FF0000;
 }
 .form-control {
     -webkit-box-shadow: none;
@@ -314,7 +314,7 @@ body.no-header-wrapper {
     text-decoration: none;
 }
 .header h1.logo a .highlight {
-    color: #71c4e0;
+    color: #FF0000;
 }
 .header .main-nav {
     padding: 0;

@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'web_title' => 'FSurvey',
+    'web_title' => 'Sun* Survey',
     'survey' => 'Survey',
     'home' => 'Home',
     'feedback' => 'Feedback',
@@ -26,7 +26,7 @@ return [
     'gender' => 'Gender',
     'address' => 'Address',
     'more_info' => 'More information',
-    'more_info_content' => 'FSurvey - A simple, fast and convenient survey system.',
+    'more_info_content' => 'Sun* Survey - A simple, fast and convenient survey system.',
     'more_tools' => 'More tools...',
     'copyright' => 'Copyright &copy;2018 Sun*, Inc.',
     'date_format' => 'm/d/Y',
@@ -107,6 +107,7 @@ return [
     */
 
     'create_survey' => 'Create Survey',
+    'edit_survey' => 'Edit Survey',
     'title' => 'Title',
     'title_placeholder' => 'Title',
     'time' => 'Time',

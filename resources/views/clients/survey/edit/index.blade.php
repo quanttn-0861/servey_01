@@ -109,7 +109,7 @@
                 <ul class="clearfix form-wrapper page-section-header">
                     <li class="form-line p-0">
                         <div class="form-header form-header-create">
-                            <h1>@lang('lang.create_survey')</h1>
+                            <h1>@lang('lang.edit_survey')</h1>
                         </div>
                     </li>
                     <li class="form-line">
