@@ -74,31 +74,31 @@
                     @endphp
                     <tr height="40">
                         <td>{{ $result->first()->created_at }}</td>
-                        @if($result->first()->question->type == config('settings.question_type.grid'))
-                            @php
-                                $subQuestions = $result->first()->question->sub_questions;
-                                $subOptions = json_decode($result->first()->question->settings->first()->value);
-                                $gridResult = json_decode($result->first()->content, true);
-                            @endphp
-                            <td width="50">
-                                @foreach ($subQuestions as $subQuestion)
-                                <br />{{ $subQuestion }} : {{ $subOptions[$gridResult[$loop->iteration] - 1] }}
-                                @endforeach
-                            </td>
-                        @else
-                            @if ($data['requiredSurvey'] != config('settings.survey_setting.answer_required.none'))
-                                <td>{{ $result->first()->user ? $result->first()->user->email : trans('lang.incognito') }}</td>
-                            @endif
-                            @foreach ($result->groupBy('question_id') as $answers)
-                                @if ($answers->count() == 1)
-                                    <td>{!! $answers->first()->content_answer !!}</td>
-                                @else
-                                    <td>
-                                        {{ $answers->implode('content_answer', ', ') }}
-                                    </td>
-                                @endif
-                            @endforeach
+                        @if ($data['requiredSurvey'] != config('settings.survey_setting.answer_required.none'))
+                            <td>{{ $result->first()->user ? $result->first()->user->email : trans('lang.incognito') }}</td>
                         @endif
+                        @foreach ($result->groupBy('question_id') as $answers)
+                            @if ($answers->count() == 1)
+                                @if($answers->first()->question->type == config('settings.question_type.grid'))
+                                    @php
+                                        $subQuestions = $answers->first()->question->sub_questions;
+                                        $subOptions = json_decode($answers->first()->question->settings->first()->value);
+                                        $gridResult = json_decode($answers->first()->content, true);
+                                    @endphp
+                                    <td width="50">
+                                        @foreach ($subQuestions as $subQuestion)
+                                        <br />{{ $subQuestion }} : {{ $subOptions[$gridResult[$loop->iteration] - 1] }}
+                                        @endforeach
+                                    </td>
+                                @else
+                                    <td>{!! $answers->first()->content_answer !!}</td>
+                                @endif
+                            @else
+                                <td>
+                                    {{ $answers->implode('content_answer', ', ') }}
+                                </td>
+                            @endif
+                        @endforeach
                     </tr>
                 @endforeach
             @endif
