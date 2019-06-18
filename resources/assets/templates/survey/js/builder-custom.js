@@ -63,7 +63,9 @@ jQuery(document).ready(function () {
     }
 
     $(document).ready(function () {
-        displayDeleteIcon($('li.form-line.question-active'));
+        $('.survey-form').find('ul.form-wrapper.page-section li.form-line.sort').each(function () {
+            displayDeleteIcon($(this));
+        });
     });
 
     $(document).on('click', '.delete-row', function () {
@@ -109,7 +111,7 @@ jQuery(document).ready(function () {
         var listOfRow = $(this).closest('.list-of-row-column').find(`div:regex(class, ^list-of-row)`);
         var element = $(this).closest('li.form-line');
         var index = $(this).closest('.list-of-row-column').find(`div:regex(class, ^list-of-row) .row-index`).last().text();
-        
+
         listOfRow.append(`
             <span class="row-column-content">
                 <div class="sub-question-content">
