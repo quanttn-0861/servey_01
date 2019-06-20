@@ -843,9 +843,16 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                 }
             }
 
+            //get section by redirect_id
+            $sections = $survey->sections->where('redirect_id', $answer->id);
+            $section_id = [];
+            foreach ($sections as $section) {
+                array_push($section_id, $section->id);
+            }
+
             //get question by case
             $questionsInsideRedirectSection = app(QuestionInterface::class)->withTrashed()
-                ->whereIn('section_id', $survey->sections->where('redirect_id', $answer->id)->first()->id)
+                ->whereIn('section_id', $section_id)
                 ->with('settings', 'section')->get();
             $questions = $questionsWithoutRedirect->merge($questionsInsideRedirectSection)->sortBy('order')->sortBy('section_order');
 
