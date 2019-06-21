@@ -46,6 +46,24 @@ $(document).ready(function () {
         format: 'HH:mm',
     });
 
+    $('.datepicker-edit').each(function () {
+        var dateFormat = $(this).attr('data-dateformat');
+        var defaultValue = $(this).data('content') ? $(this).data('content') : new Date();
+
+        $(this).datetimepicker({
+            useCurrent: false,
+            defaultDate: moment(defaultValue, dateFormat),
+            format: dateFormat,
+        });
+    })
+
+    var valueTime = $('.timepicker-edit').data('content') ? $('.timepicker-edit').data('content') : new Date();
+    $('.timepicker-edit').datetimepicker({
+        useCurrent: false,
+        defaultDate: moment(valueTime, 'HH:mm'),
+        format: 'HH:mm',
+    });
+
     //event click img answer
     $(document).on('click', '.img-checkbox-preview', function (event) {
         event.preventDefault();
