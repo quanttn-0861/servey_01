@@ -116,8 +116,8 @@ jQuery(document).ready(function () {
             <span class="row-column-content">
                 <div class="sub-question-content">
                     <label for="sub-question" class="col-1 row-index sub-question">${++index}</label>
-                    <input type="text" name="sub-question-${index}" value="${Lang.get('lang.row')} ${index}"
-                        class="col-5 form-control sub-question-input" row-question="row-question-index-${index}" />
+                    <input type="text" name="sub-question-${questionId}-${index}" value="${Lang.get('lang.row')} ${index}"
+                        class="col-5 form-control sub-question-input" row-question="row-question-${questionId}-index-${index}" />
                     <div class="delete-row fa fa-times"></div>
                 </div>
             </span>
@@ -136,8 +136,8 @@ jQuery(document).ready(function () {
             <span class="row-column-content">
                 <div class="sub-question-content">
                     <span class="col-1 fa fa-circle-o column-icon" data-index="${++index}"></span>
-                    <input type="text" name="sub-question-option-${index}" value="${Lang.get('lang.column')} ${index}"
-                        class="col-5 form-control sub-question-option" col-value="col-value-index-${index}"/>
+                    <input type="text" name="sub-question-option-${questionId}-${index}" value="${Lang.get('lang.column')} ${index}"
+                        class="col-5 form-control sub-question-option" col-value="col-value-${questionId}-index-${index}"/>
                     <div class="delete-column fa fa-times"></div>
                 </div>
             </span>
@@ -1386,11 +1386,12 @@ jQuery(document).ready(function () {
 
     // sub question unique rule for grid question
     $.validator.addMethod('subquestionunique', function (value, element) {
-        var parentForm = $(element).closest('form');
+        var parentForm = $(element).closest('.list-of-row-column');
+        var questionId = $(parentForm).closest('li.form-line').data('question-id');
         var timeRepeated = 0;
 
         if (value.trim()) {
-            $(parentForm.find('li.form-line.sort div.form-row input:regex(row-question, row-question-index-*)')).each(function () {
+            $(parentForm.find(`input:regex(row-question, ^row-question-${questionId}-index-.*$)`)).each(function () {
                 if ($(this).val() === value) {
                     timeRepeated++;
                 }
@@ -1403,11 +1404,12 @@ jQuery(document).ready(function () {
 
     // sub option unique rule for grid question
     $.validator.addMethod('suboptionunique', function (value, element) {
-        var parentForm = $(element).closest('form');
+        var parentForm = $(element).closest('.list-of-row-column');
+        var questionId = $(parentForm).closest('li.form-line').data('question-id');
         var timeRepeated = 0;
 
         if (value.trim()) {
-            $(parentForm.find('li.form-line.sort div.form-row input:regex(col-value, col-value-index-*)')).each(function () {
+            $(parentForm.find(`input:regex(col-value, ^col-value-${questionId}-index-.*$)`)).each(function () {
                 if ($(this).val() === value) {
                     timeRepeated++;
                 }
@@ -1457,7 +1459,7 @@ jQuery(document).ready(function () {
 
     // add validation rule for row and column of grid question
     function addValidationRuleForRowAndColumn(questionId) {
-        $(`#question_${questionId} .sub-question-input`).each(function () {
+        $(`#question_${questionId} input:regex(row-question, ^row-question-${questionId}-index-.*$)`).each(function () {
             $(this).rules('add', {
                 required: true,
                 maxlength: 255,
@@ -1465,7 +1467,7 @@ jQuery(document).ready(function () {
             });
         });
 
-        $(`#question_${questionId} .sub-question-option`).each(function () {
+        $(`#question_${questionId} input:regex(col-value, ^col-value-${questionId}-index-.*$)`).each(function () {
             $(this).rules('add', {
                 required: true,
                 maxlength: 255,

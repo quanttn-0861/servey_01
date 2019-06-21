@@ -10,9 +10,9 @@
                         <label for="sub-question" class="col-1 row-index sub-question">
                             {{ config('settings.number_1') }}
                         </label>
-                        {!! Form::text("sub-question-" . config('settings.number_1'), trans('lang.row') . " " . config('settings.number_1'), [
+                        {!! Form::text("sub-question-$questionId-" . config('settings.number_1'), trans('lang.row') . " " . config('settings.number_1'), [
                             'class' => "col-5 form-control sub-question-input",
-                            'row-question' => 'row-question-index-' . config('settings.number_1'),
+                            'row-question' => "row-question-$questionId-index-" . config('settings.number_1'),
                         ]) !!}
                         <div class="delete-row fa fa-times"></div>
                     </div>
@@ -31,9 +31,9 @@
                     <div class="sub-question-content">
                         <span class="col-1 fa fa-circle-o column-icon" data-index="{{ config('settings.number_1') }}">
                         </span>
-                        {!! Form::text("sub-question-option-" . config('settings.number_1'), trans('lang.column') . " " . config('settings.number_1'), [
+                        {!! Form::text("sub-question-option-$questionId-" . config('settings.number_1'), trans('lang.column') . " " . config('settings.number_1'), [
                             'class' => "col-5 form-control sub-question-option",
-                            'col-value' => 'col-value-index-' . config('settings.number_1'),
+                            'col-value' => "col-value-$questionId-index-" . config('settings.number_1'),
                         ]) !!}
                         <div class="delete-column fa fa-times"></div>
                     </div>
