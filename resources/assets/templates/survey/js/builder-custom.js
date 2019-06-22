@@ -3109,8 +3109,6 @@ jQuery(document).ready(function () {
             return;
         }
 
-        $.get($(this).attr('remove-session-url'));
-
         $.ajax({
             method: 'POST',
             url: $(this).data('url'),

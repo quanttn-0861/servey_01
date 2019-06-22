@@ -119,16 +119,4 @@ class PreviewSurveyController extends Controller
             return redirect()->route('404');
         }
     }
-
-    public function removeSession(Request $request) {
-        
-        if ($request->session()->has('redirect_ids') || $request->session()->has('section_id')) {
-            $request->session()->forget('redirect_ids');
-            $request->session()->forget('section_id');
-        }
-
-        return response()->json([
-            'success' => true
-        ]);
-    }
 }
