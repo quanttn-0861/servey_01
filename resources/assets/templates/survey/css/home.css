@@ -2419,8 +2419,8 @@ body.no-header-wrapper {
 
 #bt-login-wsm {
     background: url('/templates/survey/images/icon/wsm.png') no-repeat 0 0;
-    background-size: 20px 20px;
-    background-position: center;
+    background-size: 25px 25px;
+    background-position: 20px;
     padding-left: 2rem;
     padding-right: 2rem;
 }

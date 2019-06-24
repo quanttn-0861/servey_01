@@ -87,10 +87,10 @@
                                                 {{ Html::image(config('settings.blank_icon'), '', ['class' => 'flag en fnone']) }}
                                                 <span>@lang('lang.en')</span>
                                             </li>
-                                            <li rel="jp">
+                                            {{-- <li rel="jp">
                                                 {{ Html::image(config('settings.blank_icon'), '', ['class' => 'flag jp fnone']) }}
                                                 <span>@lang('lang.jp')</span>
-                                            </li>
+                                            </li> --}}
                                         </ul>
                                     </div>
                                 </li>
