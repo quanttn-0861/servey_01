@@ -44,12 +44,12 @@
                                     <span class="tooltiptext">@lang('lang.copy_link')</span>
                                 </a>
                             </div>
-                            <div class="col-xl-3 col-lg-4 col-md-4 col-sm-5 col-xs-2">
+                            {{-- <div class="col-xl-3 col-lg-4 col-md-4 col-sm-5 col-xs-2">
                                 <a href="#" class="btn btn-blue btn-sm full-width">
                                     <i class="fa fa-facebook-square"></i>
                                     @lang('lang.share')
                                 </a>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
