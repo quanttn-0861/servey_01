@@ -51,8 +51,8 @@
                         {{ Form::button(trans('lang.register'), ['type' => 'submit', 'class' => 'btn blue-gradient btn-block btn-rounded z-depth-1a', ]) }}
                     </div>
                 {{ Form::close() }}
-                <p class="font-small dark-grey-text text-right d-flex justify-content-center mb-3 pt-2"> @lang('lang.or_sign_in_with')</p>
-                <div class="row my-3 d-flex justify-content-center">
+                <p class="font-small dark-grey-text text-right d-flex justify-content-center mb-3"> @lang('lang.or_sign_in_with')</p>
+                {{-- <div class="row my-3 d-flex justify-content-center">
                     <a href="{{ route('socialRedirect', [config('settings.facebook')]) }}" class="btn btn-blue mr-md-3 z-depth-1a btn-social" id="btn-facebook">
                     </a>
                     <a href="{{ route('socialRedirect', [config('settings.twitter')]) }}" class="btn btn-white mr-md-3 z-depth-1a btn-social" id="btn-twitter">
@@ -60,6 +60,11 @@
                     <a href="{{ route('socialRedirect', config('settings.framgia')) }}" class="btn btn-orange  mr-md-3 z-depth-1a btn-social" id="bt-login-wsm">
                     </a>
                     <a href="{{ route('socialRedirect', [config('settings.google')]) }}" class="btn btn-red z-depth-1a btn-social" id="btn-google">
+                    </a>
+                </div> --}}
+                <div class="text-center mb-3">
+                    <a href="{{ route('socialRedirect', config('settings.framgia')) }}" class="btn btn-orange btn-block btn-rounded z-depth-1a" id="bt-login-wsm">
+                        @lang('lang.sign_in_wsm')
                     </a>
                 </div>
             </div>
