@@ -15,7 +15,7 @@
                         @foreach ($question->sub_options as $option)
                             <div class="grid-colum {{ count($question->sub_options) > config('settings.number_2') ? 'multiple-option' : '' }}">
                                 <label class="container-radio-setting-survey" data-col-index="{{ $loop->iteration }}">
-                                    {!! Form::radio('answer_' . $loop->parent->iteration, '', false, [
+                                    {!! Form::radio("$question->id-answer_" . $loop->parent->iteration, '', false, [
                                         'class' => 'radio-answer-preview',
                                         ($result->array_content[$loop->parent->iteration] != ''
                                         && $result->array_content[$loop->parent->iteration] == $loop->iteration) ? 'checked' : '',
