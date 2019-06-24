@@ -124,6 +124,7 @@ return [
         'required' => 'This field is required.',
         'remote' => 'Please fix this field.',
         'email' => 'Please enter a valid email address.',
+        'name' => 'The name is incorrect or has invalid characters.',
         're_password' => 'Your new password and confirmation password do not match ',
         'url' => 'Please enter a valid URL.',
         'date' => 'Please enter a valid date.',
