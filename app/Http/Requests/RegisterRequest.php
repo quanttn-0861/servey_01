@@ -24,7 +24,7 @@ class RegisterRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|max:20',
+            'name' => 'required|max:20|regex:/^[A-Za-z\x{00C0}-\x{00FF}][A-Za-z\x{00C0}-\x{00FF}\'\-]+([\ A-Za-z\x{00C0}-\x{00FF}][A-Za-z\x{00C0}-\x{00FF}\'\-]+)*/u',
             'email' => 'required|max:255|unique:users|regex:/^[a-zA-Z0-9]([\.-_]?[a-zA-Z0-9])*@[a-zA-Z0-9]([\.-]?[a-zA-Z0-9-_])*(\.[a-zA-Z0-9]{2,4})+$/',
             'password' => 'required|min:6|regex:/^\S*(?=\S*[a-zA-Z])(?=\S*[\W])(?=\S*[\d])\S*$/|confirmed',
         ];
@@ -33,6 +33,7 @@ class RegisterRequest extends FormRequest
     public function messages()
     {
         return [
+            'name.regex' => trans('validation.msg.name'),
             'password.regex' => trans('validation.password_without_spaces_and_require_letter_number_special_character'),
         ];
     }
