@@ -249,6 +249,17 @@ $(document).ready(function () {
                     if (data.success) {
                         $(selector).attr('data-next', data.section_order);
                         $('.content-section-preview').append(data.html);
+
+                        if ($('.content-section-preview').find(`ul#${data.section_order}`).length > 1) {
+                            
+                            $('.content-section-preview').find(`ul#${data.section_order}`).each(function() {
+
+                                if ($(this).css('display') == 'block') {
+                                    $(this).remove();
+                                    $('.content-section-preview').find(`ul#${data.section_order}`).css('display', 'block');
+                                }
+                            });
+                        }
                         var locale = $('.datepicker-preview').attr('locale');
 
                         $('.datepicker-preview').each(function () {
@@ -263,6 +274,23 @@ $(document).ready(function () {
                             format: 'HH:mm',
                         });
 
+                        $('.datepicker-edit').each(function () {
+                            var dateFormat = $(this).attr('data-dateformat');
+                            var defaultValue = $(this).data('content') ? $(this).data('content') : new Date();
+
+                            $(this).datetimepicker({
+                                useCurrent: false,
+                                defaultDate: moment(defaultValue, dateFormat),
+                                format: dateFormat,
+                            });
+                        })
+
+                        var valueTime = $('.timepicker-edit').data('content') ? $('.timepicker-edit').data('content') : new Date();
+                        $('.timepicker-edit').datetimepicker({
+                            useCurrent: false,
+                            defaultDate: moment(valueTime, 'HH:mm'),
+                            format: 'HH:mm',
+                        });
                         $('.ul-content-preview').each(function () {
                             if ($(this).attr('id') != data.section_order) {
                                 $(this).hide();
