@@ -427,21 +427,23 @@ Route::group(['error'], function () {
     Route::get('/error/403', 'Survey\ErrorController@error403')->name('403');
 });
 
-Route::resource('/feedbacks', 'FeedbackController', [
-    'only' => [
-        'index',
-        'destroy',
-        'store',
-    ]
-]);
+Route::group(['middleware' => 'admin'], function () {
+    Route::resource('/feedbacks', 'FeedbackController', [
+        'only' => [
+            'index',
+            'destroy',
+            'store',
+        ]
+    ]);
 
-Route::get('/list-feedback', 'FeedbackController@getListFeedback')
-    ->name('ajax-list-feedback');
+    Route::get('/list-feedback', 'FeedbackController@getListFeedback')
+        ->name('ajax-list-feedback');
 
-Route::resource('/management-user', 'UserManagementController');
+    Route::resource('/management-user', 'UserManagementController');
 
-Route::get('/list-user', 'UserManagementController@getListUser')
-    ->name('ajax-list-user');
+    Route::get('/list-user', 'UserManagementController@getListUser')
+        ->name('ajax-list-user');
 
-Route::put('/change-status', 'UserManagementController@changeStatus')
-    ->name('change-status');
+    Route::put('/change-status', 'UserManagementController@changeStatus')
+        ->name('change-status');
+});

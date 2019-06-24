@@ -20,6 +20,6 @@ class RedirectIfNotAdmin
             return $next($request);
         }
 
-        return redirect()->action('Auth\LoginController@getLogin')->with('message', trans('message.permission'));
+        return redirect()->route('home');
     }
 }
