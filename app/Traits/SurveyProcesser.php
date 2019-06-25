@@ -230,25 +230,22 @@ trait SurveyProcesser
     // create new sections
     public function createNewSections($survey, $sectionsData, $userId, &$dataRedirectId)
     {
-        // create new sections
-        $newRedirectIds = collect($sectionsData)->pluck('redirect_id', 'id')->all();
         $redirectIds = $survey->sections->pluck('redirect_id')->all();
-        
-        
+
         foreach ($sectionsData as $section) {
             $sectionData['title'] = $section['title'];
             $sectionData['description'] = $section['description'];
             $sectionData['order'] = $section['order'];
             $sectionData['update'] = config('settings.survey.section_update.updated');
 
-            foreach($newRedirectIds as $key => $newRedirectId) {
-                if (in_array($newRedirectId, $redirectIds)) {
+            if (in_array($section['redirect_id'], $redirectIds, true)) {
+                $sectionData['redirect_id'] = $section['redirect_id'];
 
-                    $sectionData['redirect_id'] = $newRedirectId;
-                } else {
+            } elseif (is_null($section['redirect_id'])) {
+                $sectionData['redirect_id'] = config('settings.section_redirect_id_default');
 
-                    $sectionData['redirect_id'] = $section['redirect_id'] ? $dataRedirectId[$section['redirect_id']] : config('settings.section_redirect_id_default');
-                }
+            } else {
+                $sectionData['redirect_id'] = $dataRedirectId[$section['redirect_id']];
             }
 
             $sectionCreated = $survey->sections()->create($sectionData);
