@@ -219,7 +219,14 @@ $(document).ready(function () {
 
                 if (index > -1) {
                     redirectIds.splice(index, redirectIds.length - index);
-                    selector.nextAll('.ul-content-preview').remove();
+
+                    $('.content-section-preview').find('ul.ul-content-preview').each(function () {
+                        var preRedirectId = $(this).data('redirect-id').toString();
+
+                        if (preRedirectId != redirectId && preRedirectId != 0 && answerRedirects.indexOf(preRedirectId) != -1) {
+                            $(this).remove();
+                        }
+                    });
                     break;
                 }
             }
@@ -248,17 +255,18 @@ $(document).ready(function () {
                 .done(function (data) {
                     if (data.success) {
                         $(selector).attr('data-next', data.section_order);
-                        $('.content-section-preview').append(data.html);
+                        var parentSelector = $('.content-section-preview');
+                        var numOfSections = $(selector).data('number-of-sections');
 
-                        if ($('.content-section-preview').find(`ul#${data.section_order}`).length > 1) {
-                            
-                            $('.content-section-preview').find(`ul#${data.section_order}`).each(function() {
+                        if (parentSelector.find('ul.ul-content-preview').length == numOfSections) {
+                            $(`ul#${$(selector).attr('data-next')}`).show();
+                        } else {
 
-                                if ($(this).css('display') == 'block') {
-                                    $(this).remove();
-                                    $('.content-section-preview').find(`ul#${data.section_order}`).css('display', 'block');
-                                }
-                            });
+                            if (parentSelector.find(`ul#${data.section_order}`).length) {
+                                parentSelector.find(`ul#${data.section_order}`).show();
+                            } else {
+                                parentSelector.append(data.html);
+                            }
                         }
                         var locale = $('.datepicker-preview').attr('locale');
 

@@ -1,7 +1,8 @@
 <ul class="clearfix form-wrapper ul-preview ul-content-preview"
     id="section-{{ $data['section']->order }}"
     data-redirect-id="{{ $data['section']->redirect_id }}"
-    data-current-id="{{ $data['section']->id }}">
+    data-current-id="{{ $data['section']->id }}"
+    data-number-of-sections="{{ $data['survey']->sections->count() }}">
     <li class="form-line content-title-section">
         <div class="form-group">
             <h3 class="title-section {{ $data['section']->order }}" id="section-id-preview" data-order="{{ $data['section']->order }}">
