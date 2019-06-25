@@ -231,12 +231,25 @@ trait SurveyProcesser
     public function createNewSections($survey, $sectionsData, $userId, &$dataRedirectId)
     {
         // create new sections
+        $newRedirectIds = collect($sectionsData)->pluck('redirect_id', 'id')->all();
+        $redirectIds = $survey->sections->pluck('redirect_id')->all();
+        
+        
         foreach ($sectionsData as $section) {
             $sectionData['title'] = $section['title'];
             $sectionData['description'] = $section['description'];
             $sectionData['order'] = $section['order'];
             $sectionData['update'] = config('settings.survey.section_update.updated');
-            $sectionData['redirect_id'] = isset($section['redirect_id']) ? $dataRedirectId[$section['redirect_id']] : config('settings.section_redirect_id_default');
+
+            foreach($newRedirectIds as $key => $newRedirectId) {
+                if (in_array($newRedirectId, $redirectIds)) {
+
+                    $sectionData['redirect_id'] = $newRedirectId;
+                } else {
+
+                    $sectionData['redirect_id'] = $section['redirect_id'] ? $dataRedirectId[$section['redirect_id']] : config('settings.section_redirect_id_default');
+                }
+            }
 
             $sectionCreated = $survey->sections()->create($sectionData);
 
