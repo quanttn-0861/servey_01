@@ -38,8 +38,8 @@
                 $questionSetting = $question->type;
                 $countQuestionMedia = $question->media->count();
                 $detailResult = $questionSetting != config('settings.question_type.checkboxes')
-                    ? $details[$section->id]->first()->where('question_id', $question->id)->first()
-                    : $details[$section->id]->first()->where('question_id', $question->id);
+                    ? $details[$section->id]->first()->where('question_id', $question->id)->withTrashed()->first()
+                    : $details[$section->id]->first()->where('question_id', $question->id)->withTrashed();
             @endphp
             <li class="li-question-review form-line">
                 <!-- tittle -->
@@ -117,7 +117,7 @@
                     </div>
                 @endif
             </li>
-            
+
             @if ($questionSetting == config('settings.question_type.redirect'))
                 <div id="personal-redirect-result-{{ $question->id }}"></div>
             @endif
