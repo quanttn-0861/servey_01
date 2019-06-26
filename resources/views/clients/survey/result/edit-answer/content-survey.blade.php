@@ -89,7 +89,7 @@
     @endforeach
 
     <li class="li-question-review form-line">
-        @if ($data['survey']->sections->count() > 1)
+        @if ($data['survey']->sections->count() > 1 && count($data['section_ids']) != 1)
             @if ($data['index_section'] != config('settings.index_section.start'))
                 <a href="javascript:void(0)" class="btn-action-preview previous-section-survey">@lang('lang.previous')</a>
             @endif
