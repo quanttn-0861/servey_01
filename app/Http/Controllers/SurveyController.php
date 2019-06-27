@@ -282,19 +282,12 @@ class SurveyController extends Controller
         $redirectIds = $request->redirect_ids;
         $currentSectionId = $request->current_section_id;
         $currentSection = $survey->sections->where('id', $currentSectionId)->first();
-        $redirectSectionIds = $survey->sections->where('redirect_id', '!=', 0)->pluck('redirect_id')->all();
+        $sectionUpdated = $survey->sections->where('update', config('settings.survey.section_update.updated'));
 
-        if (count($redirectSectionIds)) {
-            $sectionIds = $survey->sections->whereIn('redirect_id', $redirectIds)->sortBy('order')->pluck('id')->all();
-            $sectionUpdateIds = $survey->sections->where('update', config('settings.survey.section_update.updated'))->sortBy('order')->pluck('id')->all();
-            if (count($sectionUpdateIds) && count($survey->results->where('user_id', Auth::user()->id))) {
-                $sectionIds = $sectionUpdateIds;
-            }
-            
-        } else {
-            $sectionIds = $survey->sections->pluck('id')->all();
+        if ($sectionUpdated->count() && Auth::user()) {
+            $this->getRedirectIds($redirectIds, $survey, $currentSection);
         }
-        
+        $sectionIds = $survey->sections->whereIn('redirect_id', $redirectIds)->sortBy('order')->pluck('id')->all();
         $currentSectionIndex = array_search($currentSectionId, $sectionIds) != false ? array_search($currentSectionId, $sectionIds) : 0;
         $indexSection = config('settings.index_section.middle');
         $currentSectionId = $sectionIds[$currentSectionIndex + 1];
@@ -310,6 +303,7 @@ class SurveyController extends Controller
             'section' => $section,
             'survey' => $survey,
             'index_section' => $indexSection,
+            'section_ids' => $sectionIds,
         ];
 
         return response()->json([
@@ -992,7 +986,13 @@ class SurveyController extends Controller
     {
         $redirectIds = $request->redirect_ids;
         $currentSectionId = $request->current_section_id;
-        $sectionIds = $this->getSectionIds($survey, $currentSectionId, $redirectIds);
+        $currentSection = $survey->sections->where('id', $currentSectionId)->first();
+        $sectionUpdated = $survey->sections->where('update', config('settings.survey.section_update.updated'));
+
+        if ($sectionUpdated->count() && Auth::user()) {
+            $this->getRedirectIds($redirectIds, $survey, $currentSection);
+        }
+        $sectionIds = $survey->sections->whereIn('redirect_id', $redirectIds)->sortBy('order')->pluck('id')->all();
         $currentSectionIndex = array_search($currentSectionId, $sectionIds) != false ? array_search($currentSectionId, $sectionIds) : 0;
         $indexSection = config('settings.index_section.middle');
         $currentSectionId = $sectionIds[$currentSectionIndex + 1];
@@ -1008,6 +1008,7 @@ class SurveyController extends Controller
             'section' => $section,
             'survey' => $survey,
             'index_section' => $indexSection,
+            'section_ids' => $sectionIds,
         ];
 
         return response()->json([
@@ -1072,5 +1073,32 @@ class SurveyController extends Controller
         }
 
         return $sectionIds;
+    }
+
+    public function getRedirectIds(&$redirectIds, $survey, $currentSection)
+    {
+        if ($currentSection->redirect_id) {
+            array_push($redirectIds, $currentSection->redirect_id);
+        }
+        $redirectQuestions = $survey->questions->where('type', config('settings.question_type.redirect'));
+
+        if ($redirectQuestions->count()) {
+
+            foreach ($redirectQuestions as $redirectQuestion) {
+                $updatedRedirectSections = $survey->sections->whereIn('redirect_id', $redirectQuestion->answers->pluck('id')->all())
+                    ->where('update', config('settings.survey.section_update.updated'));
+
+                if (!$redirectQuestion->update && $updatedRedirectSections->count()) {
+                    $lastResults = $survey->results->where('user_id', Auth::user()->id)->groupBy('token')->last();
+                    $answerIdOfRedirectResult = $lastResults->where('question_id', $redirectQuestion->id)->first()->answer_id;
+                    $sectionRedirectUpdated = $updatedRedirectSections->where('redirect_id', $answerIdOfRedirectResult)->first();
+                    $questionUpdatedIds = $sectionRedirectUpdated ? $sectionRedirectUpdated->questions->pluck('id')->all() : [];
+
+                    if ($sectionRedirectUpdated && $lastResults->whereIn('question_id', $questionUpdatedIds)->count() < $sectionRedirectUpdated->questions->count()) {
+                        array_push($redirectIds, $sectionRedirectUpdated->redirect_id);
+                    }
+                }
+            }
+        }
     }
 }
