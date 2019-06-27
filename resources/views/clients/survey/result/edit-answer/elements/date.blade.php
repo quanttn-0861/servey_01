@@ -5,8 +5,8 @@
             datetimepicker-input date-answer-preview"
             id="datepicker-preview{{ $question->id }}" data-toggle="datetimepicker" data-dateformat="{{ $question->value_setting }}"
             data-target="#datepicker-preview{{ $question->id }}"
-            placeholder="{{ $result->content == '' ? strtolower($question->value_setting) : $result->content }}"
-            data-content="{{ $result->content }}"
+            placeholder="{{ $result ? ($result->content == '' ? strtolower($question->value_setting) : $result->content) : strtolower($question->value_setting) }}"
+            data-content="{{ $result ? $result->content : '' }}"
         />
     </div>
 </div>
