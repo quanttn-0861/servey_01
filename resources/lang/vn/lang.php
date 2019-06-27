@@ -101,6 +101,7 @@ return [
     'message' => 'Tin nhắn',
     'subject' => 'Chủ đề',
     'subject_default_email' => 'Mẫu không có tiêu đề',
+    'section_default' => 'Phần không có tiêu đề',
     'message_default_email' => 'Mời bạn tham gia thực hiện khảo sát:',
     'delete_survey_success' => 'Xóa khảo sát thành công!',
     'delete_survey_success' => 'Xóa khảo sát thất bại!',

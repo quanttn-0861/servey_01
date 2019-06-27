@@ -718,7 +718,7 @@ jQuery(document).ready(function () {
             section.id = sectionId;
 
             var title = data.find(item => item.name === `title[section_${sectionId}]`);
-            section.title = title !== undefined ? title.value : '';
+            section.title = title !== undefined && title.value.trim() ? title.value : Lang.get('lang.section_default');
 
             var description = data.find(item => item.name === `description[section_${sectionId}]`);
             section.description = description !== undefined ? description.value : '';
@@ -1424,7 +1424,6 @@ jQuery(document).ready(function () {
     function addValidationRuleForSection(sectionId) {
         $(`#section_${sectionId} textarea:regex(name, ^title\\[section_.*\\]$)`).each(function () {
             $(this).rules('add', {
-                required: true,
                 maxlength: 255,
                 sectionunique: false,
             });
@@ -2197,7 +2196,6 @@ jQuery(document).ready(function () {
 
                     $(`#section_${sectionId} textarea:regex(name, ^title\\[section_.*\\])`).each(function () {
                         $(this).rules('add', {
-                            required: true,
                             maxlength: 255,
                         });
                     });
@@ -2493,7 +2491,6 @@ jQuery(document).ready(function () {
 
                     $(`#section_${sectionId} textarea:regex(name, ^title\\[section_.*\\])`).each(function () {
                         $(this).rules('add', {
-                            required: true,
                             maxlength: 255,
                         });
                     });
