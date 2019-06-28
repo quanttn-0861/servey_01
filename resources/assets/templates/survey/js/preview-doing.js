@@ -358,6 +358,7 @@ $(document).ready(function () {
         obj.email = '';
         obj.user_id = $('#user-id').attr('data-user-id');
         obj.sections = getSections();
+        obj.token_result = $('#id-survey-preview').attr('data-token-result');
         var result = JSON.stringify(obj);
         showLoaderSection();
 
@@ -369,6 +370,7 @@ $(document).ready(function () {
         })
             .done(function (data) {
                 if (data.success) {
+                    redirect += '?token_result=' + data.token_result;
                     $(window).attr('location', redirect);
                 } else {
                     swal({

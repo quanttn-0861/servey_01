@@ -31,9 +31,13 @@
                             </span>
                         </div>
 
-                        @if (isset($isEditAnswer) && isset($survey) && $isEditAnswer)
+                        @if (isset($isEditAnswer) && isset($survey) && isset($tokenResult) && $isEditAnswer)
                             <div class="edit-answer-survey">
-                                <span class="back-home-description-complete"><a href="{{ route('survey.create.edit-answer', ['token' => $survey->token]) }}">@lang('lang.edit_your_answer')</a></span>
+                                <span class="back-home-description-complete">
+                                    <a href="{{ route('survey.create.edit-answer', ['token' => $survey->token, 'tokenResult' => $tokenResult]) }}">
+                                        @lang('lang.edit_your_answer')
+                                    </a>
+                                </span>
                             </div>
                         @endif
                         <div class="back-home-complete">

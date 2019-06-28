@@ -21,7 +21,7 @@
             <ul class="clearfix form-wrapper content-margin-top-preview ul-preview">
                 <li class="form-line">
                     <div class="form-group">
-                        <h2 class="title-survey-preview" id="id-survey-preview" data-token="{{ $data['survey']->token }}">
+                        <h2 class="title-survey-preview" id="id-survey-preview" data-token="{{ $data['survey']->token }}" data-token-result="{{ $tokenResult }}">
                             {!! nl2br(e($data['survey']->title)) !!}
                         </h2>
                     </div>

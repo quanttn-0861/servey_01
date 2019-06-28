@@ -761,13 +761,16 @@ class SurveyController extends Controller
                 throw new Exception('Do not permit to do this survey', 403);
             }
 
-            $this->resultRepository->storeResult($request->json(), $this->surveyRepository);
+            $tokenResult = $this->resultRepository->storeResult($request->json(), $this->surveyRepository);
 
             $request->session()->forget('current_section_survey');
 
             DB::commit();
 
-            $dataJSON['success'] = true;
+            $dataJSON = [
+                'success' => true,
+                'token_result' => $tokenResult,
+            ];
         } catch (Exception $e) {
             DB::rollback();
             $dataJSON = [
@@ -836,9 +839,10 @@ class SurveyController extends Controller
         }
     }
 
-    public function showCompleteAnswer($token)
+    public function showCompleteAnswer(Request $request, $token)
     {
         try {
+            $tokenResult = $request->token_result;
             $survey = $this->surveyRepository->getSurveyFromToken($token);
             $content = (($survey->end_time && Carbon::now()->gt(Carbon::parse($survey->end_time)))
                 || ($survey->start_time && Carbon::now()->lt(Carbon::parse($survey->start_time)))
@@ -847,7 +851,7 @@ class SurveyController extends Controller
             $title = $survey->title;
             $isEditAnswer = $survey->settings->where('key', config('settings.setting_type.edit_answer.key'))->first()->value;
 
-            return view('clients.survey.detail.complete', compact('title', 'content', 'isEditAnswer', 'survey'));
+            return view('clients.survey.detail.complete', compact('title', 'content', 'isEditAnswer', 'survey', 'tokenResult'));
         } catch (Exception $e) {
             return redirect()->route('404');
         }
@@ -936,17 +940,17 @@ class SurveyController extends Controller
         }
     }
 
-    public function editAnswer(Request $request, $token)
+    public function editAnswer(Request $request, $token, $tokenResult)
     {
         try {
             $survey = $this->surveyRepository->getSurvey($token);
-            $results = $survey->results->groupBy('token')->last();
+            $results = $survey->results->where('token', $tokenResult);
             $title = $survey->title;
             $content = '';
 
             if ($request->ajax()) {
 
-                return $this->showResults($request, $survey, $results);
+                return $this->showResults($request, $survey, $results, $tokenResult);
             }
 
             $privacy = $survey->getPrivacy();
@@ -976,13 +980,13 @@ class SurveyController extends Controller
             // at line 42 of file app/Traits/DoSurvey.php
             $data = $this->getFirstSectionSurvey($survey);
 
-            return view('clients.survey.result.edit-answer.index', compact('data', 'results'));
+            return view('clients.survey.result.edit-answer.index', compact('data', 'results', 'tokenResult'));
         } catch(Exception $e) {
             return view('clients.layout.404');
         }
     }
 
-    public function showResults($request, $survey, $results)
+    public function showResults($request, $survey, $results, $tokenResult)
     {
         $redirectIds = $request->redirect_ids;
         $currentSectionId = $request->current_section_id;
@@ -1013,7 +1017,7 @@ class SurveyController extends Controller
 
         return response()->json([
             'success' => true,
-            'html' => view('clients.survey.result.edit-answer.content-survey', compact('data', 'results'))->render(),
+            'html' => view('clients.survey.result.edit-answer.content-survey', compact('data', 'results', 'tokenResult'))->render(),
             'section_order' => $sectionOrder,
         ]);
     }
@@ -1032,15 +1036,18 @@ class SurveyController extends Controller
 
         try {
             $survey = $this->surveyRepository->getSurveyFromToken($request->json()->get('survey_token'));
-            $currentResults = $survey->results->groupBy('token')->last();
-            $tokenResult = $currentResults->first()->token;
-            $newResultsData = $this->resultRepository->getNewResults($request->json(), $tokenResult);
+            $tokenResult = $request->json()->get('token_result');
+            $currentResults = $survey->results->where('token', $tokenResult);
+            $newResultsData = $this->resultRepository->getNewResults($request->json(), $currentResults->first());
             $this->resultRepository->updateNewResults($newResultsData, $currentResults, $survey);
             $request->session()->forget('current_section_survey');
 
             DB::commit();
 
-            $dataJSON['success'] = true;
+            $dataJSON = [
+                'success' => true,
+                'token_result' => $tokenResult,
+            ];
         } catch (Exception $e) {
             DB::rollback();
             $dataJSON = [
