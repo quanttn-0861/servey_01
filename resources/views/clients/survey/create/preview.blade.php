@@ -33,7 +33,9 @@
                     </li>
                     <li class="form-line content-title-section">
                         <div class="form-group">
-                            <h3 class="title-section">{!! nl2br(e($section->title)) !!}</h3>
+                            <h3 class="title-section">
+                                {!! nl2br(e($section->title)) !!}
+                            </h3>
                         </div>
                         <div class="form-group form-group-description-section">
                             <span class="description-section">

@@ -101,6 +101,7 @@ return [
     'message' => 'Message',
     'subject' => 'Subject',
     'subject_default_email' => 'Untitled form',
+    'section_default' => 'Untitled section',
     'message_default_email' => 'I\'ve invited you to fill out a form:',
 
     /*
