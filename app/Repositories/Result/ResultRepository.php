@@ -100,6 +100,8 @@ class ResultRepository extends BaseRepository implements ResultInterface
                 'created_at' => $createdAt,
             ]);
         }
+
+        return $tokenResult;
     }
 
     // === old ===
@@ -171,9 +173,12 @@ class ResultRepository extends BaseRepository implements ResultInterface
         return $results;
     }
 
-    public function getNewResults($data, $tokenResult)
+    public function getNewResults($data, $currentResult)
     {
         $sections = $data->get('sections');
+        $tokenResult = $currentResult->token;
+        $clientIp = $currentResult->client_ip;
+        $userId = $currentResult->user_id;
         $newResultsData = [];
 
         foreach ($sections as $section) {
@@ -186,8 +191,8 @@ class ResultRepository extends BaseRepository implements ResultInterface
                     $temp['answer_id'] = 0;
                     $temp['content'] = '';
                     $temp['token'] = $tokenResult;
-                    $temp['user_id'] = Auth::user()->id;
-                    $temp['client_ip'] = '';
+                    $temp['user_id'] = $userId;
+                    $temp['client_ip'] = $clientIp;
 
                     if (in_array($question['type'], [
                         config('settings.question_type.short_answer'),

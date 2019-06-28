@@ -18,7 +18,7 @@ interface ResultInterface
 
     public function getResultFromToken($token, $sections);
 
-    public function getNewResults($data, $tokenResult);
+    public function getNewResults($data, $currentResult);
 
     public function updateNewResults($newResultsData, $currentResults, $survey);
 }

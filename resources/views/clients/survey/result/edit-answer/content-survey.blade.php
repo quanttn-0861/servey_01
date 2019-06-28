@@ -94,7 +94,8 @@
                 <a href="javascript:void(0)" class="btn-action-preview previous-section-survey">@lang('lang.previous')</a>
             @endif
             @if ($data['index_section'] != config('settings.index_section.end'))
-                <a href="javascript:void(0)" data-url="{{ route('survey.create.edit-answer', $data['survey']->token) }}"
+                <a href="javascript:void(0)"
+                    data-url="{{ route('survey.create.edit-answer', ['token' => $data['survey']->token, 'tokenResult' => $tokenResult]) }}"
                     class="btn-action-preview next-section-survey">@lang('lang.next')</a>
             @endif
         @endif
