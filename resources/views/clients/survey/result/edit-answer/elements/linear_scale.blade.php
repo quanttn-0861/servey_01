@@ -15,7 +15,7 @@
                     <div class="item-content-column-input block-hover">
                         {!! Form::radio('answer', '', false, [
                             'class' => 'group-radio-answer',
-                            $result->content == $i ? 'checked' : '',
+                            $result && $result->content == $i ? 'checked' : '',
                         ]) !!}
                         <span class="group-radio"></span>
                     </div>

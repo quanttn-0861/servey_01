@@ -5,8 +5,8 @@
             datetimepicker-input time-answer-preview"
             id="timepicker-preview{{ $question->id }}" data-toggle="datetimepicker"
             data-target="#timepicker-preview{{ $question->id }}"
-            placeholder="{{ $result->content == '' ? 'hh:mm' : $result->content }}"
-            data-content="{{ $result->content }}"
+            placeholder="{{ $result ? ($result->content == '' ? 'hh:mm' : $result->content) : 'hh:mm' }}"
+            data-content="{{ $result ? $result->content : '' }}"
         />
     </div>
 </div>
