@@ -1244,7 +1244,7 @@ jQuery(document).ready(function () {
                 $(element).attr('data-original-title', error.text());
                 $(element).attr('data-placement', 'auto');
                 $(element).attr('data-template', `
-                    <div class="tooltip" role="tooltip">
+                    <div class="tooltip" role="tooltip" data-main-id="${$(element).attr('name')}">
                         <div class="arrow tooltip-arrow-validate"></div>
                         <div class="tooltip-inner tooltip-inner-validate"></div>
                     </div>
@@ -1872,7 +1872,9 @@ jQuery(document).ready(function () {
 
             if (!currentInput.val() && $(this).parent().find('.choice').length > 1) {
                 var parentElement = $(this).closest('.multiple-choice-block');
+                var name = $(this).find('textarea.answer-option-input').attr('name');
                 $(this).fadeOut(500).remove();
+                $(`div.tooltip[data-main-id="${name}"]`).remove();
 
                 if (parentElement.find('.remove-choice-option').length <= 1) {
                     parentElement.find('.remove-choice-option').addClass('hidden');
@@ -1902,6 +1904,7 @@ jQuery(document).ready(function () {
 
         if ($(this).closest('.multiple-choice-block').find('.choice.choice-sortable').length > 1) {
             var parentElement = option.closest('.multiple-choice-block');
+            $(`#${option.find('textarea.answer-option-input').attr('aria-describedby')}`).remove();
             option.fadeOut(500).remove();
 
             if (parentElement.find('.remove-choice-option').length <= 1) {
@@ -2042,7 +2045,9 @@ jQuery(document).ready(function () {
 
             if (!currentInput.val() && $(this).parent().find('.checkbox').length > 1) {
                 var parentElement = $(this).closest('.checkboxes-block');
+                var name = $(this).find('textarea.answer-option-input').attr('name');
                 $(this).fadeOut(500).remove();
+                $(`div.tooltip[data-main-id="${name}"]`).remove();
 
                 if (parentElement.find('.remove-checkbox-option').length <= 1) {
                     parentElement.find('.remove-checkbox-option').addClass('hidden');
@@ -2072,6 +2077,7 @@ jQuery(document).ready(function () {
 
         if ($(this).closest('.checkboxes-block').find('.checkbox.checkbox-sortable').length > 1) {
             var parentElement = option.closest('.checkboxes-block');
+            $(`#${option.find('textarea.answer-option-input').attr('aria-describedby')}`).remove();
             option.fadeOut(500).remove();
 
             if (parentElement.find('.remove-checkbox-option').length <= 1) {
@@ -2279,7 +2285,9 @@ jQuery(document).ready(function () {
                 confirmWarning({ message: Lang.get('lang.redirect_message.confirm_remove_option_and_section_redirect') }, function () {
                     var parentElement = optionElement.closest('.redirect-choice-block');
                     $(`.redirect-section-${optionElement.data('answer-id')}`).remove();
+                    var name = optionElement.find('textarea.answer-option-input').attr('name');
                     optionElement.fadeOut(500).remove();
+                    $(`div.tooltip[data-main-id="${name}"]`).remove();
 
                     if (parentElement.find('.remove-choice-option').length <= 2) {
                         parentElement.find('.remove-choice-option').addClass('hidden');
@@ -2314,6 +2322,7 @@ jQuery(document).ready(function () {
             confirmWarning({ message: Lang.get('lang.redirect_message.confirm_remove_option_and_section_redirect') }, function () {
                 var parentElement = optionElement.closest('.redirect-choice-block');
                 $(`.redirect-section-${optionElement.data('answer-id')}`).remove();
+                $(`#${optionElement.find('textarea.answer-option-input').attr('aria-describedby')}`).remove();
                 optionElement.fadeOut(500).remove();
 
                 if (parentElement.find('.remove-choice-option').length <= 2) {
