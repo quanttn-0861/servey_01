@@ -11,12 +11,15 @@ trait DoSurvey
 
         if ($survey->sections->where('update', config('settings.survey.section_update.updated'))->count() && Auth::user()) {
             $lastResults = $survey->results->where('user_id', Auth::user()->id)->groupBy('token')->last();
-            $redirectIds = $survey->sections->where('redirect_id', '!=', 0)->sortBy('order')->pluck('redirect_id', 'id')->all();
 
-            foreach ($redirectIds as $key => $redirectId) {
+            if ($lastResults) {
+                $redirectIds = $survey->sections->where('redirect_id', '!=', 0)->sortBy('order')->pluck('redirect_id', 'id')->all();
 
-                if (!$lastResults->where('answer_id', $redirectId)->first()) {
-                    $sectionIds = array_diff($sectionIds, [$key]);
+                foreach ($redirectIds as $key => $redirectId) {
+
+                    if (!$lastResults->where('answer_id', $redirectId)->first()) {
+                        $sectionIds = array_diff($sectionIds, [$key]);
+                    }
                 }
             }
         }
