@@ -226,7 +226,11 @@ class ResultRepository extends BaseRepository implements ResultInterface
 
         foreach ($survey->questions as $question) {
 
-            if (in_array($question->id, $allQuestionRedirectIds)) {
+            if (in_array($question->type, [
+                config('settings.question_type.image'),
+                config('settings.question_type.video'),
+                config('settings.question_type.title'),
+            ]) || in_array($question->id, $allQuestionRedirectIds)) {
                 continue;
             }
 

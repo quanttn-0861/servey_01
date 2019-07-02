@@ -1038,8 +1038,11 @@ class SurveyController extends Controller
             $survey = $this->surveyRepository->getSurveyFromToken($request->json()->get('survey_token'));
             $tokenResult = $request->json()->get('token_result');
             $currentResults = $survey->results->where('token', $tokenResult);
-            $newResultsData = $this->resultRepository->getNewResults($request->json(), $currentResults->first());
-            $this->resultRepository->updateNewResults($newResultsData, $currentResults, $survey);
+
+            if ($currentResults->count()) {
+                $newResultsData = $this->resultRepository->getNewResults($request->json(), $currentResults->first());
+                $this->resultRepository->updateNewResults($newResultsData, $currentResults, $survey);
+            }
             $request->session()->forget('current_section_survey');
 
             DB::commit();
