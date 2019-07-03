@@ -130,10 +130,7 @@ $(document).ready(function () {
             },
             "phone": {
                 number: true,
-            },
-            "gender": {
-                required: true,
-            },
+            }
         },
         messages: {
             "name": {
@@ -141,10 +138,7 @@ $(document).ready(function () {
             },
             "phone": {
                 number: Lang.get('validation.msg.number'),
-            },
-            "gender": {
-                required: Lang.get('validation.msg.required'),
-            },
+            }
         }
     });
 });
