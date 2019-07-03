@@ -28,7 +28,7 @@ return [
     'more_info' => 'More information',
     'more_info_content' => 'Sun* Survey - A simple, fast and convenient survey system.',
     'more_tools' => 'More tools...',
-    'copyright' => 'Copyright &copy;2018 Sun*, Inc.',
+    'copyright' => '&copy; 2018 By Sun* - Vietnam Education Unit - Education Section - All rights reserved.',
     'date_format' => 'm/d/Y',
     'sign_in' => 'Sign in',
     'sign_up' => 'Sign up',

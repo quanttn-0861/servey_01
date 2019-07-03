@@ -1,6 +1,7 @@
 <!-- .cd-main-header -->
 <main class="cd-main-content">
     <div class="show-backgroud">
+
         @if (!$data['survey']->media->isEmpty())
             @foreach ($data['survey']->media as $background)
                 {{ Html::image(asset($background->url), '', ['class' => 'image-header']) }}
