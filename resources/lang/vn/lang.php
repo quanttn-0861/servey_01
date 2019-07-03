@@ -29,7 +29,7 @@ return [
     'more_info' => 'Thông tin thêm',
     'more_info_content' => 'Sun* Survey - Một hệ thống khảo sát nhanh, đơn giản và tiện lợi',
     'more_tools' => 'Các công cụ khác...',
-    'copyright' => 'Bản quyền tập đoàn Sun* &copy;2018.',
+    'copyright' => '&copy; 2018 By Sun* - Vietnam Education Unit - Education Section - All rights reserved.',
     'date_format' => 'd/m/Y',
     'sign_in' => 'Đăng nhập',
     'sign_up' => 'Đăng ký',

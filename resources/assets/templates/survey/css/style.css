@@ -4489,3 +4489,17 @@ span>div.draggable-area {
 .none-colum {
     height: 50%;
 }
+
+.logo-sun {
+    text-shadow: 2px 2px 1px #c8c8c8; 
+    position: absolute; 
+    color: #FFF;
+    font-size: 40px;
+    font-weight: 700;
+    top: 2%;
+    left: 1%;
+}
+
+.logo-sun .highlight {
+    color: #FF0000;
+}
