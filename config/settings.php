@@ -134,7 +134,7 @@ return [
         'fb_company' => 'https://www.facebook.com/AsteriskVietnam/?fref=ts',
         'github_company' => 'https://github.com/framgia',
         'linkedin_company' => 'https://www.linkedin.com/company/framgia-vietnam',
-        'tools_company' => 'http://wsm.framgia.vn/all-tools',
+        'tools_company' => 'http://wsm.sun-asterisk.vn/all-tools',
         'hr_email_company' => 'hr_team@sun-asterisk.com',
         'twitter_company' => 'https://twitter.com/SunAsterisk',
     ],
