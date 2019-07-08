@@ -293,10 +293,6 @@ class ManagementSurvey extends Controller
         try {
             $survey = $this->surveyRepository->getSurveyForClone($tokenManage);
 
-            if (Auth::user()->cannot('edit', $survey)) {
-                throw new Exception("Not permitted edit!", 403);
-            }
-
             $newSurvey = $this->clone($survey);
 
             DB::commit();

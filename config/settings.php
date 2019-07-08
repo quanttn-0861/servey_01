@@ -358,4 +358,5 @@ return [
     'number_day_backup' => 7,
     'linear_scale_icon' => '/templates/survey/images/linear_scale.png',
     'limit_grid' => 15, 
+    'title_copy' => 'Copy',
 ];
