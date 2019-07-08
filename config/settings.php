@@ -37,6 +37,17 @@ return [
         '7' => 'templates/survey/images/choose-cover-profile7.jpg',
         '8' => 'templates/survey/images/choose-cover-profile8.jpg',
     ],
+    'choose-background-image' => [
+        'default' => 'templates/survey/images/background_image1.jpg',
+        '1' => 'templates/survey/images/background_image2.jpg',
+        '2' => 'templates/survey/images/background_image3.jpg',
+        '3' => 'templates/survey/images/background_image4.jpg',
+        '5' => 'templates/survey/images/background_image6.jpg',
+        '6' => 'templates/survey/images/background_image7.jpg',
+        '7' => 'templates/survey/images/background_image8.jpg',
+        '8' => 'templates/survey/images/background_image9.jpg',
+        '9' => 'templates/survey/images/background_image10.jpg',
+    ],
     'create_survey_complete' => [
         'header_img' => '/templates/survey/images/event-bottom.png',
         'congrat_img' => '/templates/survey/images/congrat.png',

@@ -154,7 +154,7 @@
                                 'class' => 'form-control auto-resize input-area',
                                 'data-autoresize',
                                 'placeholder' => trans('lang.description_placeholder'),
-                                'rows' => 3,
+                                'rows' => 2,
                             ]) !!}
                         </div>
                         <div class="form-group">

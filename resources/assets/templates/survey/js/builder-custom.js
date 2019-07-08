@@ -28,6 +28,10 @@ jQuery(document).ready(function () {
         var redirectsUpdateId = [];
         var linearScaleQuestions = $(document).find('.linear-scale-block');
 
+        $('.content-wrapper').find('.redirect-question-block').find('ul.page-section').each(function () {
+            $(this).addClass('section-resize');
+        });
+
         $('.form-line').map(function () {
             var type = $(this).attr('data-question-type');
             var id = $(this).attr('id');
@@ -878,6 +882,7 @@ jQuery(document).ready(function () {
         if (questionType == 10) {
             option.closest('.redirect-question-block').find('.redirect-section-block').remove();
             option.closest('.form-wrapper.page-section').unwrap();
+            option.closest('ul.page-section').removeClass('section-resize');
         }
 
         // get answers if is multi choice
@@ -1089,6 +1094,10 @@ jQuery(document).ready(function () {
                     data.view_sections.forEach(function (section, index) {
                         parentElement.append(section);
                         parentElement.find('.redirect-section-block .section-index').last().html(`1`);
+                    });
+
+                    parentElement.find('ul.page-section').each(function () {
+                        $(this).addClass('section-resize');
                     });
 
                     parentElement.find('.redirect-section-block').data('number-redirect-section', 1);
@@ -2474,6 +2483,7 @@ jQuery(document).ready(function () {
                         var firstPageSection = redirectSectionElement.find('.page-section').first();
                         var color = firstPageSection.find('.number-of-section').css('background-color');
                         redirectSectionElement.append(element);
+                        element.addClass('section-resize');
                         var parentElement = redirectSectionElement.closest('.redirect-question-block');
                         var sectionIndex = parentElement.prevAll('.page-section, .redirect-question-block').length + 1;
                         var numberOfRedirectSections = redirectSectionElement.data('number-redirect-section') + 1;
@@ -2656,6 +2666,15 @@ jQuery(document).ready(function () {
     });
 
     //add background image to survey
+    $('#nav-img-tab').on('click', function (e) {
+        $('#input-url-image').val('');
+        $('.img-preview-in-modal').attr('src', '');
+    });
+
+    $('#nav-home-tab').on('click', function (e) {
+        $('input[name="background_cover"]').prop('checked', false);
+    });
+
     $('.survey-form').on('click', '.background-image-survey-btn', function (e) {
         e.preventDefault();
         var btnBackgroundImage = $(this);
@@ -2671,21 +2690,25 @@ jQuery(document).ready(function () {
 
         $('#btn-insert-background-survey').click(function () {
             var imageURL = $('.img-preview-in-modal').attr('src');
+            var backgroudCover = $("input[name='background_cover']:checked").val();
+            var homeUrl = $('#modal-insert-image').data('home-url');
 
-            if (imageURL) {
+            if (imageURL || backgroudCover) {
                 $.ajax({
                     method: 'POST',
                     url: url,
                     dataType: 'json',
                     data: {
                         imageURL: imageURL,
+                        backgroudCover: backgroudCover,
                     }
                 })
                     .done(function (data) {
                         if (data.success) {
                             var element = data.html
+
                             $(element).insertAfter(backgroundInsert);
-                            $(backgroundsurveyHidden).val(data.imageURL);
+                            $(backgroundsurveyHidden).val(data.imageURL ? data.imageURL : homeUrl + '/' + data.backgroudCover);
                             $(btnBackgroundImage).addClass('hidden');
                         }
                     });
@@ -2969,10 +2992,15 @@ jQuery(document).ready(function () {
 
         $('#btn-change-background-survey').click(function () {
             var imageURL = $('.img-preview-in-modal').attr('src');
+            var backgroudCover = $("input[name='background_cover']:checked").val();
+            var homeUrl = $('#modal-insert-image').data('home-url');
 
             if (imageURL) {
                 $(backgroundSurvey).attr('src', imageURL);
                 $(inputSurveyHidden).val(imageURL);
+            } else if (backgroudCover) {
+                $(backgroundSurvey).attr('src', homeUrl + '/' + backgroudCover);
+                $(inputSurveyHidden).val(homeUrl + '/' + backgroudCover);
             }
 
             resetModalImage();

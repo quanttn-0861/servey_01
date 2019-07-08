@@ -78,6 +78,7 @@ return [
     'upload_or_by_url' => 'Tải lên hoặc chèn URL',
     'search_by_google' => 'Tìm kiếm bằng Google',
     'insert_image' => 'Chèn hình ảnh',
+    'choose_image' => 'Chọn hình ảnh',
     'paste_a_url_or_upload_image' => 'Chèn url hình ảnh hoặc tải hình ảnh lên',
     'cancel' => 'Hủy',
     'search_an_image' => 'Tìm kiếm hình ảnh...',

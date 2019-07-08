@@ -40,6 +40,7 @@
                                 </span>
                             </div>
                         @endif
+                        <br />
                         <div class="back-home-complete">
                             <span class="back-home-description-complete"><a href="{{ route('home') }}">&#10149; @lang('lang.home')</a></span>
                         </div>

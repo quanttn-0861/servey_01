@@ -1,4 +1,4 @@
-<div class="modal" id="modal-insert-image" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal" id="modal-insert-image" tabindex="-1" role="dialog" aria-hidden="true" data-home-url="{{ route('home') }}">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -11,7 +11,10 @@
                 <div class="container">
                     <nav>
                         <div class="nav nav-tabs nav-tab-insert-image" id="nav-tab" role="tablist">
-                            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-upload-image" role="tab" aria-controls="nav-home" aria-selected="true">
+                            <a class="nav-item nav-link active" id="nav-img-tab" data-toggle="tab" href="#nav-choose-image" role="tab" aria-controls="nav-img" aria-selected="false">
+                                @lang('lang.choose_image')
+                            </a>
+                            <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-upload-image" role="tab" aria-controls="nav-home" aria-selected="true">
                                 @lang('lang.upload_or_by_url')
                             </a>
                             <!-- <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-search-image" role="tab" aria-controls="nav-contact" aria-selected="false">
@@ -20,7 +23,105 @@
                         </div>
                     </nav>
                     <div class="tab-content" id="nav-tabContent">
-                        <div class="tab-pane fade show active" id="nav-upload-image" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div class="tab-pane fade show active" id="nav-choose-image" role="tabpanel" aria-labelledby="nav-img-tab">
+                            <div class="tabpanel-form">
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="home" role="tabpanel" aria-expanded="true">
+                                        <div class="choose-photo-item choose-photo-cover" data-mh="choose-item">
+                                            <div class="radio-image">
+                                                <label class="custom-radio">
+                                                    {!! Html::image(asset(config('settings.choose-background-image.1')), '') !!}
+                                                    {!! Form::radio('background_cover', config('settings.choose-background-image.1')) !!}
+                                                    <span class="circle"></span>
+                                                    <span class="check"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="choose-photo-item choose-photo-cover" data-mh="choose-item">
+                                            <div class="radio-image">
+                                                <label class="custom-radio">
+                                                    {!! Html::image(asset(config('settings.choose-background-image.2')), '') !!}
+                                                    {!! Form::radio('background_cover', config('settings.choose-background-image.2')) !!}
+                                                    <span class="circle"></span>
+                                                    <span class="check"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="choose-photo-item choose-photo-cover" data-mh="choose-item">
+                                            <div class="radio-image">
+                                                <label class="custom-radio">
+                                                    {!! Html::image(asset(config('settings.choose-background-image.3')), '') !!}
+                                                    {!! Form::radio('background_cover', config('settings.choose-background-image.3')) !!}
+                                                    <span class="circle"></span>
+                                                    <span class="check"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="choose-photo-item choose-photo-cover" data-mh="choose-item">
+                                            <div class="radio-image">
+                                                <label class="custom-radio">
+                                                    {!! Html::image(asset(config('settings.choose-background-image.default')), '') !!}
+                                                    {!! Form::radio('background_cover', config('settings.choose-background-image.default')) !!}
+                                                    <span class="circle"></span>
+                                                    <span class="check"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="choose-photo-item choose-photo-cover" data-mh="choose-item">
+                                            <div class="radio-image">
+                                                <label class="custom-radio">
+                                                    {!! Html::image(asset(config('settings.choose-background-image.5')), '') !!}
+                                                    {!! Form::radio('background_cover', config('settings.choose-background-image.5')) !!}
+                                                    <span class="circle"></span>
+                                                    <span class="check"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="choose-photo-item choose-photo-cover" data-mh="choose-item">
+                                            <div class="radio-image">
+                                                <label class="custom-radio">
+                                                    {!! Html::image(asset(config('settings.choose-background-image.6')), '') !!}
+                                                    {!! Form::radio('background_cover', config('settings.choose-background-image.6')) !!}
+                                                    <span class="circle"></span>
+                                                    <span class="check"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="choose-photo-item choose-photo-cover" data-mh="choose-item">
+                                            <div class="radio-image">
+                                                <label class="custom-radio">
+                                                    {!! Html::image(asset(config('settings.choose-background-image.7')), '') !!}
+                                                    {!! Form::radio('background_cover', config('settings.choose-background-image.7')) !!}
+                                                    <span class="circle"></span>
+                                                    <span class="check"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="choose-photo-item choose-photo-cover" data-mh="choose-item">
+                                            <div class="radio-image">
+                                                <label class="custom-radio">
+                                                    {!! Html::image(asset(config('settings.choose-background-image.8')), '') !!}
+                                                    {!! Form::radio('background_cover', config('settings.choose-background-image.8')) !!}
+                                                    <span class="circle"></span>
+                                                    <span class="check"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="choose-photo-item choose-photo-cover" data-mh="choose-item">
+                                            <div class="radio-image">
+                                                <label class="custom-radio">
+                                                    {!! Html::image(asset(config('settings.choose-background-image.9')), '') !!}
+                                                    {!! Form::radio('background_cover', config('settings.choose-background-image.9')) !!}
+                                                    <span class="circle"></span>
+                                                    <span class="check"></span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="nav-upload-image" role="tabpanel" aria-labelledby="nav-home-tab">
                             <div class="tabpanel-form">
                                 <div class="form-upload-image">
                                     <div class="row col-md-10 offset-md-1 row-btn-upload">
