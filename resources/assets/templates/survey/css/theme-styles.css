@@ -400,16 +400,23 @@
     justify-content: space-around;
 }
 .profile-menu li > div, .profile-menu li a {
-    font-size: 14px;
+    font-size: 17px;
     font-weight: 700;
-    color: #9a9fbf;
+    color: #4A708B;
     display: block;
+    padding: 15px 100px;
+    transition-duration:0.6s;
 }
 .profile-menu li > div:hover, .profile-menu li a:hover {
     color: #515365;
 }
 .profile-menu li > div.active, .profile-menu li a.active {
     color: #515365;
+    border: 2px solid #FFF;
+    border-radius: 50px;
+    background-color: #99FFFF;
+    transition-duration:0.6s;
+    transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 .profile-menu .more-dropdown {
     width: 230px;
@@ -446,7 +453,7 @@
 
 .profile-section {
     position: relative;
-    padding: 38px 0;
+    padding: 15px 0;
     z-index: 19;
 }
 .profile-section .control-block-button {
