@@ -17,4 +17,6 @@ interface SectionInterface
     public function getSectionFromRedirectId($redirectId);
 
     public function checkIfExistRedirectQuestion($section);
+
+    public function updateRedirectSections($newSurvey, $redirectIds);
 }

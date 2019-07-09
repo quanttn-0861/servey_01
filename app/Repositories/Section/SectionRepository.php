@@ -57,4 +57,11 @@ class SectionRepository extends BaseRepository implements SectionInterface
     {
         return $section->questions->where('type', config('settings.question_type.redirect'))->first();
     }
+
+    public function updateRedirectSections($newSurvey, $redirectIds)
+    {
+        foreach ($redirectIds as $oldRedirectId => $newRedirectId) {
+            $newSurvey->sections()->where('redirect_id', $oldRedirectId)->update(['redirect_id' => $newRedirectId]);
+        }
+    }
 }

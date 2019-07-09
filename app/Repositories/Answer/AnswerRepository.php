@@ -261,7 +261,7 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
         DB::table('answers')->whereIn('id', $idAnswers)->delete(); 
     }
 
-    public function cloneAnswer($answer, $newQuestion)
+    public function cloneAnswer(&$redirectIds, $answer, $newQuestion)
     {
         $data = $answer->replicate()->toArray();
         $data['update'] = config('settings.survey.answer_update.default');
@@ -272,6 +272,10 @@ class AnswerRepository extends BaseRepository implements AnswerInterface
         // clone media answer
         $dataMedia = $answer->media->toArray();
         app(MediaInterface::class)->cloneMedia($dataMedia, $newAnswer);
+
+        if ($newQuestion->type == config('settings.question_type.redirect')) {
+            $redirectIds[$answer->id] = $newAnswer->id;
+        }
 
         return $newAnswer;
     }

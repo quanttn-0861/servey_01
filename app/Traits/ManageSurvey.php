@@ -31,6 +31,7 @@ trait ManageSurvey
     public function clone($survey)
     {
         $newSurvey = $this->surveyRepository->cloneSurvey($survey);
+        $redirectIds = [];
 
         foreach ($survey->sections as $section) {
             // clone section
@@ -42,9 +43,13 @@ trait ManageSurvey
 
                 foreach ($question->answers as $answer) {
                     // clone answer
-                    $this->answerRepository->cloneAnswer($answer, $newQuestion);
+                    $this->answerRepository->cloneAnswer($redirectIds, $answer, $newQuestion);
                 }
             }
+        }
+
+        if (count($redirectIds)) {
+            $this->sectionRepository->updateRedirectSections($newSurvey, $redirectIds);
         }
 
         return $newSurvey;
