@@ -22,5 +22,5 @@ interface AnswerInterface
 
     public function deleteAnswersById($idAnswers);   
 
-    public function cloneAnswer($answer, $newQuestion);
+    public function cloneAnswer(&$redirectIds, $answer, $newQuestion);
 }
