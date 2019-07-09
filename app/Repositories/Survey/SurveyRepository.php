@@ -1263,9 +1263,20 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
     {
         // clone survey
         $newSurvey = $survey->replicate();
+        $stringCopy = ' -' . config('settings.title_copy'); 
+        $arrTitle = explode(' ', $newSurvey->title);
+        $countCopy = substr_count($newSurvey->title, $stringCopy);
+
+        if ($countCopy) {
+            $newTitle = str_replace(end($arrTitle), end($arrTitle) + config('settings.number_1'), $newSurvey->title);
+            $newSurvey->title = $newTitle;
+        } else {
+            $newSurvey->title = $survey->title . $stringCopy . ' ' . config('settings.number_1');
+        }
+
         $newSurvey->token = md5(uniqid(rand(), true));
         $newSurvey->token_manage = md5(uniqid(rand(), true));
-        $newSurvey->status = config('settings.survey.status.close');
+        $newSurvey->status = config('settings.survey.status.open');
         $newSurvey = $this->model->create($newSurvey->toArray());
 
         // clone members

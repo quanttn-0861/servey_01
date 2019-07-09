@@ -548,6 +548,11 @@ class QuestionRepository extends BaseRepository implements QuestionInterface
     {
         $data = $question->replicate()->toArray();
         $data['update'] = config('settings.survey.question_update.default');
+
+        if ($question->type == config('settings.question_type.grid')) {
+            $data['sub_questions'] = json_encode($question->sub_questions);
+        }
+
         $newQuestion = $newSection->questions()->create($data);
         // clone setting question
         $dataSettings = $question->settings->toArray();
