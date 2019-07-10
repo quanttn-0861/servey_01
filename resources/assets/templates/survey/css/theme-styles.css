@@ -402,12 +402,13 @@
 .profile-menu li > div, .profile-menu li a {
     font-size: 14px;
     font-weight: 700;
-    color: #9a9fbf;
+    color: #43add0;
     display: block;
 }
 .profile-menu li > div:hover, .profile-menu li a:hover {
     color: #515365;
 }
+
 .profile-menu li > div.active, .profile-menu li a.active {
     color: #515365;
 }
@@ -1060,4 +1061,42 @@ input.submit-image-profile:hover {
     color: #FF0000;
     font-weight: 500;
     font-size: 15px;
+}
+
+.menu-section {
+    padding: 0px 0px 25px 0px;
+}
+
+.main-block {
+    max-width: 65%;
+    margin: auto;
+    padding-top: 20px;
+}
+
+.sub-block {
+    margin: 0px !important;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+.main-block .profile-menu li {
+    width: 33.3%;
+    text-align: center;
+}
+
+.main-block .profile-menu li a {
+    font-size: 17px;
+    padding: 12px 0px;
+    border-bottom: 1px solid #CCCCCC;
+}
+
+.main-block .profile-menu li a.active {
+    border: 1px solid #CCCCCC;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom: none;
+}
+
+.second-block {
+    max-width: 100% !important;
 }
