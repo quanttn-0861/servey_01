@@ -298,11 +298,14 @@ class ElementFetchingController extends Controller
         }
 
         $imageURL = $request->imageURL;
-
+        $backgroudCover = $request->backgroudCover;
+        $backgroudUrl = route('home') . '/' . $backgroudCover;
+        
         return response()->json([
             'success' => true,
-            'html' => view('clients.survey.elements.background-survey', compact('imageURL'))->render(),
+            'html' => view('clients.survey.elements.background-survey', compact('imageURL', 'backgroudUrl'))->render(),
             'imageURL' => $imageURL,
+            'backgroudCover' => $backgroudCover,
         ]);
     }
 

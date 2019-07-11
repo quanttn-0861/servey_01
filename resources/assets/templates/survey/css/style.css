@@ -810,7 +810,7 @@ textarea.form-control {
 }
 
 label {
-    color: #999999;
+    color: #222;
     font-size: 16px;
     font-weight: 700;
 }
@@ -4242,10 +4242,6 @@ tr, th, td {
     display: flex;
 }
 
-.time-survey {
-    margin-bottom: 3rem !important;
-}
-
 .grid-quetion-icon {
     font-size: 19px;
     margin-left: 4%;
@@ -4491,8 +4487,8 @@ span>div.draggable-area {
 }
 
 .logo-sun {
-    text-shadow: 2px 2px 1px #c8c8c8; 
-    position: absolute; 
+    text-shadow: 2px 2px 1px #c8c8c8;
+    position: absolute;
     color: #FFF;
     font-size: 40px;
     font-weight: 700;
@@ -4502,4 +4498,8 @@ span>div.draggable-area {
 
 .logo-sun .highlight {
     color: #FF0000;
+}
+
+.section-resize {
+    width: 100% !important;
 }

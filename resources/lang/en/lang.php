@@ -78,6 +78,7 @@ return [
     'upload_or_by_url' => 'Upload or by URL',
     'search_by_google' => 'Search by Google',
     'insert_image' => 'Insert image',
+    'choose_image' => 'Choose image',
     'paste_a_url_or_upload_image' => 'Paste a URL or upload image',
     'cancel' => 'Cancel',
     'search_an_image' => 'Search an image...',

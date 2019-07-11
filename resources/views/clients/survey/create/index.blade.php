@@ -141,7 +141,7 @@
                                 'class' => 'form-control auto-resize',
                                 'data-autoresize',
                                 'placeholder' => trans('lang.description_placeholder'),
-                                'rows' => 3,
+                                'rows' => 2,
                             ]) !!}
                         </div>
                         @include('clients.survey.elements.insert-background-survey')

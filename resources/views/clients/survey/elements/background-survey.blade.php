@@ -1,7 +1,7 @@
 <div class="form-row background-survey">
     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-11 col-12">
         <div class="show-background-survey">
-            <img class="img-background image-background-url" src="{{ $imageURL }}" alt="">
+            <img class="img-background image-background-url" src="{{ $imageURL != '' ? $imageURL : $backgroudUrl }}" alt="">
             <span class="option-background-survey" >
                 <i class="fa fa-ellipsis-v"></i>
                 <ul class="option-menu-dropdown option-menu-image">
