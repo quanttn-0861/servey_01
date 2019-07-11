@@ -221,7 +221,7 @@
                             @endif
                         </li>
                         @if ($result['question_type'] == config('settings.question_type.redirect'))
-                            <div id="detail-result-{{ $result['question']->id }}"></div>
+                            <div id="detail-result-{{ $result['question']->id }}" class="group-detail-result"></div>
                         @endif
                     @endforeach
                     @if (!count($resultsSurvey['question_result']))

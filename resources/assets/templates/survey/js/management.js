@@ -27,7 +27,7 @@ $(document).ready(function () {
                 if (data.success) {
                     $('#div-management-survey').html(data.html).promise().done(function () {
                         results(); // use to render chart of result of survey at line 35 of file resources/assets/templates/survey/js/result.js
-                        $(this).find('.ul-result').addClass('ul-result-management');
+                        $(this).find('.ul-result').addClass('ul-result-management section-resize');
                     });
 
                     $('[data-toggle="tooltip"]').tooltip();
@@ -65,7 +65,7 @@ $(document).ready(function () {
     // delete survey
     $(document).on('click', '#delete-survey', function () {
         var url = $(this).attr('data-url');
-        confirmDanger({message: Lang.get('lang.comfirm_delete_survey')}, function () {
+        confirmDanger({ message: Lang.get('lang.comfirm_delete_survey') }, function () {
             $.ajax({
                 method: 'GET',
                 url: url,
@@ -77,7 +77,7 @@ $(document).ready(function () {
                         return;
                     }
 
-                    alertDanger({message: data.message});
+                    alertDanger({ message: data.message });
                 }
             });
         });
@@ -86,7 +86,7 @@ $(document).ready(function () {
     // close survey survey
     $(document).on('click', '#close-survey', function () {
         var url = $(this).attr('data-url');
-        confirmDanger({message: Lang.get('lang.comfirm_close_survey')}, function () {
+        confirmDanger({ message: Lang.get('lang.comfirm_close_survey') }, function () {
             $.ajax({
                 method: 'GET',
                 url: url,
@@ -95,9 +95,9 @@ $(document).ready(function () {
                     if (data.success) {
                         $('#close-survey').addClass('hide-div');
                         $('#open-survey').removeClass('hide-div');
-                        alertSuccess({message: data.message});
+                        alertSuccess({ message: data.message });
                     } else {
-                        alertDanger({message: data.message});
+                        alertDanger({ message: data.message });
                     }
                 }
             });
@@ -107,7 +107,7 @@ $(document).ready(function () {
     // open survey survey
     $(document).on('click', '#open-survey', function () {
         var url = $(this).attr('data-url');
-        confirmDanger({message: Lang.get('lang.comfirm_open_survey')}, function () {
+        confirmDanger({ message: Lang.get('lang.comfirm_open_survey') }, function () {
             $.ajax({
                 method: 'GET',
                 url: url,
@@ -116,9 +116,9 @@ $(document).ready(function () {
                     if (data.success) {
                         $('#close-survey').removeClass('hide-div');
                         $('#open-survey').addClass('hide-div');
-                        alertSuccess({message: data.message});
+                        alertSuccess({ message: data.message });
                     } else {
-                        alertDanger({message: data.message});
+                        alertDanger({ message: data.message });
                     }
                 }
             });
@@ -129,7 +129,7 @@ $(document).ready(function () {
     $(document).on('click', '#clone-survey', function () {
         var url = $(this).attr('data-url');
 
-        confirmDanger({message: Lang.get('lang.comfirm_clone_survey')}, function () {
+        confirmDanger({ message: Lang.get('lang.comfirm_clone_survey') }, function () {
             $.ajax({
                 method: 'GET',
                 url: url,
@@ -137,14 +137,14 @@ $(document).ready(function () {
                 success: function (data) {
                     if (data.success) {
                         alertSuccess(
-                            {message: data.message},
+                            { message: data.message },
                             function () {
                                 var redirectWindow = window.open(data.redirect, '_blank');
                                 redirectWindow.location;
                             }
                         );
                     } else {
-                        alertDanger({message: data.message});
+                        alertDanger({ message: data.message });
                     }
                 }
             });
@@ -169,7 +169,7 @@ $(document).ready(function () {
 
         if ($('#close-survey').is(':visible')) {
             confirmWarning(
-                {message: Lang.get('lang.confirm_close_to_edit')},
+                { message: Lang.get('lang.confirm_close_to_edit') },
                 function () {
                     closeSurvey();
                     changeToken(element.closest('.form-group-custom').find('.input-edit-token'));
@@ -198,7 +198,7 @@ $(document).ready(function () {
 
         if ($('#close-survey').is(':visible')) {
             confirmWarning(
-                {message: Lang.get('lang.confirm_close_to_edit')},
+                { message: Lang.get('lang.confirm_close_to_edit') },
                 function () {
                     closeSurvey();
                     changeTokenManage(element.closest('.form-group-custom').find('.input-edit-token-manage'));
@@ -209,13 +209,13 @@ $(document).ready(function () {
         }
     })
 
-    $(document).on('click', '#edit-survey', function(event) {
+    $(document).on('click', '#edit-survey', function (event) {
         event.preventDefault();
         var redirect = $(this).attr('data-url');
 
         if ($('#close-survey').is(':visible')) {
             confirmWarning(
-                {message: Lang.get('lang.confirm_close_to_edit')},
+                { message: Lang.get('lang.confirm_close_to_edit') },
                 function () {
                     closeSurvey(redirect);
                 }
@@ -256,7 +256,7 @@ $(document).ready(function () {
                 },
                 success: function (data) {
                     if (data.success) {
-                        detailResult.html(data.html).promise().done (function () {
+                        detailResult.html(data.html).promise().done(function () {
                             subResults();
                             var ul = detailResult.find('ul');
                             ul.each(function () {
@@ -272,7 +272,7 @@ $(document).ready(function () {
                 }
             });
         } else {
-            alertDanger({message: Lang.get('lang.select_option')});
+            alertDanger({ message: Lang.get('lang.select_option') });
         }
     });
 
@@ -343,7 +343,7 @@ function closeSurvey(redirect = '') {
                     window.location.href = redirect;
                 }
             } else {
-                alertDanger({message: data.message});
+                alertDanger({ message: data.message });
             }
         }
     });
@@ -355,7 +355,7 @@ function changeToken(element) {
 
     if (oldToken != newToken && newToken) {
         confirmInfo(
-            {message: Lang.get('lang.confirm_change_token', {token: oldToken, new_token: newToken})},
+            { message: Lang.get('lang.confirm_change_token', { token: oldToken, new_token: newToken }) },
             function () {
                 $.ajaxSetup({
                     headers: {
@@ -375,7 +375,7 @@ function changeToken(element) {
                 })
                     .done(function (data) {
                         if (data.success) {
-                            alertSuccess({message: Lang.get('lang.change_success')});
+                            alertSuccess({ message: Lang.get('lang.change_success') });
                             $('.next-section-survey').attr('data-url', data.next_section_url);
                             $('.edit-token-survey').hide();
                             $('.input-edit-token').attr('data-token', data.new_token);
@@ -384,11 +384,11 @@ function changeToken(element) {
                             $('.link-survey').attr('href', data.link_doing);
                             element.val(data.new_token);
                         } else {
-                            alertDanger({message: data.message});
+                            alertDanger({ message: data.message });
                         }
                     })
                     .fail(function (data) {
-                        alertWarning({message: data.responseJSON.token[0]});
+                        alertWarning({ message: data.responseJSON.token[0] });
                     });
             }
         );
@@ -403,7 +403,7 @@ function changeTokenManage(element) {
 
     if (oldTokenManage != newTokenManage && newTokenManage) {
         confirmInfo(
-            {message: Lang.get('lang.confirm_change_token_manage', {token_manage: oldTokenManage, new_token_manage: newTokenManage})},
+            { message: Lang.get('lang.confirm_change_token_manage', { token_manage: oldTokenManage, new_token_manage: newTokenManage }) },
             function () {
                 $.ajaxSetup({
                     headers: {
@@ -423,7 +423,7 @@ function changeTokenManage(element) {
                 })
                     .done(function (data) {
                         if (data.success) {
-                            alertSuccess({message: Lang.get('lang.change_success')});
+                            alertSuccess({ message: Lang.get('lang.change_success') });
                             $('#overview-survey').attr('data-url', data.overview_url);
                             $('#results-survey').attr('data-url', data.result_url);
                             $('#delete-survey').attr('data-url', data.delete_survey_url);
@@ -443,11 +443,11 @@ function changeTokenManage(element) {
                             $('.edit-token-manage-survey').hide();
                             element.val(data.new_token_manage);
                         } else {
-                            alertDanger({message: data.message});
+                            alertDanger({ message: data.message });
                         }
                     })
                     .fail(function (data) {
-                        alertWarning({message: data.responseJSON.token_manage[0]});
+                        alertWarning({ message: data.responseJSON.token_manage[0] });
                     });
             }
         );

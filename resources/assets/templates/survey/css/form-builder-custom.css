@@ -717,7 +717,7 @@ body {
 }
 
 .form-wrapper .form-line {
-    padding: 10px 35px;
+    padding: 25px 35px;
     transition: all .2s ease;
     background-color: #ffffff;
 }
@@ -1252,7 +1252,7 @@ nav ul a:hover {
 .scroll-button-group-sidebar .button-group-sidebar {
     position: absolute;
     z-index: 3;
-    right: -55%;
+    right: -70%;
     width: 10%;
     height: auto;
     border-radius: 5px;
@@ -4098,4 +4098,8 @@ input[name="quantity-answer"]::-webkit-outer-spin-button, input[type="number"]::
     cursor: pointer;
     padding-left: 0;
     margin-bottom: 0;
+}
+
+.group-detail-result>.ul-result {
+    width: 80%;
 }
