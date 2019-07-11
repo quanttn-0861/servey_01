@@ -404,7 +404,7 @@ Route::post('store-result', [
 Route::get('edit-answer/{token}/{tokenResult}', [
     'uses' => 'SurveyController@editAnswer',
     'as' => 'survey.create.edit-answer',
-])->middleware('doingsurvey');
+])->middleware('editanswer');
 
 Route::post('store-edit-answer', [
     'uses' => 'SurveyController@storeNewResults',
