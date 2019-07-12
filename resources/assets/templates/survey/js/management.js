@@ -152,19 +152,39 @@ $(document).ready(function () {
     });
 
     // show btn change token survey
-    $(document).on('keyup', '.input-edit-token', function () {
+    $(document).on('keyup', '.input-edit-token', function (e) {
         var element = $(this).closest('.form-group-custom').find('.input-edit-token');
         var oldToken = element.data('token');
-        var newToken = element.val().replace(' ', '_');
+        var newToken = toSlug($.trim(element.val()));
 
         if (oldToken != newToken && newToken) {
-            $('.edit-token-survey').show();
+            $('.save-token-survey').show();
+            $('.save-token-survey').addClass('show-save-btn');
+
+            if (e.keyCode == 13) {
+
+                if ($('#close-survey').is(':visible')) {
+                    confirmWarning(
+                        {message: Lang.get('lang.confirm_close_to_edit')},
+                        function () {
+                            closeSurvey();
+                            changeToken(element);
+                        }
+                    );
+                } else {
+                    changeToken(element);
+                }
+            }
         } else {
-            $('.edit-token-survey').hide();
+            $('.save-token-survey').hide();
         }
     })
 
     $(document).on('click', '.edit-token-survey', function () {
+        $('.input-edit-token').select();
+    })
+
+    $(document).on('click', '.save-token-survey', function () {
         var element = $(this);
 
         if ($('#close-survey').is(':visible')) {
@@ -179,6 +199,16 @@ $(document).ready(function () {
             changeToken(element.closest('.form-group-custom').find('.input-edit-token'));
         }
     })
+
+    $(document).on('focusout', '.input-edit-token', function () {
+
+        if (!$(this).val().trim()) {
+            $(this).val($(this).data('token'));
+            $(this).attr('data-original-title', $(this).data('token'));
+        } else {
+            $(this).attr('data-original-title', $(this).val());
+        }
+    });
 
     // show change token manage survey
     $(document).on('keyup', '.input-edit-token-manage', function () {
@@ -351,7 +381,7 @@ function closeSurvey(redirect = '') {
 
 function changeToken(element) {
     var oldToken = element.attr('data-token');
-    var newToken = element.val().replace(' ', '_');
+    var newToken = toSlug($.trim(element.val()));
 
     if (oldToken != newToken && newToken) {
         confirmInfo(
@@ -377,9 +407,10 @@ function changeToken(element) {
                         if (data.success) {
                             alertSuccess({message: Lang.get('lang.change_success')});
                             $('.next-section-survey').attr('data-url', data.next_section_url);
-                            $('.edit-token-survey').hide();
+                            $('.save-token-survey').hide();
                             $('.input-edit-token').attr('data-token', data.new_token);
                             $('.input-edit-token').attr('data-original-title', data.new_token);
+                            $('.input-edit-token').attr('value', data.new_token);
                             $('#setting-survey').attr('data-url', data.setting_url);
                             $('.link-survey').attr('href', data.link_doing);
                             element.val(data.new_token);
@@ -454,4 +485,21 @@ function changeTokenManage(element) {
     } else {
         element.val(oldTokenManage);
     }
+}
+
+function toSlug(str) {
+    str = str.toLowerCase();     
+    str = str.replace(/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/g, 'a');
+    str = str.replace(/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/g, 'e');
+    str = str.replace(/(ì|í|ị|ỉ|ĩ)/g, 'i');
+    str = str.replace(/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/g, 'o');
+    str = str.replace(/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/g, 'u');
+    str = str.replace(/(ỳ|ý|ỵ|ỷ|ỹ)/g, 'y');
+    str = str.replace(/(đ)/g, 'd');
+    str = str.replace(/([^0-9a-z-\s])/g, '-');
+    str = str.replace(/(\s+)/g, '-');
+    str = str.replace(/^-+/g, '');
+    str = str.replace(/-+$/g, '');
+
+    return str;
 }

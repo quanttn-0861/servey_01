@@ -54,14 +54,18 @@
                             ]) !!}
                         <span class="complete-content">
                             <a href="{{ $link }}" class="link-survey"></a>
-                            <a href="#" class="btn btn-info copy-link-survey">
-                                <i class="fa fa-paperclip"></i>
+                            <a href="#" class="copy-link-survey">
+                                <i class="fa fa-paperclip link-combo"></i>
                                 <span class="tooltiptext">@lang('lang.copy_link')</span>
                             </a>
                         </span>
-                        <a href="javascript:void(0)" class="btn btn-warning edit-token-survey"
-                            data-toggle="tooltip" title="@lang('lang.change_token')">
-                            <i class="fa fa-edit"></i>
+                        <a href="javascript:void(0)" class="edit-token-survey"
+                            data-toggle="tooltip" title="@lang('lang.edit_link')">
+                            <i class="fa fa-edit link-combo"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="save-token-survey"
+                            data-toggle="tooltip" title="@lang('lang.save')">
+                            <i class="fa fa-save link-combo"></i>
                         </a>
                     </div>
                 </div>
@@ -78,14 +82,14 @@
                             ]) !!}
                         <span class="complete-content">
                             <a href="{{ $linkManage }}" class="link-manage"></a>
-                            <a href="#" class="btn btn-info copy-link-manage">
-                                <i class="fa fa-paperclip"></i>
+                            <a href="#" class="copy-link-manage">
+                                <i class="fa fa-paperclip link-combo"></i>
                                 <span class="tooltiptext">@lang('lang.copy_link')</span>
                             </a>
                         </span>
-                        <a href="javascript:void(0)" class="btn btn-warning edit-token-manage-survey"
+                        <a href="javascript:void(0)" class="edit-token-manage-survey"
                             data-toggle="tooltip" title="@lang('lang.change_token_manage')">
-                            <i class="fa fa-edit"></i>
+                            <i class="fa fa-edit link-combo"></i>
                         </a>
                     </div>
                 </div>

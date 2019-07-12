@@ -403,4 +403,5 @@ return [
     'add_column' => 'Add column',
     'edit_after_submit' => 'Allows editing answers after submiting',
     'edit_your_answer' => 'Edit your answer',
+    'edit_link' => 'Edit link',
 ];

@@ -66,8 +66,26 @@ ul.content-margin-top-preview,
     font-weight: normal !important;
 }
 
-.edit-token-survey, .edit-token-manage-survey {
+.edit-token-manage-survey {
     display: none;
+}
+
+.edit-token-survey {
+    display: inline;
+    margin-left: 2%;
+}
+
+.save-token-survey {
+    display: none;
+}
+
+.show-save-btn {
+    display: inline;
+    margin-left: 2.5%;
+}
+
+.link-combo {
+    font-size: 20px;
 }
 
 .form-group-custom {
