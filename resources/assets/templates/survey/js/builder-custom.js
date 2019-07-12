@@ -2735,21 +2735,24 @@ jQuery(document).ready(function () {
 
         $('#btn-insert-image-question').click(function () {
             var imageURL = $('.img-preview-in-modal').attr('src');
+            var backgroudCover = $("input[name='background_cover']:checked").val();
+            var homeUrl = $('#modal-insert-image').data('home-url');
 
-            if (imageURL) {
+            if (imageURL || backgroudCover) {
                 $.ajax({
                     method: 'POST',
                     url: url,
                     dataType: 'json',
                     data: {
                         imageURL: imageURL,
+                        backgroudCover: backgroudCover,
                     }
                 })
                     .done(function (data) {
                         if (data.success) {
                             var element = data.html
                             $(element).insertAfter(questionInsert);
-                            $(imageQuestionHidden).val(data.imageURL);
+                            $(imageQuestionHidden).val(data.imageURL ? data.imageURL : homeUrl + '/' + data.backgroudCover);
                             $(btnQuestionnImage).addClass('hidden');
                         }
                     });
@@ -2776,21 +2779,24 @@ jQuery(document).ready(function () {
 
         $('#btn-insert-image-answer').click(function () {
             var imageURL = $('.img-preview-in-modal').attr('src');
+            var backgroudCover = $("input[name='background_cover']:checked").val();
+            var homeUrl = $('#modal-insert-image').data('home-url');
 
-            if (imageURL) {
+            if (imageURL || backgroudCover) {
                 $.ajax({
                     method: 'POST',
                     url: url,
                     dataType: 'json',
                     data: {
                         imageURL: imageURL,
+                        backgroudCover: backgroudCover,
                     }
                 })
                     .done(function (data) {
                         if (data.success) {
                             var element = data.html;
                             $(element).insertAfter(answerInsert);
-                            $(imageAnswerHidden).val(data.imageURL);
+                            $(imageAnswerHidden).val(data.imageURL ? data.imageURL : homeUrl + '/' + data.backgroudCover);
                             $(uploadChoiceTag).addClass('invisible');
                             $('#modal-insert-image').modal('hide');
                         }
@@ -2818,21 +2824,24 @@ jQuery(document).ready(function () {
 
         $('#btn-insert-image-answer').click(function () {
             var imageURL = $('.img-preview-in-modal').attr('src');
+            var backgroudCover = $("input[name='background_cover']:checked").val();
+            var homeUrl = $('#modal-insert-image').data('home-url');
 
-            if (imageURL) {
+            if (imageURL || backgroudCover) {
                 $.ajax({
                     method: 'POST',
                     url: url,
                     dataType: 'json',
                     data: {
                         imageURL: imageURL,
+                        backgroudCover: backgroudCover,
                     }
                 })
                     .done(function (data) {
                         if (data.success) {
                             var element = data.html;
                             $(element).insertAfter(answerInsert);
-                            $(imageAnswerHidden).val(data.imageURL);
+                            $(imageAnswerHidden).val(data.imageURL ? data.imageURL : homeUrl + '/' + data.backgroudCover);
                             $(uploadChoiceTag).addClass('invisible');
                             $('#modal-insert-image').modal('hide');
                         }
@@ -3022,10 +3031,15 @@ jQuery(document).ready(function () {
 
         $('#btn-change-image-question').click(function () {
             var imageURL = $('.img-preview-in-modal').attr('src');
+            var backgroudCover = $("input[name='background_cover']:checked").val();
+            var homeUrl = $('#modal-insert-image').data('home-url');
 
             if (imageURL) {
                 $(imageQuestion).attr('src', imageURL);
                 $(inputImageHidden).val(imageURL);
+            } else if (backgroudCover) {
+                $(imageQuestion).attr('src', homeUrl + '/' + backgroudCover);
+                $(inputImageHidden).val(homeUrl + '/' + backgroudCover);
             }
 
             resetModalImage();
