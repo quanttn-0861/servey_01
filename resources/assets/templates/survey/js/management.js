@@ -30,6 +30,8 @@ $(document).ready(function () {
 
     // get result
     $(document).on('click', '#results-survey, #btn-summary-result, #btn-personal-result', function () {
+        $('#chart-personal-start-date').val('');
+        $('#chart-personal-end-date').val('');
         $('#group-select-date-overview').hide();
         $('#group-select-date-result').css('display', 'flex');
         var url = $(this).attr('data-url');
@@ -67,6 +69,36 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (data) {
                 getOverviewSurvey();
+            }
+        });
+    });
+
+    $(document).on('click', '.result-personal-by-date', function () {
+        var startDate = $('#chart-personal-start-date').val();
+        var endDate = $('#chart-personal-end-date').val();
+        var url = $('#btn-personal-result').data('url');
+        $.ajax({
+            method: 'GET',
+            url: url,
+            data: {
+                start_date: startDate,
+                end_date: endDate,
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.success) {
+                    $('#div-management-survey').html(data.html).promise().done(function () {
+                        results();
+                        $(this).find('.ul-result').addClass('ul-result-management section-resize');
+                    });
+
+                    $('[data-toggle="tooltip"]').tooltip();
+
+                    autoScroll();
+                    autoAlignChoiceAndCheckboxIcon();
+                } else {
+                    $('.content-section-preview').html(`<span class="message-result">${data.message}</span>`);
+                }
             }
         });
     });

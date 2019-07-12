@@ -64,10 +64,16 @@ $(document).ready(function () {
 
     function getPageDetail(page) {
         var url = $('#btn-personal-result').data('url');
+        var startDate = $('#chart-personal-start-date').val();
+        var endDate = $('#chart-personal-end-date').val();
 
         $.ajax({
             url: url + '?page=' + page,
             dataType: 'json',
+            data: {
+                start_date: startDate,
+                end_date: endDate,
+            },
         })
             .done(function (data) {
                 $('#div-management-survey').html(data.html);

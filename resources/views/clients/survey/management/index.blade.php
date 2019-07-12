@@ -87,27 +87,30 @@
                         </a>
                     </div>
                 </div>
-                <br><br>
                 <div class="row group-select-date " id="group-select-date-result">
-                    <div class="col-sm-4">
+                    <div class="col-sm-2 label-choose-date">
                         <label>@lang('lang.start_date')</label>
+                    </div>
+                    <div class="col-sm-3">
                         <div class="input-group date datepicker">
                             <input class="form-control personal-input-date" id="chart-personal-start-date" type="text" />
                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                         </div>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-sm-2 label-choose-date">
                         <label>@lang('lang.end_date')</label>
+                    </div>
+                    <div class="col-sm-3">
                         <div class="input-group date datepicker">
                             <input class="form-control personal-input-date" id="chart-personal-end-date" type="text" />
                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                         </div>
                     </div>
-                    <div class="col-sm-4 group-result-button">
-                        <a href="#" class="btn btn-info result-personal-by-date" data-url="{{ route('result-personal-by-date') }}" data-survey-id="{{ $survey->id }}"  title="@lang('lang.see_result')">
+                    <div class="col-sm-2 group-result-button">
+                        <a href="javascript:void(0)" class="btn btn-info result-personal-by-date" data-url="{{ route('result-personal-by-date') }}" data-survey-id="{{ $survey->id }}"  title="@lang('lang.see_result')">
                             <i class="fa fa-search"></i>
                         </a>
-                        <a href="#" class="btn btn-info see-overview-result" title="@lang('lang.see_overview')">
+                        <a href="javascript:void(0)" class="btn btn-info see-overview-result" title="@lang('lang.see_overview')">
                             <i class="fa fa-refresh"></i>
                         </a>
                     </div>
