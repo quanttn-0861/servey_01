@@ -341,7 +341,7 @@ return [
 
     /**
      *  Survey edit
-    */
+     */
 
     'option_update' => [
         'dont_send_survey_again' => 0,
@@ -368,6 +368,8 @@ return [
     'path_backup_data' => 'app/backup_data',
     'number_day_backup' => 7,
     'linear_scale_icon' => '/templates/survey/images/linear_scale.png',
-    'limit_grid' => 15, 
+    'limit_grid' => 15,
     'title_copy' => 'Copy',
+    'min_time' => ' 00:00:00',
+    'max_time' => ' 23:59:59',
 ];

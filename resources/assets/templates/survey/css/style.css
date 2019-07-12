@@ -4478,7 +4478,7 @@ span>div.draggable-area {
     display: table-cell;
     height: 2.5em;
     vertical-align: middle;
-    z-index: 1000;
+    z-index: 100;
     background-color: #fff;
 }
 

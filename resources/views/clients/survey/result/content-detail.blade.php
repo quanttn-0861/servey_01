@@ -3,7 +3,7 @@
     <!-- Content Wrapper  -->
     <div class="content-wrapper content-wrapper-management">
         <!-- /Scroll buttons -->
-        <ul class="clearfix form-wrapper content-margin-top-preview ul-result content-margin-top-management">
+        <ul class="clearfix form-wrapper content-margin-top-preview ul-result content-margin-top-management section-resize">
             <li class="form-line-title-survey-result">
                 <div class="form-group-title-survey">
                     <h2 class="title-survey-result" data-placement="bottom" data-toggle="tooltip"
@@ -54,7 +54,7 @@
         </ul>
         <div class="content-section-preview">
             @if (!$countResult)
-                <ul class="clearfix form-wrapper ul-result wrapper-section-result unset-max-with">
+                <ul class="clearfix form-wrapper ul-result wrapper-section-result unset-max-with section-resize">
                     <li class="li-question-review form-line">
                         <span class="message-result">@lang('pagination.empty_data')</span>
                     </li>

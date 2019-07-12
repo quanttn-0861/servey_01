@@ -8,8 +8,8 @@
     {!! Html::style(elixir(config('settings.public_template') . 'css/result.css')) !!}
     {!! Html::style(elixir(config('settings.public_template') . 'css/preview.css')) !!}
     {!! Html::style(elixir(config('settings.public_template') . 'css/management.css')) !!}
+    {!! Html::style(elixir(config('settings.public_template') . 'css/datepicker.css')) !!}
 @endpush
-
 @section('btn-create-survey', 'show')
 
 @section ('content')
@@ -58,6 +58,60 @@
 
             <!-- show list survey -->
             <div class="container ui-block padding-profile div-list-survey second-block">
+                <div class="row group-select-date" id="group-select-date-overview">
+                    <div class="col-sm-2 label-choose-date">
+                        <label>@lang('lang.start_date')</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="input-group date datepicker">
+                            <input class="form-control overview-input-date" id="chart-start-date" type="text" />
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-2 label-choose-date">
+                        <label>@lang('lang.end_date')</label>
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="input-group date datepicker">
+                            <input class="form-control overview-input-date" id="chart-end-date" type="text" />
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="col-sm-2 group-result-button">
+                        <a href="#" class="btn btn-info see-result-by-date" data-url="{{ route('see-result-by-date') }}" data-survey-id="{{ $survey->id }}"  title="@lang('lang.see_result')">
+                            <i class="fa fa-search"></i>
+                        </a>
+                        <a href="#" class="btn btn-info see-overview-result" title="@lang('lang.see_overview')">
+                            <i class="fa fa-refresh"></i>
+                        </a>
+                    </div>
+                </div>
+                <br><br>
+                <div class="row group-select-date " id="group-select-date-result">
+                    <div class="col-sm-4">
+                        <label>@lang('lang.start_date')</label>
+                        <div class="input-group date datepicker">
+                            <input class="form-control personal-input-date" id="chart-personal-start-date" type="text" />
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <label>@lang('lang.end_date')</label>
+                        <div class="input-group date datepicker">
+                            <input class="form-control personal-input-date" id="chart-personal-end-date" type="text" />
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 group-result-button">
+                        <a href="#" class="btn btn-info result-personal-by-date" data-url="{{ route('result-personal-by-date') }}" data-survey-id="{{ $survey->id }}"  title="@lang('lang.see_result')">
+                            <i class="fa fa-search"></i>
+                        </a>
+                        <a href="#" class="btn btn-info see-overview-result" title="@lang('lang.see_overview')">
+                            <i class="fa fa-refresh"></i>
+                        </a>
+                    </div>
+                </div>
                 <div class="ui-block-content" id="div-management-survey">
                     @include('clients.survey.management.overview')
                 </div>
@@ -74,4 +128,5 @@
     {!! Html::script(elixir(config('settings.public_template') . 'js/management-chart.js')) !!}
     {!! Html::script(elixir(config('settings.public_template') . 'js/result.js')) !!}
     {!! Html::script(elixir(config('settings.public_template') . 'js/management.js')) !!}
+    {!! Html::script(elixir(config('settings.public_template') . 'js/bootstrap-datepicker.js')) !!}
 @endpush

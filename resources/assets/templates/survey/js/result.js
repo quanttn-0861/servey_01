@@ -1,9 +1,9 @@
-$(document).ready(function(){
+$(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
 
     autoScroll();
 
-    $(document).on('click', '.zoom-btn-result', function(event) {
+    $(document).on('click', '.zoom-btn-result', function (event) {
         event.preventDefault();
         var contentSection = $(this).closest('.wrapper-section-result').next('.content-section-result');
 
@@ -24,7 +24,7 @@ $(document).ready(function(){
 
     results();
 
-    $(document).on('change', '.page-answer-detail', function(event) {
+    $(document).on('change', '.page-answer-detail', function (event) {
         event.preventDefault();
         var page = parseInt($(this).val());
         var countPage = parseInt($('.count-result').text());
@@ -37,7 +37,7 @@ $(document).ready(function(){
         getPageDetail(page);
     });
 
-    $(document).on('click', '.preview-answer-detail', function(event) {
+    $(document).on('click', '.preview-answer-detail', function (event) {
         event.preventDefault();
         var page = parseInt($('.page-answer-detail').val()) - 1;
 
@@ -49,7 +49,7 @@ $(document).ready(function(){
         getPageDetail(page);
     });
 
-    $(document).on('click', '.next-answer-detail', function(event) {
+    $(document).on('click', '.next-answer-detail', function (event) {
         event.preventDefault();
         var countPage = parseInt($('.count-result').text());
         var page = parseInt($('.page-answer-detail').val()) + 1;
@@ -66,7 +66,7 @@ $(document).ready(function(){
         var url = $('#btn-personal-result').data('url');
 
         $.ajax({
-            url : url + '?page=' + page,
+            url: url + '?page=' + page,
             dataType: 'json',
         })
             .done(function (data) {
@@ -78,8 +78,7 @@ $(document).ready(function(){
     }
 });
 
-function autoAlignChoiceAndCheckboxIcon()
-{
+function autoAlignChoiceAndCheckboxIcon() {
     // auto align center multi-choice icon
     $('.li-question-review .item-answer .checkmark-radio').each(function () {
         var height = $(this).parent().height();
@@ -105,28 +104,28 @@ function autoScroll() {
 }
 
 function results() {
-    $('.checkboxes-result').each(function() {
+    $('.checkboxes-result').each(function () {
         var text = createDataForChart($(this).attr('data'));
         var dataCheckboxes = $.parseJSON((text));
 
         createBarChart($(this).attr('id'), dataCheckboxes);
     });
 
-    $('.multiple-choice-result').each(function() {
+    $('.multiple-choice-result').each(function () {
         var text = createDataForChart($(this).attr('data'));
         var dataMultipleChoice = $.parseJSON(text);
 
         createPieChart($(this).attr('id'), dataMultipleChoice);
     });
 
-    $('.redirect-result').each(function() {
+    $('.redirect-result').each(function () {
         var text = createDataForChart($(this).attr('data'));
         var dataRedirect = $.parseJSON(text);
 
         createPieChart($(this).attr('id'), dataRedirect, true);
     });
 
-    $('.linearscale-result').each(function() {
+    $('.linearscale-result').each(function () {
         var value = $(this).data('linear');
         var text = createDataLinrearForChart($(this).attr('data'), value);
         var dataLinearScale = $.parseJSON(text);
@@ -149,7 +148,7 @@ function results() {
     });
 
     // excel option menu
-    $('.option-menu-group').on('click', function(e) {
+    $('.option-menu-group').on('click', function (e) {
         e.stopPropagation();
         $('.survey-select-options').hide();
         $('.option-menu-dropdown').hide();
@@ -158,12 +157,12 @@ function results() {
         return false;
     });
 
-    $(document).click(function() {
+    $(document).click(function () {
         $('.option-menu').removeClass('active');
         $('.option-menu-dropdown').hide();
     });
 
-    $(document).on('click', '.submit-export-excel', function(event) {
+    $(document).on('click', '.submit-export-excel', function (event) {
         event.preventDefault();
         $('.info-export').submit();
     });
@@ -213,8 +212,8 @@ function createCombineChart(id, subQuestions, subOptions, dataChart) {
         credits: {
             enabled: false,
         },
-        
-        series: (function() {
+
+        series: (function () {
             var series = [];
 
             for (var i = 0; i < subOptions.length; i++) {
@@ -359,7 +358,7 @@ function createBarChart(id, data) {
 }
 
 function createPieChart(id, data, redirect = false) {
-    var options3d = redirect ? { enabled: true, alpha: 45, beta: 0,} : { enabled: false,};
+    var options3d = redirect ? { enabled: true, alpha: 45, beta: 0, } : { enabled: false, };
     Highcharts.chart(id, {
         chart: {
             type: 'pie',
@@ -434,7 +433,7 @@ function createDataLinrearForChart(data, value) {
     var newData = $.parseJSON(data.replace(/\\r\\n/g, " / "));
     var text = '';
 
-    $.each(newData, function(index, item) {
+    $.each(newData, function (index, item) {
         text += `{"name": ${item['content']}, "y": ${item['percent']}}`;
         text += (index == newData.length - 1) ? '' : ',';
     });
@@ -446,7 +445,7 @@ function createDataForChart(data) {
     var newData = $.parseJSON(data.replace(/\\r\\n/g, " / "));
     var text = '';
 
-    $.each(newData, function(index, item) {
+    $.each(newData, function (index, item) {
         var name = item['content'];
 
         if (name.length > 30) {
@@ -461,21 +460,21 @@ function createDataForChart(data) {
 }
 
 function subResults() {
-    $('.sub-checkboxes-result').each(function() {
+    $('.sub-checkboxes-result').each(function () {
         var text = createDataForChart($(this).attr('data'));
         var dataCheckboxes = $.parseJSON((text));
 
         createBarChart($(this).attr('id'), dataCheckboxes);
     });
 
-    $('.sub-multiple-choice-result').each(function() {
+    $('.sub-multiple-choice-result').each(function () {
         var text = createDataForChart($(this).attr('data'));
         var dataMultipleChoice = $.parseJSON(text);
 
         createPieChart($(this).attr('id'), dataMultipleChoice);
     });
 
-    $('.sub-linearscale-result').each(function() {
+    $('.sub-linearscale-result').each(function () {
         var text = createDataLinrearForChart($(this).attr('data'));
         var dataLinearScale = $.parseJSON(text);
 

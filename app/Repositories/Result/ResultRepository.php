@@ -183,7 +183,7 @@ class ResultRepository extends BaseRepository implements ResultInterface
 
         foreach ($sections as $section) {
             $temp = [];
-            
+
             foreach ($section['questions'] as $key => $question) {
                 $temp['question_id'] = $question['question_id'];
 
@@ -258,5 +258,30 @@ class ResultRepository extends BaseRepository implements ResultInterface
                 }
             }
         }
+    }
+
+    public function getResultByDate($data)
+    {
+        $startDateFormat = date("Y-m-d", strtotime($data['start_date']));
+        $endDateFormat = date("Y-m-d", strtotime($data['end_date']));
+        $startDate = $startDateFormat . config('settings.min_time');
+        $endDate = $endDateFormat . config('settings.max_time');
+        $results = $this->model->where('survey_id', $data['survey_id']);
+
+        if ($data['start_date'] != '' && $data['end_date'] == '') {
+            $results = $results->whereDate('created_at', '>=', $startDateFormat);
+        } else {
+            $results = $startDateFormat == $endDateFormat
+                ? $results->whereDate('created_at', $startDateFormat)
+                : $results->whereBetween('created_at', [$startDate, $endDate]);
+        }
+        $results = $results->orderBy('created_at')->get()->groupBy(
+            function ($date) {
+
+                return Carbon::parse($date->created_at)->format('d-m-Y');
+            }
+        );
+
+        return $results;
     }
 }

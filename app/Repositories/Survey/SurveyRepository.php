@@ -35,15 +35,15 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
     public function getResutlSurvey($survey, $userRepo)
     {
         foreach ($survey->sections as $section) {
-                if (!$section->redirect_id) {
-                    $resultsSurveys[] = [
-                        'section' => $section,
-                        'question_result' => $this->getResultOfEachSection($survey, $userRepo, $section),
-                    ];
-                }
+            if (!$section->redirect_id) {
+                $resultsSurveys[] = [
+                    'section' => $section,
+                    'question_result' => $this->getResultOfEachSection($survey, $userRepo, $section),
+                ];
             }
+        }
 
-            return $resultsSurveys;
+        return $resultsSurveys;
     }
 
     public function createSurvey($userId, $data, $status, $userRepo)
@@ -136,7 +136,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         foreach ($data['sections'] as $section) {
             $sectionData['title'] = $section['title'];
             $sectionData['description'] = $section['description'];
-            $sectionData['order'] = ++ $orderSection;
+            $sectionData['order'] = ++$orderSection;
             $sectionData['update'] = config('settings.survey.section_update.default');
             $sectionData['redirect_id'] = isset($section['redirect_id']) ? $dataRedirectId[$section['redirect_id']] : config('settings.section_redirect_id_default');
 
@@ -150,7 +150,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                     $questionData['title'] = $question['title'];
                     $questionData['description'] = $question['description'];
                     $questionData['required'] = $question['require'];
-                    $questionData['order'] = ++ $orderQuestion;
+                    $questionData['order'] = ++$orderQuestion;
                     $questionData['update'] = config('settings.survey.question_update.default');
 
                     $questionCreated = $sectionCreated->questions()->create($questionData);
@@ -171,7 +171,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
                     if ($question['type'] == config('settings.question_type.grid')) {
                         $valueGrids = $question['subQuestions'];
-                        
+
                         $questionCreated->update([
                             'sub_questions' => json_encode($valueGrids),
                         ]);
@@ -395,8 +395,9 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
         // if option update is "send all question survey again" OR havent invite_list, then set option update of elements to default (no-update)
         if (($status == config('settings.survey.status.open')
-            && $data->get('option') == config('settings.option_update.send_all_question_survey_again'))
-            ||  empty($inviter) || (empty($inviter->answer_mails) && empty($inviter->send_update_mails))) {
+                && $data->get('option') == config('settings.option_update.send_all_question_survey_again'))
+            ||  empty($inviter) || (empty($inviter->answer_mails) && empty($inviter->send_update_mails))
+        ) {
             $updateStatus = config('settings.survey.section_update.default');
         }
 
@@ -424,8 +425,10 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
         // update questions
         foreach ($updateData['questions'] as $key => $value) {
-            if (!$isDeleteClientResult && !empty($value['update'])
-                && $value['update'] == config('settings.survey.question_update.updated')) {
+            if (
+                !$isDeleteClientResult && !empty($value['update'])
+                && $value['update'] == config('settings.survey.question_update.updated')
+            ) {
                 $isDeleteClientResult = true;
             }
 
@@ -435,7 +438,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
             $question = $questionRepo->withTrashed()->where('id', $key)->first();
             $question->update($value);
-            
+
             if ($question->type == config('settings.question_type.linear_scale')) {
                 $valueSetting = json_encode([
                     'min_value' => $value['min_value'],
@@ -455,7 +458,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                     'sub_questions' => json_encode($valueGrids),
                 ]);
                 $valueSetting = json_encode($value['subOptions']);
-                
+
                 $question->settings()->update([
                     'value' => $valueSetting,
                 ]);
@@ -565,7 +568,6 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                 }
 
                 DB::table('results')->whereIn('question_id', $updatedQuestionIds)->delete();
-
             } elseif (empty($createData['sections']) && empty($createData['questions']) && empty($createData['answers'])) {
                 return;
             }
@@ -745,7 +747,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             'sender_id',
             'client_ip',
         ])
-        ->toArray();
+            ->toArray();
 
         if (!$results) {
             return [];
@@ -764,8 +766,8 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         $settings = $this->getSettings($survey->id);
 
         $userNotLogin = in_array('', array_keys($collection))
-                ? collect(collect($collection['']))->groupBy('client_ip')->toArray()
-                : [];
+            ? collect(collect($collection['']))->groupBy('client_ip')->toArray()
+            : [];
 
         return array_merge($userLogin, $userNotLogin);
     }
@@ -817,7 +819,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
             $startMonth = Carbon::createFromDate($dateMonthArray[1], $dateMonthArray[0])->startOfMonth();
             $endMonth = Carbon::createFromDate($dateMonthArray[1], $dateMonthArray[0])->endOfMonth();
             $results = $survey->results()->whereIn('question_id', $questions->pluck('id')->all())
-                    ->where('created_at', '>=', $startMonth)->where('created_at', '<', $endMonth);
+                ->where('created_at', '>=', $startMonth)->where('created_at', '<', $endMonth);
         } else {
             $results = $survey->results()->whereIn('question_id', $questions->pluck('id')->all());
         }
@@ -863,7 +865,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
             //title referred to case
             $getTitle = str_limit(Answer::find($answer->id)->content, config('settings.limit_title_excel'));
-            $title = ($title == '') ? $getTitle : $title .'-'. $getTitle;
+            $title = ($title == '') ? $getTitle : $title . '-' . $getTitle;
 
             if ($count >= count($questionsRedirect) - 1) {
                 $dataRedirect[] = [
@@ -873,8 +875,10 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                     'title' => $title,
                 ];
             } else {
-                $dataRedirect = array_merge($dataRedirect,
-                    $this->getResultWithRedirectSection($questionsRedirect, $questions, $survey, $month, $requiredSurvey, $count + 1, $caseResult, $title));
+                $dataRedirect = array_merge(
+                    $dataRedirect,
+                    $this->getResultWithRedirectSection($questionsRedirect, $questions, $survey, $month, $requiredSurvey, $count + 1, $caseResult, $title)
+                );
             }
 
             $caseResult = array_splice($caseResult, 0, -1);
@@ -899,10 +903,10 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
         //get question Redirect
         $questionsRedirect = Question::whereHas('settings', function ($query) {
-                $query->whereIn('key', [
-                    config('settings.question_type.redirect'),
-                ]);
-            })->whereIn('section_id', $sectionsWithoutRedirect)->with('settings')->get();
+            $query->whereIn('key', [
+                config('settings.question_type.redirect'),
+            ]);
+        })->whereIn('section_id', $sectionsWithoutRedirect)->with('settings')->get();
 
         if (count($questionsRedirect)) {
             return $this->getResultWithRedirectSection($questionsRedirect, $questionsWithoutRedirect, $survey, $month, $requiredSurvey);
@@ -1007,8 +1011,10 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         $survey = $this->model->withTrashed();
 
         //check flag
-        if ($flag == config('settings.survey.members.owner') ||
-            $flag == config('settings.survey.members.editor')) {
+        if (
+            $flag == config('settings.survey.members.owner') ||
+            $flag == config('settings.survey.members.editor')
+        ) {
             $survey = $survey->whereHas('members', function ($query) use ($flag, $userId) {
                 $query->where('role', $flag)
                     ->where('user_id', $userId);
@@ -1043,8 +1049,8 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         }
 
         return $survey->with(['settings' => function ($query) {
-                $query->where('key', config('settings.setting_type.privacy.key'));
-            }])->orderBy('created_at', 'desc')->paginate(config('settings.survey.paginate'));
+            $query->where('key', config('settings.setting_type.privacy.key'));
+        }])->orderBy('created_at', 'desc')->paginate(config('settings.survey.paginate'));
     }
 
     //get survey by token
@@ -1185,8 +1191,8 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
         $results = $survey->results();
         $results = $this->getResultsFollowOptionUpdate($survey, $results, app(UserInterface::class))->get();
         $results = $results->groupBy(
-            function($date) {
-                return Carbon::parse($date->created_at)->format('m-d-Y');
+            function ($date) {
+                return Carbon::parse($date->created_at)->format('d-m-Y');
             }
         );
 
@@ -1263,7 +1269,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
     {
         // clone survey
         $newSurvey = $survey->replicate();
-        $stringCopy = ' -' . config('settings.title_copy'); 
+        $stringCopy = ' -' . config('settings.title_copy');
         $arrTitle = explode(' ', $newSurvey->title);
         $countCopy = substr_count($newSurvey->title, $stringCopy);
 
@@ -1327,7 +1333,7 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
                     config('settings.question_type.long_answer'),
                     config('settings.question_type.date'),
                     config('settings.question_type.time'),
-                    config('settings.question_type.linear_scale'),                    
+                    config('settings.question_type.linear_scale'),
                 ])) {
                     $resultQuestion = $this->getTextQuestionResult($question, $survey, $userRepo);
                 } elseif ($question->type == config('settings.question_type.grid')) {
