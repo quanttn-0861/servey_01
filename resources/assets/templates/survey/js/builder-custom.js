@@ -2341,9 +2341,16 @@ jQuery(document).ready(function () {
 
     // add redirect option
     $('.survey-form').on('click', '.form-line .redirect-choice-block .other-choice .add-choice', function (e) {
+        function debounceClick(debounce) {
+            $(this).click(_.debounce(debounce, 200));
+        }
         var e = $.Event('keydown');
         e.keyCode = 13;  // ENTER KEY
         $(this).closest('.redirect-choice-block').find('.redirect-choice').last().trigger(e);
+        var answerId = $(this).closest('.redirect-choice-block').find('.redirect-choice').last().data('answer-id');
+        debounceClick(function () {
+            $(`.redirect-section-${answerId}`).find('ul.page-section').addClass('section-resize');
+        });
     });
 
     $('.survey-form').on('keyup change blur', '.form-line .redirect-choice-block .redirect-choice', function (e) {

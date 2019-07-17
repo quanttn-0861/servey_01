@@ -211,7 +211,7 @@ Route::group(['namespace' => 'Ajax', 'prefix' => 'ajax'], function () {
         ->name('ajax-fetch-linear-scale-question');
 
     Route::post('fetch-element/grid-question', 'ElementFetchingController@fetchGridQuestion')
-    ->name('ajax-fetch-grid-question');
+        ->name('ajax-fetch-grid-question');
 
     Route::post('fetch-element/redirect-section', 'ElementFetchingController@fetchRedirectSection')
         ->name('ajax-fetch-redirect-section');
@@ -452,3 +452,6 @@ Route::group(['middleware' => 'admin'], function () {
     Route::put('/change-status', 'UserManagementController@changeStatus')
         ->name('change-status');
 });
+
+Route::get('see-result-by-date', 'Survey\ResultController@getResultByDate')->name('see-result-by-date');
+Route::get('result-personal-by-date', 'Survey\ResultController@getResultPersonalByDate')->name('result-personal-by-date');

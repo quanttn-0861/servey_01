@@ -1,6 +1,4 @@
-ul.content-margin-top-management,
-ul.content-margin-top-preview,
-.ul-preview.ul-content-preview {
+ul.content-margin-top-management, ul.content-margin-top-preview, .ul-preview.ul-content-preview {
     margin-top: 0px !important;
     width: 100%;
     max-width: none;
@@ -23,6 +21,7 @@ ul.content-margin-top-preview,
     padding-right: 0px;
     padding-left: 0px;
 }
+
 .ui-block-content {
     padding: 0px !important;
     color: #333;
@@ -140,4 +139,31 @@ a.btn.btn-info.copy-link-survey, a.btn.btn-info.copy-link-manage {
 
 .content-section-preview .title-question-preview {
     left: -15px;
+}
+
+.overview-input-date {
+    border-radius: 5px;
+}
+
+.group-select-date {
+    margin-left: 10%;
+}
+
+#group-select-date-result {
+    display: none;
+}
+
+.label-choose-date {
+    text-align: right;
+    padding-right: 0;
+    padding-left: 0;
+    max-width: 105px;
+}
+
+.group-result-button {
+    padding-top: 12px;
+}
+
+.label-choose-date {
+    padding-top: 12px;
 }

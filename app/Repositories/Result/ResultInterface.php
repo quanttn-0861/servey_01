@@ -21,4 +21,6 @@ interface ResultInterface
     public function getNewResults($data, $currentResult);
 
     public function updateNewResults($newResultsData, $currentResults, $survey);
+
+    public function getResultByDate($data);
 }

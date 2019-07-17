@@ -1,4 +1,4 @@
-<ul class="clearfix form-wrapper ul-result wrapper-section-result unset-max-with">
+<ul class="clearfix form-wrapper ul-result wrapper-section-result unset-max-with section-resize">
     <li class="p-0">
         <div class="form-header">
             <div class="section-badge section-option-menu">
@@ -24,7 +24,7 @@
         </div>
     </li>
 </ul>
-<ul class="clearfix form-wrapper ul-result unset-max-with content-section-result">
+<ul class="clearfix form-wrapper ul-result unset-max-with content-section-result section-resize">
     @php
         $indexQuestion = config('settings.number_0');
     @endphp

@@ -52,7 +52,7 @@ class ResultController extends Controller
                 $numberMonth = $startTime->diffInMonths($endTime);
                 $months[''] = trans('lang.all');
 
-                for ($index = 0; $index <= $numberMonth; ++ $index) {
+                for ($index = 0; $index <= $numberMonth; ++$index) {
                     $value = new Carbon($startTimeStr);
                     $value = $value->addMonth($index);
                     $value = $value->format('m-Y');
@@ -150,6 +150,22 @@ class ResultController extends Controller
                 'sections',
                 'details',
             ]))->render(),
+        ]);
+    }
+
+    public function getResultByDate(Request $request)
+    {
+        $data = [];
+        $results = $this->resultRepository->getResultByDate($request->all());
+
+        foreach ($results as $key => $result) {
+            $data['x'][] = $key;
+            $data['y'][] = $result->groupBy('token')->count();
+        }
+
+        return response()->json([
+            'success' => true,
+            'results' => $data,
         ]);
     }
 }

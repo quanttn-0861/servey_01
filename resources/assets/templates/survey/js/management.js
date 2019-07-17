@@ -1,6 +1,19 @@
 $(document).ready(function () {
+    // datepicker setup
+    $(".datepicker").datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        dateFormat: 'dd-mm-yy',
+    });
+    document.getElementById("chart-start-date").onchange = function () {
+        var start_date = document.getElementById("chart-start-date").value;
+        $('#chart-end-date').datepicker('setStartDate', start_date);
+    }
+
     // get overview
     $(document).on('click', '#overview-survey', function () {
+        $('#group-select-date-overview').show();
+        $('#group-select-date-result').hide();
         var url = $(this).attr('data-url');
         handelManagement($(this));
         $.ajax({
@@ -17,8 +30,11 @@ $(document).ready(function () {
 
     // get result
     $(document).on('click', '#results-survey, #btn-summary-result, #btn-personal-result', function () {
+        $('#group-select-date-overview').hide();
+        $('#group-select-date-result').css('display', 'flex');
         var url = $(this).attr('data-url');
         handelManagement($(this));
+        $('#results-survey').addClass('active');
         $.ajax({
             method: 'GET',
             url: url,
@@ -43,8 +59,94 @@ $(document).ready(function () {
         return false;
     });
 
+    $(document).on('click', '.see-overview-result', function () {
+        var url = $('#overview-survey').attr('data-url');
+        $.ajax({
+            method: 'GET',
+            url: url,
+            dataType: 'json',
+            success: function (data) {
+                getOverviewSurvey();
+            }
+        });
+    });
+
+    $(document).on('click', '.see-result-by-date', function (e) {
+        e.preventDefault();
+        var startDate = $('#chart-start-date').val();
+        var endDate = $('#chart-end-date').val();
+        var url = $(this).data('url');
+        var surveyId = $(this).data('survey-id');
+        if (startDate == '' && endDate == '') {
+            var url = $('#overview-survey').attr('data-url');
+            $.ajax({
+                method: 'GET',
+                url: url,
+                dataType: 'json',
+                success: function (data) {
+                    getOverviewSurvey();
+                }
+            });
+        } else {
+            $.ajax({
+                method: 'GET',
+                url: url,
+                dataType: 'json',
+                data: {
+                    survey_id: surveyId,
+                    start_date: startDate,
+                    end_date: endDate
+                },
+                success: function (data) {
+                    if (data.success) {
+                        Highcharts.chart('management-chart', {
+                            title: {
+                                text: Lang.get('result.activity_survey')
+                            },
+
+                            xAxis: {
+                                categories: data.results['x']
+                            },
+
+                            yAxis: {
+                                allowDecimals: false,
+                                title: {
+                                    text: Lang.get('result.number_survey_complete'),
+                                }
+                            },
+
+                            tooltip: {
+                                headerFormat: '<b>{series.name}</b><br />',
+                                pointFormat: '{point.y}'
+                            },
+
+                            plotOptions: {
+                                line: {
+                                    dataLabels: {
+                                        enabled: true
+                                    },
+                                    enableMouseTracking: false
+                                }
+                            },
+
+                            credits: {
+                                enabled: false,
+                            },
+
+                            series: [{
+                                data: data.results['y'],
+                            }]
+                        });
+                    }
+                }
+            })
+        }
+    })
+
     // setting survey
     $(document).on('click', '#setting-survey', function () {
+        $('#group-select-date-overview').hide();
+        $('#group-select-date-result').hide();
         var url = $(this).attr('data-url');
         handelManagement($(this));
         $.ajax({
@@ -165,7 +267,7 @@ $(document).ready(function () {
 
                 if ($('#close-survey').is(':visible')) {
                     confirmWarning(
-                        {message: Lang.get('lang.confirm_close_to_edit')},
+                        { message: Lang.get('lang.confirm_close_to_edit') },
                         function () {
                             closeSurvey();
                             changeToken(element);
@@ -488,7 +590,7 @@ function changeTokenManage(element) {
 }
 
 function toSlug(str) {
-    str = str.toLowerCase();     
+    str = str.toLowerCase();
     str = str.replace(/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/g, 'a');
     str = str.replace(/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/g, 'e');
     str = str.replace(/(ì|í|ị|ỉ|ĩ)/g, 'i');
