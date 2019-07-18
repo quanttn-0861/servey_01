@@ -435,7 +435,7 @@ function createPieChart(id, data, redirect = false) {
 }
 
 function createDataLinrearForChart(data, value) {
-    var newData = $.parseJSON(data.replace(/\\r\\n/g, " / "));
+    var newData = $.parseJSON(escapeSpecialChars(data));
     var text = '';
 
     $.each(newData, function (index, item) {
@@ -447,7 +447,7 @@ function createDataLinrearForChart(data, value) {
 }
 
 function createDataForChart(data) {
-    var newData = $.parseJSON(data.replace(/\\r\\n/g, " / "));
+    var newData = $.parseJSON(escapeSpecialChars(data));
     var text = '';
 
     $.each(newData, function (index, item) {
@@ -494,4 +494,13 @@ function subResults() {
 
         createCombineChart($(this).attr('id'), subQuestions, subOptions, dataChart);
     });
+}
+
+function escapeSpecialChars(jsonString) {
+
+    return jsonString.replace(/\\n/g, " ")
+        .replace(/\\r/g, " ")
+        .replace(/\\t/g, " ")
+        .replace(/\\f/g, " ")
+        .replace(/\\"/g, " ");
 }
