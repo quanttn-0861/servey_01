@@ -296,6 +296,7 @@ return [
 
     'manage_survey' => 'Manage survey',
     'confirm_close_to_edit' => 'The survey is opening, you must close the survey before editing!',
+    'warning_close_survey_to_delete' => 'The survey is opening, you must close the survey before deleting!',
     'close_survey_success' => 'Close survey successfully!',
     'delete_survey_success' => 'Delete survey successfully!',
     'open_survey_success' => 'Open survey successfully!',

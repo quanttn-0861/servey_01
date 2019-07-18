@@ -1,13 +1,15 @@
 $(document).ready(function () {
     // datepicker setup
-    $(".datepicker").datepicker({
-        autoclose: true,
-        todayHighlight: true,
-        dateFormat: 'dd-mm-yy',
-    });
-    document.getElementById("chart-start-date").onchange = function () {
-        var start_date = document.getElementById("chart-start-date").value;
-        $('#chart-end-date').datepicker('setStartDate', start_date);
+    if ($('chart-start-date.length') > 0) {
+        $(".datepicker").datepicker({
+            autoclose: true,
+            todayHighlight: true,
+            dateFormat: 'dd-mm-yy',
+        });
+        document.getElementById("chart-start-date").onchange = function () {
+            var start_date = document.getElementById("chart-start-date").value;
+            $('#chart-end-date').datepicker('setStartDate', start_date);
+        }
     }
 
     // get overview
@@ -22,7 +24,7 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (data) {
                 $('#div-management-survey').html(data.html).promise().done(function () {
-                    getOverviewSurvey();// use to render chart of overview at line 4 of file /resources/assets/templates/survey/js/management-chart.js
+                    getOverviewSurvey();
                 });
             }
         });
@@ -44,14 +46,14 @@ $(document).ready(function () {
             success: function (data) {
                 if (data.success) {
                     $('#div-management-survey').html(data.html).promise().done(function () {
-                        results(); // use to render chart of result of survey at line 35 of file resources/assets/templates/survey/js/result.js
+                        results();
                         $(this).find('.ul-result').addClass('ul-result-management section-resize');
                     });
 
                     $('[data-toggle="tooltip"]').tooltip();
 
-                    autoScroll(); // use function autoScroll() from file resources/assets/templates/survey/js/result.js
-                    autoAlignChoiceAndCheckboxIcon(); // this function has defined in file resources/assets/templates/survey/js/result.js
+                    autoScroll();
+                    autoAlignChoiceAndCheckboxIcon();
                 } else {
                     $('.content-section-preview').html(`<span class="message-result">${data.message}</span>`);
                 }
@@ -187,7 +189,7 @@ $(document).ready(function () {
             dataType: 'json',
             success: function (data) {
                 $('#div-management-survey').html(data.html).promise().done(function () {
-                    results(); // use to render chart of result of survey at line 35 of file resources/assets/templates/survey/js/result.js
+                    results();
                     $(this).find('.ul-result').addClass('ul-result-management');
                 });
 
@@ -198,23 +200,29 @@ $(document).ready(function () {
 
     // delete survey
     $(document).on('click', '#delete-survey', function () {
-        var url = $(this).attr('data-url');
-        confirmDanger({ message: Lang.get('lang.comfirm_delete_survey') }, function () {
-            $.ajax({
-                method: 'GET',
-                url: url,
-                dataType: 'json',
-                success: function (data) {
-                    if (data.success) {
-                        window.location.replace(data.url_redirect);
+        if ($(this).data('survey-status') != 2) {
+            alertWarning(
+                { message: Lang.get('lang.warning_close_survey_to_delete') }
+            );
+        } else {
+            var url = $(this).attr('data-url');
+            confirmDanger({ message: Lang.get('lang.comfirm_delete_survey') }, function () {
+                $.ajax({
+                    method: 'GET',
+                    url: url,
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.success) {
+                            window.location.replace(data.url_redirect);
 
-                        return;
+                            return;
+                        }
+
+                        alertDanger({ message: data.message });
                     }
-
-                    alertDanger({ message: data.message });
-                }
+                });
             });
-        });
+        }
     });
 
     // close survey survey

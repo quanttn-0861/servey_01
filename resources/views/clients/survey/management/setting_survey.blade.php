@@ -6,7 +6,8 @@
             @can('delete', $survey)
                 <a href="javascript:void(0)" class="btn btn-danger" id="delete-survey"
                     data-toggle="tooltip" title="@lang('survey.delete')"
-                    data-url="{{ route('ajax-survey-delete', $survey->token_manage) }}">
+                    data-url="{{ route('ajax-survey-delete', $survey->token_manage) }}"
+                    data-survey-status="{{ $survey->status }}">
                     <i class="fa fa-trash" aria-hidden="true"></i>
                 </a>
             @endcan
