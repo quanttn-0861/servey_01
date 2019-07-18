@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     var host = $('.data').data('host');
     var port = $('.data').data('port');
     var link = (port == '') ? host : host + ":" + port;
@@ -21,7 +21,7 @@ $(document).ready(function() {
 
                 var count = i + 1;
 
-                if(dataInput.length != 1) {
+                if (dataInput.length != 1) {
                     Highcharts.chart('container' + i, {
                         chart: {
                             type: 'pie',
@@ -73,7 +73,7 @@ $(document).ready(function() {
         }
     }
 
-    $(function() {
+    $(function () {
         paintChart();
     });
 
