@@ -141,12 +141,9 @@ a.btn.btn-info.copy-link-survey, a.btn.btn-info.copy-link-manage {
     left: -15px;
 }
 
-.overview-input-date {
-    border-radius: 5px;
-}
-
 .group-select-date {
-    margin-left: 10%;
+    width: 90%;
+    margin: auto;
 }
 
 #group-select-date-result {
@@ -157,13 +154,20 @@ a.btn.btn-info.copy-link-survey, a.btn.btn-info.copy-link-manage {
     text-align: right;
     padding-right: 0;
     padding-left: 0;
-    max-width: 105px;
 }
 
 .group-result-button {
-    padding-top: 12px;
+    padding-top: 11px;
 }
 
 .label-choose-date {
-    padding-top: 12px;
+    padding-top: 11px;
+}
+
+.see-result-by-date {
+    margin-right: 5px;
+}
+
+.result-personal-by-date {
+    margin-right: 5px;
 }

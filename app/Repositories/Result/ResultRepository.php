@@ -121,12 +121,28 @@ class ResultRepository extends BaseRepository implements ResultInterface
 
     public function getDetailResultSurvey($request, $survey, $userRepo)
     {
-        $results = $survey->results();
+        $startDateFormat = date("Y-m-d", strtotime($request->start_date));
+        $endDateFormat = date("Y-m-d", strtotime($request->end_date));
+        $startDate = $startDateFormat . config('settings.min_time');
+        $endDate = $endDateFormat . config('settings.max_time');
+
+        if ($request->start_date == '' && $request->end_date == '') {
+
+            $results = $survey->results();
+        } else if ($request->start_date != '' && $request->end_date == '') {
+
+            $results = $survey->results()->whereDate('created_at', '>=', $startDateFormat);
+        } else if ($request->start_date == '' && $request->end_date != '') {
+
+            $results = $survey->results()->whereDate('created_at', '<=', $endDateFormat);
+        } else {
+
+            $results = $survey->results()->whereBetween('created_at', [$startDate, $endDate]);
+        }
+
         $results = $this->getResultsFollowOptionUpdate($survey, $results, $userRepo)->get();
         $countSection = count($survey->sections->where('redirect_id', config('settings.number_0')));
-
         $results = $results->groupBy('token');
-
         $countResult = $results->count();
         $page = isset($request->page) ? $request->page : 1;
         $perPage = 1;

@@ -2229,6 +2229,7 @@ jQuery(document).ready(function () {
                     $(`.redirect-section-label-${answerRedirectId}`).css('border-color', color).css('background', color);
                     element.find('.number-of-section').css('background-color', color);
                     element.find('.number-of-section').css('--background-color', color);
+                    element.find('ul.page-section').addClass('section-resize');
 
                     // auto resize for new textarea
                     autoResizeTextarea();

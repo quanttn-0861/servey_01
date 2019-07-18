@@ -82,7 +82,6 @@ class ResultController extends Controller
     {
         try {
             $survey = $this->surveyRepository->getSurveyForResult($tokenManage);
-
             if (Auth::user()->cannot('viewResult', $survey)) {
                 return view('clients.layout.403');
             }
