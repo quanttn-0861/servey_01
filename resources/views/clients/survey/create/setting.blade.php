@@ -183,7 +183,7 @@
                             <div class="col-md-7">
                                 <label for="" class="label-email">@lang('lang.email')</label>
                             </div>
-                            @if (Auth::user()->checkLoginWsm())
+                            {{-- @if (Auth::user()->checkLoginWsm())
                                 <div class="col-md-5 send-to-all-block">
                                     <label class="container-checkbox-setting-survey send-to-all">
                                         <span>@lang('lang.send_to_all')</span>
@@ -196,7 +196,7 @@
                                         <span class="checkmark-setting-survey"></span>
                                     </label>
                                 </div>
-                            @endif
+                            @endif --}}
                         </div>
                         <div class="row">
                             <div class="col-md-12 div-show-all-email">
