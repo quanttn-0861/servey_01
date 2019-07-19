@@ -1252,7 +1252,7 @@ nav ul a:hover {
 .scroll-button-group-sidebar .button-group-sidebar {
     position: absolute;
     z-index: 3;
-    right: -70%;
+    right: -75%;
     width: 10%;
     height: auto;
     border-radius: 5px;
