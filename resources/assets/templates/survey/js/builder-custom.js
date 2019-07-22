@@ -159,6 +159,25 @@ jQuery(document).ready(function () {
         $(this).closest('.row-column-content').find('div.draggable-area').css('display', 'none');
     });
 
+    // reset draggable
+    function resetDraggable() {
+        $(document).find('.page-section').each(function () {
+            var formSort = $(this).find('.form-line.sort');
+
+            if (formSort.length > 1) {
+                formSort.each(function () {
+
+                    $(this).removeClass('remove-softable');
+                });
+            } else {
+                formSort.each(function () {
+
+                    $(this).addClass('remove-softable');
+                });
+            }
+        });
+    }
+
     function refreshRowLabel(subQuestion, listOfRow) {
 
         for (var i = 0; i < subQuestion.length; i++) {
@@ -1710,6 +1729,9 @@ jQuery(document).ready(function () {
         } else {
             removeElement(event, element);
         }
+
+        // reset draggable
+        resetDraggable();
     });
 
     // dropdown menu select element
@@ -2415,6 +2437,9 @@ jQuery(document).ready(function () {
 
                     // mark question required
                     markQuestionRequired();
+
+                    // reset draggable
+                    resetDraggable();
                 }
             });
     });
@@ -3907,6 +3932,7 @@ jQuery(document).ready(function () {
             $(this).find('input[type=hidden]').attr('name', `media[question_${questionId}][answer_${answerId}][option_${i}]`);
             $(this).find('.answer-option-input').attr('data-autoresize', 'data-autoresize');
         });
+        cloneElement.removeClass('remove-softable');
 
         // select duplicating question
         window.questionSelected.click();
@@ -3914,6 +3940,9 @@ jQuery(document).ready(function () {
 
         // auto resize for new textarea
         autoResizeTextarea();
+
+        // reset draggable
+        resetDraggable();
     });
 
     $('[data-toggle="tooltip"]').tooltip();
