@@ -1,3 +1,4 @@
+<br /><br />
 <div id="management-chart"></div>
 
 <script type="text/javascript">

@@ -1,14 +1,27 @@
 $(document).ready(function () {
     // datepicker setup
-    if ($('chart-start-date.length') > 0) {
-        $(".datepicker").datepicker({
+    if ($('#chart-start-date').length > 0) {
+        $('.datepicker').datepicker({
             autoclose: true,
             todayHighlight: true,
+            defaultDate: new Date(),
             dateFormat: 'dd-mm-yy',
         });
         document.getElementById("chart-start-date").onchange = function () {
             var start_date = document.getElementById("chart-start-date").value;
             $('#chart-end-date').datepicker('setStartDate', start_date);
+        }
+        document.getElementById("chart-personal-start-date").onchange = function () {
+            var start_date = document.getElementById("chart-personal-start-date").value;
+            $('#chart-personal-end-date').datepicker('setStartDate', start_date);
+        }
+        document.getElementById("chart-end-date").onchange = function () {
+            var end_date = document.getElementById("chart-end-date").value;
+            $('#chart-start-date').datepicker('setEndDate', end_date);
+        }
+        document.getElementById("chart-personal-end-date").onchange = function () {
+            var end_date = document.getElementById("chart-personal-end-date").value;
+            $('#chart-personal-start-date').datepicker('setEndDate', end_date);
         }
     }
 

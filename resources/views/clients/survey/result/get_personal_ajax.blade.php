@@ -29,7 +29,7 @@
         </li>
     </ul>
 
-    <ul class="clearfix form-wrapper ul-result unset-max-with content-section-result">
+    <ul class="clearfix form-wrapper ul-result unset-max-with content-section-result section-resize">
         @php
             $indexQuestion = config('settings.number_0');
         @endphp
