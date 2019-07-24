@@ -29,6 +29,13 @@
                                                         @lang('profile.information')
                                                     </a>
                                                 </li>
+                                                @if (Auth::user()->isAdmin())
+                                                    <li>
+                                                        <a href="{{ route('list-survey-management') }}"
+                                                            >@lang('lang.management_survey')
+                                                        </a>
+                                                    </li>
+                                                @endif
                                                 <li>
                                                     <a href="{{ route('survey.survey.show-surveys') }}">
                                                         @lang('profile.list_survey')

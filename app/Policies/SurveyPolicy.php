@@ -44,7 +44,7 @@ class SurveyPolicy
         $members = $survey->members->pluck('id')->all();
 
         // only creator, editor can edit survey.
-        if (in_array($user->id, $members)) {
+        if (in_array($user->id, $members) || $user->level == config('settings.survey.members.editor')) {
             return true;
         }
 
@@ -56,7 +56,10 @@ class SurveyPolicy
         $members = $survey->members->pluck('id')->all();
 
         // only creator, editor can edit survey and just can edit when survey is not open.
-        if (in_array($user->id, $members) && $survey->status != config('settings.survey.status.open')) {
+        if (
+            (in_array($user->id, $members) && $survey->status != config('settings.survey.status.open'))
+            || ($user->level == config('settings.survey.members.editor') && $survey->status != config('settings.survey.status.open'))
+        ) {
             return true;
         }
 
@@ -68,7 +71,10 @@ class SurveyPolicy
         $members = $survey->members->pluck('id')->all();
 
         // only creator, editor can edit survey and just can edit when survey is not open.
-        if (in_array($user->id, $members) && $survey->status != config('settings.survey.status.open')) {
+        if (
+            in_array($user->id, $members) && $survey->status != config('settings.survey.status.open')
+            || ($user->level == config('settings.survey.members.editor') && $survey->status != config('settings.survey.status.open'))
+        ) {
             return true;
         }
 
@@ -80,7 +86,7 @@ class SurveyPolicy
         $creator = $survey->members->where('role', config('settings.survey.members.owner'))->first();
 
         // only creator can delete survey.
-        if ($user->id == $creator->id) {
+        if ($user->id == $creator->id || $user->level == config('settings.survey.members.editor')) {
             return true;
         }
 
@@ -92,7 +98,7 @@ class SurveyPolicy
         $members = $survey->members->pluck('id')->all();
 
         // only creator editor can close survey
-        if (in_array($user->id, $members)) {
+        if (in_array($user->id, $members) || $user->level == config('settings.survey.members.editor')) {
             return true;
         }
 
@@ -104,7 +110,7 @@ class SurveyPolicy
         $members = $survey->members->pluck('id')->all();
 
         // only creator editor can open survey
-        if (in_array($user->id, $members)) {
+        if (in_array($user->id, $members) || $user->level == config('settings.survey.members.editor')) {
             return true;
         }
 
@@ -116,7 +122,7 @@ class SurveyPolicy
         $members = $survey->members->pluck('id')->all();
 
         // only creator, editor can view result survey.
-        if (in_array($user->id, $members)) {
+        if (in_array($user->id, $members) || $user->level == config('settings.survey.members.editor')) {
             return true;
         }
 
@@ -128,7 +134,7 @@ class SurveyPolicy
         $creator = $survey->members->where('role', config('settings.survey.members.owner'))->first();
 
         // only creator can add member.
-        if ($user->id == $creator->id) {
+        if ($user->id == $creator->id || $user->level == config('settings.survey.members.editor')) {
             return true;
         }
 
@@ -140,7 +146,7 @@ class SurveyPolicy
         $members = $survey->members->pluck('id')->all();
 
         // only creator, editor can edit survey.
-        if (in_array($user->id, $members)) {
+        if (in_array($user->id, $members) || $user->level == config('settings.survey.members.editor')) {
             return true;
         }
 
@@ -152,7 +158,7 @@ class SurveyPolicy
         $members = $survey->members->pluck('id')->all();
 
         // only creator, editor can config survey.
-        if (in_array($user->id, $members)) {
+        if (in_array($user->id, $members) || $user->level == config('settings.survey.members.editor')) {
             return true;
         }
 
@@ -164,7 +170,7 @@ class SurveyPolicy
         $members = $survey->members->pluck('id')->all();
 
         // only creator, editor can mange survey.
-        if (in_array($user->id, $members)) {
+        if (in_array($user->id, $members) || $user->level == config('settings.survey.members.editor')) {
             return true;
         }
 

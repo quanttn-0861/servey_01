@@ -202,8 +202,8 @@ class SurveyController extends Controller
                 $inputInfo['link'] = action($inputs['feature']
                     ? 'AnswerController@answerPublic'
                     : 'AnswerController@answerPrivate', [
-                        'token' => $token,
-                    ]);
+                    'token' => $token,
+                ]);
                 $inputInfo['linkManage'] = action('AnswerController@show', [
                     'tokenManage' => $tokenManage,
                 ]);
@@ -246,8 +246,10 @@ class SurveyController extends Controller
 
             $privacy = $survey->getPrivacy();
 
-            if ($privacy == config('settings.survey_setting.privacy.private')
-                && !in_array(Auth::user()->id, $survey->members()->pluck('user_id')->all())) {
+            if (
+                $privacy == config('settings.survey_setting.privacy.private')
+                && !in_array(Auth::user()->id, $survey->members()->pluck('user_id')->all())
+            ) {
                 $inviter = $survey->invite;
 
                 if (empty($inviter) || !in_array(Auth::user()->email, $inviter->invite_mails_array)) {
@@ -272,7 +274,7 @@ class SurveyController extends Controller
             $data = $this->getFirstSectionSurvey($survey);
 
             return view('clients.survey.detail.index', compact('data'));
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return view('clients.layout.404');
         }
     }
@@ -396,8 +398,7 @@ class SurveyController extends Controller
                 'success' => true,
                 'surveyId' => $surveyId,
             ]));
-        } catch (ConnectionException $e) {
-        }
+        } catch (ConnectionException $e) { }
 
         return [
             'success' => true,
@@ -492,7 +493,7 @@ class SurveyController extends Controller
         if ($request->ajax()) {
             try {
                 $survey = $this->surveyRepository->find($id);
-                $changeDeadline = $request->get('change_deadline') === 'true' ? true: false;
+                $changeDeadline = $request->get('change_deadline') === 'true' ? true : false;
 
                 if ($changeDeadline && !empty($request->get('deadline'))) {
                     $deadline = Carbon::parse(in_array(Session::get('locale'), config('settings.sameFormatDateTime'))
@@ -506,8 +507,7 @@ class SurveyController extends Controller
 
                 $redis = LRedis::connection();
                 $redis->publish('open', $id);
-            } catch (ConnectionException $e) {
-            } catch (Exception $e) {
+            } catch (ConnectionException $e) { } catch (Exception $e) {
                 return [
                     'success' => false,
                     'message' => trans('home.error'),
@@ -533,8 +533,7 @@ class SurveyController extends Controller
                 $this->surveyRepository->update($id, ['status' => config('survey.status.block')]);
                 $redis = LRedis::connection();
                 $redis->publish('close', $id);
-            } catch (ConnectionException $e) {
-            } catch (Exception $e) {
+            } catch (ConnectionException $e) { } catch (Exception $e) {
                 return [
                     'success' => false,
                     'message' => trans('home.error'),
@@ -559,8 +558,7 @@ class SurveyController extends Controller
 
                 $redis = LRedis::connection();
                 $redis->publish('duplicate', $id);
-            } catch (ConnectionException $e) {
-            } catch (Exception $e) {
+            } catch (ConnectionException $e) { } catch (Exception $e) {
                 DB::rollback();
 
                 return [
@@ -599,7 +597,8 @@ class SurveyController extends Controller
                     $validator['txt-question.answers.' . $questionIndex . '.' . $answerIndex . '.' . $type] = 'required|max:255|distinct';
                 }
 
-                if ($images
+                if (
+                    $images
                     && array_key_exists('answers', $images)
                     && array_key_exists($questionIndex, $images['answers'])
                     && array_key_exists($answerIndex, $images['answers'][$questionIndex])
@@ -691,8 +690,8 @@ class SurveyController extends Controller
                     'link' => action($survey->feature
                         ? 'AnswerController@answerPublic'
                         : 'AnswerController@answerPrivate', [
-                            'token' => $survey->token,
-                        ]),
+                        'token' => $survey->token,
+                    ]),
                     'emailSender' => $data['email'],
                 ];
                 $job = (new SendMail(collect($inputInfo), 'mailInvite'))
@@ -707,24 +706,23 @@ class SurveyController extends Controller
                         'emails' => replaceEmail($data['emails']),
                         'viewInvite' => view('user.component.invited-user', compact('survey'))->render(),
                     ]));
-                } catch (ConnectionException $e) {
-                }
+                } catch (ConnectionException $e) { }
             }
         }
 
         if (!auth()->check() && $type == config('settings.return.view')) {
             return $isSuccess
                 ? redirect()->action('AnswerController@show', $survey->token_manage)
-                    ->with('message', trans('survey.invite_success'))
+                ->with('message', trans('survey.invite_success'))
                 : redirect()->action('AnswerController@show', $survey->token_manage)
-                    ->with('message-fail', trans('survey.invite_fail'));
+                ->with('message-fail', trans('survey.invite_fail'));
         }
 
         return ($type == config('setttings.return.bool')) ? $isSuccess : ($isSuccess)
             ? redirect()->action('SurveyController@listSurveyUser')
-                ->with('message', trans('survey.invite_success'))
+            ->with('message', trans('survey.invite_success'))
             : redirect()->action('SurveyController@listSurveyUser')
-                ->with('message-fail', trans('survey.invite_fail'));
+            ->with('message-fail', trans('survey.invite_fail'));
     }
 
     public function getMailSuggestion(Request $request)
@@ -755,9 +753,11 @@ class SurveyController extends Controller
         try {
             $survey = $this->surveyRepository->getSurveyFromToken($request->json()->get('survey_token'));
 
-            if (($survey->end_time && Carbon::now()->gt(Carbon::parse($survey->end_time)))
+            if (
+                ($survey->end_time && Carbon::now()->gt(Carbon::parse($survey->end_time)))
                 || ($survey->start_time && Carbon::now()->lt(Carbon::parse($survey->start_time)))
-                || ($survey->status != config('settings.survey.status.open'))) {
+                || ($survey->status != config('settings.survey.status.open'))
+            ) {
                 throw new Exception('Do not permit to do this survey', 403);
             }
 
@@ -847,7 +847,7 @@ class SurveyController extends Controller
             $content = (($survey->end_time && Carbon::now()->gt(Carbon::parse($survey->end_time)))
                 || ($survey->start_time && Carbon::now()->lt(Carbon::parse($survey->start_time)))
                 || ($survey->status !=  config('settings.survey.status.open'))) ?
-                    trans('lang.not_permission_to_doing_this_survey') : null;
+                trans('lang.not_permission_to_doing_this_survey') : null;
             $title = $survey->title;
             $isEditAnswer = $survey->settings->where('key', config('settings.setting_type.edit_answer.key'))->first()->value;
 
@@ -955,8 +955,10 @@ class SurveyController extends Controller
 
             $privacy = $survey->getPrivacy();
 
-            if ($privacy == config('settings.survey_setting.privacy.private')
-                && !in_array(Auth::user()->id, $survey->members()->pluck('user_id')->all())) {
+            if (
+                $privacy == config('settings.survey_setting.privacy.private')
+                && !in_array(Auth::user()->id, $survey->members()->pluck('user_id')->all())
+            ) {
                 $inviter = $survey->invite;
 
                 if (empty($inviter) || !in_array(Auth::user()->email, $inviter->invite_mails_array)) {
@@ -981,7 +983,7 @@ class SurveyController extends Controller
             $data = $this->getFirstSectionSurvey($survey);
 
             return view('clients.survey.result.edit-answer.index', compact('data', 'results', 'tokenResult'));
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return view('clients.layout.404');
         }
     }
@@ -1077,7 +1079,6 @@ class SurveyController extends Controller
             if (count($sectionUpdateIds) && count($survey->results->where('user_id', Auth::user()->id))) {
                 $sectionIds = $sectionUpdateIds;
             }
-            
         } else {
             $sectionIds = $survey->sections->pluck('id')->all();
         }

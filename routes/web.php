@@ -228,6 +228,8 @@ Route::group(['namespace' => 'Ajax', 'prefix' => 'ajax'], function () {
         ->name('ajax-suggest-email');
     Route::get('list-survey/{flag}', 'SurveyController@getListSurvey')
         ->name('ajax-list-survey');
+    Route::get('management-survey', 'SurveyController@getSurveyManage')
+        ->name('ajax-management-survey');
     Route::get('get-overview/{tokenManage}', 'ManagementSurvey@getOverviewSurvey')
         ->name('ajax-get-overview');
     Route::get('get-setting/{token}', 'ManagementSurvey@settingSurvey')
@@ -445,6 +447,9 @@ Route::group(['middleware' => 'admin'], function () {
         ->name('ajax-list-feedback');
 
     Route::resource('/management-user', 'UserManagementController');
+
+    Route::get('/management-survey', 'ListSurveyController@index')
+        ->name('list-survey-management');
 
     Route::get('/list-user', 'UserManagementController@getListUser')
         ->name('ajax-list-user');

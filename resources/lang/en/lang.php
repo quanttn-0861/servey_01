@@ -321,6 +321,9 @@ return [
     'comfirm_clone_survey' => 'Do you want to clone this survey?',
     'count_incognito_answer' => 'There are :count people has answered incognito',
     'incognito' => 'Incognito',
+    'owner' => 'Owner',
+    'start_time' => 'Start time',
+    'end_time' => 'End time',
 
     /*
         Edit survey page
@@ -363,7 +366,8 @@ return [
     'send_feedback_success' => 'Thank you :name! Your feedback has been saved',
     'send_feedback_error' => 'Send feedback failed! Try again!',
     'list_feedback' => 'List of feedbacks',
-    'list_user' => 'List of users',
+    'list_user' => 'Users Management',
+    'management_survey' => 'Surveys Management',
     'enter_name_or_email' => 'Enter name or email',
     'all' => 'All',
     'by_name' => 'By name',

@@ -320,6 +320,9 @@ return [
     'comfirm_clone_survey' => 'Bạn có muốn sao chép khảo sát này không?',
     'count_incognito_answer' => 'Có :count người trả lời ẩn danh',
     'incognito' => 'Ẩn danh',
+    'owner' => 'Người tạo',
+    'start_time' => 'Thời gian bắt đầu',
+    'end_time' => 'Thời gian kết thúc',
 
     /*
         Edit survey page
@@ -362,7 +365,8 @@ return [
     'send_feedback_success' => 'Cảm ơn :name! Phản hồi của bạn đã được lưu lại',
     'send_feedback_error' => 'Gửi phản hồi thất bại! Hãy thử lại!',
     'list_feedback' => 'Danh sách phản hồi',
-    'list_user' => 'Danh sách tài khoản',
+    'list_user' => 'Quản lý tài khoản',
+    'management_survey' => 'Quản lý khảo sát',
     'enter_name_or_email' => 'Nhập tên hoặc email',
     'all' => 'Tất cả',
     'by_name' => 'Theo tên',

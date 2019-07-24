@@ -4503,3 +4503,7 @@ span>div.draggable-area {
 .section-resize {
     width: 100% !important;
 }
+
+.owner-name {
+    color: #1875f0 !important;
+}

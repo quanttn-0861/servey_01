@@ -36,8 +36,10 @@ class SurveyController extends Controller
         $surveys = $this->surveyRepository->getAuthSurveys($flag, $data);
         $html = '';
 
-        if ($flag == config('settings.survey.members.owner') ||
-            $flag == config('settings.survey.members.editor')) {
+        if (
+            $flag == config('settings.survey.members.owner') ||
+            $flag == config('settings.survey.members.editor')
+        ) {
             $html = view('clients.profile.survey.list_survey_owner', compact('surveys'))->render();
         } elseif ($flag == config('settings.survey.invited')) {
             $html = view('clients.profile.survey.list_survey_invite', compact('surveys'))->render();
@@ -81,6 +83,25 @@ class SurveyController extends Controller
         return response()->json([
             'success' => true,
             'data' => $data,
+        ]);
+    }
+
+    public function getSurveyManage(Request $request)
+    {
+        if (!$request->ajax()) {
+            return response()->json([
+                'success' => false,
+            ]);
+        }
+
+        $data = $request->only('name', 'status', 'privacy');
+        $surveys = $this->surveyRepository->getAllSurvey($data);
+
+        $html = view('clients.profile.survey.list_survey_owner', compact('surveys'))->render();
+
+        return response()->json([
+            'success' => true,
+            'html' => $html,
         ]);
     }
 }

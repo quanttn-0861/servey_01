@@ -1382,4 +1382,30 @@ class SurveyRepository extends BaseRepository implements SurveyInterface
 
         return $publicResults;
     }
+
+    public function getAllSurvey($data)
+    {
+        $survey = $this->model->withTrashed();
+
+        //check paramater
+        if (isset($data['name']) && $data['name']) {
+            $survey = $survey->where('title', 'like', '%' . $data['name'] . '%');
+        }
+
+        if (isset($data['privacy']) && $data['privacy']) {
+            $privacy = $data['privacy'];
+            $survey = $survey->whereHas('settings', function ($query) use ($privacy) {
+                $query->where('key', config('settings.setting_type.privacy.key'))
+                    ->where('value', $privacy);
+            });
+        }
+
+        if (isset($data['status']) && $data['status']) {
+            $survey = $survey->where('status', $data['status']);
+        }
+
+        return $survey->orderBy('created_at', 'desc')->with(['settings' => function ($query) {
+            $query->where('key', config('settings.setting_type.privacy.key'));
+        }])->paginate(config('settings.survey.paginate'));
+    }
 }

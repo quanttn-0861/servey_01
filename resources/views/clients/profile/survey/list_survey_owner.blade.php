@@ -5,8 +5,14 @@
                 <th class="text-center">@lang('profile.index')</th>
                 <th width="25%" class="text-center">@lang('profile.name_survey')</th>
                 <th class="text-center">@lang('profile.status')</th>
+                @if(Request::path() == config('settings.path_list_survey'))
                 <th class="text-center">@lang('survey.inviting')</th>
                 <th class="text-center">@lang('survey.remaining_time')</th>
+                @else
+                <th class="text-center">@lang('lang.owner')</th>
+                <th class="text-center">@lang('lang.start_time')</th>
+                <th class="text-center">@lang('lang.end_time')</th>
+                @endif
                 <th width="16%"></th>
             </tr>
         </thead>
@@ -25,6 +31,7 @@
                         <span class="badge badge-info badge-list-survey">{{ $survey->settings->first()->value == config('settings.survey_setting.privacy.public') ? trans('profile.public') :  trans('profile.private') }}</span>
                         <span class="badge badge-secondary badge-list-survey">{{ $survey->status_custom }}</span>
                     </td>
+                    @if(Request::path() == config('settings.path_list_survey'))
                     <td>
                         @php
                             $invites = $survey->getInvites();
@@ -42,6 +49,11 @@
                     <td>
                         <span class="badge badge-info badge-list-survey">{{ $survey->remaining_time ? $survey->remaining_time : '' }}</span>
                     </td>
+                    @else
+                    <td class="owner-name">{{$survey->owner_name}}</td>
+                    <td>{{date('d-m-Y H:i:s', strtotime($survey->start_time))}}</td>
+                    <td>{{date('d-m-Y H:i:s', strtotime($survey->end_time))}}</td>
+                    @endif
                     <td>
                         <a href="{{ route('survey.management', $survey->token_manage) }}" class="btn btn-info" data-toggle="tooltip" title="@lang('lang.setting')">
                             <i class="fa fa-cog" aria-hidden="true"></i>
@@ -60,6 +72,7 @@
         </tbody>
     </table>
     <input type="hidden" name="url_onwer" value="{{ route('ajax-list-survey', config('settings.survey.members.owner')) }}" class="url_onwer">
+    <input type="hidden" name="url_manage" value="{{ route('ajax-management-survey') }}" class="url_manage">
 
     {{ $surveys->links('clients.layout.pagination') }}
 @else

@@ -148,6 +148,5 @@ class SurveyManagementController extends Controller
         } catch (Exception $e) {
             return view('clients.layout.404');
         }
-
     }
 }
