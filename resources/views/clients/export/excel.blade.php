@@ -87,9 +87,14 @@
                                     @endphp
                                     <td width="50">
                                         @foreach ($subQuestions as $subQuestion)
-                                        @php
-                                            echo nl2br("\n".$subQuestion.":".$subOptions[$gridResult[$loop->iteration] - 1]);
-                                        @endphp
+                                            @php
+                                                $indexQuestion = $loop->iteration; 
+                                            @endphp
+                                            @foreach ($subOptions as $subOption)
+                                                @if($gridResult[$indexQuestion] == ($loop->iteration))
+                                                    [{{ $subQuestion }} : {{ $subOption }}]&nbsp;
+                                                @endif
+                                            @endforeach
                                         @endforeach
                                     </td>
                                 @else

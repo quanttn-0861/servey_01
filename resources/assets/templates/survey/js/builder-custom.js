@@ -70,6 +70,7 @@ jQuery(document).ready(function () {
         $('.survey-form').find('ul.form-wrapper.page-section li.form-line.sort').each(function () {
             displayDeleteIcon($(this));
         });
+        $('.option-background-survey').find('li.remove-image').remove();
     });
 
     $(document).on('click', '.delete-row', function () {
