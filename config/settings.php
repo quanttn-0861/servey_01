@@ -15,6 +15,7 @@ return [
     'path_storage_image_direct' => 'storage/app/public/uploads/images',
     'path_storage_image' => 'storage/uploads/images',
     'path_upload_avatar' => 'public/uploads/avatars',
+    'path_list_survey' => 'list-survey',
     'cover-profile' => [
         'default' => 'templates/survey/images/cover-profile.jpg',
         '1' => 'templates/survey/images/cover-profile1.jpg',

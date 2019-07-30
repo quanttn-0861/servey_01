@@ -149,6 +149,9 @@
                                                 <li>
                                                     {!! html_entity_decode(Html::link(route('management-user.index'), '<i class="fa fa-list"></i> ' . trans('lang.list_user'), ['class' => 'dropdown-item'])) !!}
                                                 </li>
+                                                <li>
+                                                    {!! html_entity_decode(Html::link(route('list-survey-management'), '<i class="fa fa-list"></i> ' . trans('lang.management_survey'), ['class' => 'dropdown-item'])) !!}
+                                                </li>
                                             @endif
                                             <li>
                                                 {!! html_entity_decode(Html::link(route('survey.profile.index'), '<i class="fa fa-user"></i> ' . trans('profile.profile'), ['class' => 'dropdown-item'])) !!}

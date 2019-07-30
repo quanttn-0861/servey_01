@@ -116,8 +116,8 @@ class Survey extends Model
 
             if (!$time) {
                 $time = Carbon::parse($this->attributes['end_time'])->diffInHours(Carbon::parse($now))
-                ? Carbon::parse($this->attributes['end_time'])->diffInHours(Carbon::parse($now)) . trans('survey.remaining_hour')
-                : Carbon::parse($this->attributes['end_time'])->diffInMinutes(Carbon::parse($now)) . trans('survey.remaining_minute');
+                    ? Carbon::parse($this->attributes['end_time'])->diffInHours(Carbon::parse($now)) . trans('survey.remaining_hour')
+                    : Carbon::parse($this->attributes['end_time'])->diffInMinutes(Carbon::parse($now)) . trans('survey.remaining_minute');
             } else {
                 $time .= trans('survey.remaining_date');
             }
@@ -303,8 +303,7 @@ class Survey extends Model
     public function getNameFileExcelAttribute()
     {
         return !empty($this->attributes['title']) ?
-            str_slug(str_limit($this->attributes['title'], config('settings.limit_title_excel'))) :
-            trans('survey.no_title');
+            str_slug(str_limit($this->attributes['title'], config('settings.limit_title_excel'))) : trans('survey.no_title');
     }
 
     public function getOwnerNameAttribute()

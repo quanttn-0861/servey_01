@@ -2,6 +2,7 @@
 
 @section('content-profile')
     @include('clients.profile.notice')
+    @if(Request::path() == config('settings.path_list_survey'))
     <div class="container padding-profile">
         <div class="row">
             <div class="col-xl-12 push-xl-12 col-lg-12 push-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -20,6 +21,7 @@
             </div>
         </div>
     </div>
+    @endif
 
     <!-- show list survey -->
     <div class="container ui-block padding-profile div-list-survey">

@@ -4,7 +4,7 @@ $(document).ready(function () {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
-    var url = $('.url_onwer').val();
+    var url = window.location.pathname == "/management-survey" ? $('.url_manage').val() : $('.url_onwer').val();
     $('.list-survey-ajax').click(function (e) {
         e.preventDefault();
         url = $(this).attr('data-url');
@@ -45,7 +45,7 @@ $(document).ready(function () {
         e.preventDefault();
         var element = $(this);
 
-        confirmWarning({message: Lang.get('lang.confirm_delete_feedback')}, function () {
+        confirmWarning({ message: Lang.get('lang.confirm_delete_feedback') }, function () {
             element.next('.delete-feedback-form').submit();
         })
     });
@@ -63,7 +63,7 @@ $(document).ready(function () {
     $(document).on('click', '.delete-user-btn', function (e) {
         e.preventDefault();
         var element = $(this);
-        confirmWarning({message: Lang.get('lang.confirm_delete_user')}, function () {
+        confirmWarning({ message: Lang.get('lang.confirm_delete_user') }, function () {
             element.next('.delete-user-form').submit();
         });
     });
@@ -72,21 +72,21 @@ $(document).ready(function () {
         var id = $(this).attr('id');
         var status = $(this).val();
         $.ajax({
-            url : 'change-status',
-            method : 'put',
-            data : { status : status, id : id},
-            dataType : 'json',
-            success : function (data) {
+            url: 'change-status',
+            method: 'put',
+            data: { status: status, id: id },
+            dataType: 'json',
+            success: function (data) {
                 $('#' + id).replaceWith(data.html);
             }
         });
     });
 
     var path = window.location.href;
-    $('.profile-menu li a[href="'+path+'"]').addClass('active');
+    $('.profile-menu li a[href="' + path + '"]').addClass('active');
 
     $(document).on('click', '.survey-close', function () {
-        alertWarning({message: Lang.get('lang.survey_close')});
+        alertWarning({ message: Lang.get('lang.survey_close') });
     });
 
     $.validator.addMethod("validatePassword", function (value, element) {
