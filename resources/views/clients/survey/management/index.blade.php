@@ -13,7 +13,7 @@
 @section('btn-create-survey', 'show')
 
 @section ('content')
-    <div class="font-profile">
+    <div class="font-profile" data-token="{{ $survey->token_manage }}">
         @include('clients.profile.notice')
         <div class="main-block">
             <div class="container padding-profile background-container">

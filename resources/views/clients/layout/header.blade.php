@@ -27,9 +27,7 @@
             </a>
         </section>
         <div class="site">
-            <div class="loader" id="loader">
-              <div class="loader-spinner"></div>
-            </div> <!-- .site-loader -->
+            
         </div>
         <div class="header-wrapper header-wrapper-home">
             <!-- ******HEADER****** -->
