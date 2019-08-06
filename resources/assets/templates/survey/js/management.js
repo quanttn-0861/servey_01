@@ -200,7 +200,7 @@ $(document).ready(function () {
 
     // delete survey
     $(document).on('click', '#delete-survey', function () {
-        if ($(this).data('survey-status') != 2) {
+        if ($(this).data('survey-status') == 1) {
             alertWarning(
                 { message: Lang.get('lang.warning_close_survey_to_delete') }
             );
