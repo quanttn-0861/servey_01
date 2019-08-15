@@ -37,32 +37,36 @@
                 @if ($data['requiredSurvey'] != config('settings.survey_setting.answer_required.none'))
                     <th width="30">{{ trans('lang.email') }}</th>
                 @endif
-                @foreach ($data['questions'] as $question)
-                    @if (!in_array($question->type, [
-                        config('settings.question_type.title'),
-                        config('settings.question_type.image'),
-                        config('settings.question_type.video'),
-                    ]))
-                        @if($question->settings->first()->key == config('settings.question_type.linear_scale'))
-                            @php
-                                $settingValue = $question->setting_value;
-                            @endphp
-                            <th width="50">{!! $question['title'] !!} ( {{ $settingValue->min_value }} = {{ $settingValue->min_content }}, {{ $settingValue->max_value }} = {{ $settingValue->max_content }} )</th>
-                        @elseif($question->settings->first()->key == config('settings.question_type.grid'))
-                            @php
-                                $options = json_decode($question->settings->first()->value, true);
-                            @endphp
-                            <th width="50">
-                                {{ $question->title }}
-                                @foreach ($options as $option)
-                                    ({{ $option }})
-                                @endforeach
-                            </th>
-                        @else
-                            <th width="30">{!! $question['title'] !!}</th>
+                @foreach ($data['questions'] as $groupQuestion)
+                    @php
+                        $groupQuestion = $groupQuestion->sortBy('order');
+                    @endphp
+                    @foreach($groupQuestion as $question)
+                        @if (!in_array($question->type, [
+                            config('settings.question_type.title'),
+                            config('settings.question_type.image'),
+                            config('settings.question_type.video'),
+                        ]))
+                            @if($question->settings->first()->key == config('settings.question_type.linear_scale'))
+                                @php
+                                    $settingValue = $question->setting_value;
+                                @endphp
+                                <th width="50">{!! $question['title'] !!} ( {{ $settingValue->min_value }} = {{ $settingValue->min_content }}, {{ $settingValue->max_value }} = {{ $settingValue->max_content }} )</th>
+                            @elseif($question->settings->first()->key == config('settings.question_type.grid'))
+                                @php
+                                    $options = json_decode($question->settings->first()->value, true);
+                                @endphp
+                                <th width="50">
+                                    {{ $question->title }}
+                                    @foreach ($options as $option)
+                                        ({{ $option }})
+                                    @endforeach
+                                </th>
+                            @else
+                                <th width="30">{!! $question['title'] !!}</th>
+                            @endif
                         @endif
-                    @endif
-                   
+                    @endforeach
                 @endforeach
             </tr>
         </thead>
@@ -71,13 +75,19 @@
                 @foreach ($data['results'] as $result)
                     @php
                         $result = $result->sortBy('order')->sortBy('section_order');
+                        $groupByResults = $result->groupBy('question_id');
+                        $finalResults = [];
+
+                        foreach ($orderQuestion as $value) {
+                            $finalResults[$value] = $groupByResults[$value];
+                        }
                     @endphp
                     <tr height="40">
                         <td>{{ $result->first()->created_at }}</td>
                         @if ($data['requiredSurvey'] != config('settings.survey_setting.answer_required.none'))
                             <td>{{ $result->first()->user ? $result->first()->user->email : trans('lang.incognito') }}</td>
                         @endif
-                        @foreach ($result->groupBy('question_id') as $answers)
+                        @foreach ($finalResults as $answers)
                             @if ($answers->count() == 1)
                                 @if($answers->first()->question->type == config('settings.question_type.grid'))
                                     @php
