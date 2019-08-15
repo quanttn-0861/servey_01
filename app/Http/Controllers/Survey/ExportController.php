@@ -31,7 +31,10 @@ class ExportController extends Controller
             $title = $request->name ? str_limit($request->name, config('settings.limit_title_excel')) : str_limit($survey->title, config('settings.limit_title_excel'));
             $orderQuestion = [];
 
-            foreach ($data['questions']->groupBy('section_id') as $questionOfSection) {;
+            foreach ($data['questions']->groupBy('section_id') as $questionOfSection) {
+                $questionOfSection = $questionOfSection->where('type', '!=', config('settings.question_type.title'))
+                    ->where('type', '!=', config('settings.question_type.image'))
+                    ->where('type', '!=', config('settings.question_type.video'));
                 $orderQuestion = array_merge($orderQuestion, $questionOfSection->sortBy('order')->pluck('id')->toArray());
             }
 

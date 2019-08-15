@@ -3904,6 +3904,8 @@ jQuery(document).ready(function () {
     $('.survey-form').on('click', '.copy-element', function (e) {
         e.preventDefault();
         e.stopPropagation();
+        var mainQuestion = $(this).closest('.form-line');
+        var mainId = mainQuestion.data('question-id');
         var cloneElement = $(this).closest('.form-line').clone();
         var sectionId = $(this).closest('ul.page-section.sortable').data('section-id');
         var questionId = refreshQuestionId();
