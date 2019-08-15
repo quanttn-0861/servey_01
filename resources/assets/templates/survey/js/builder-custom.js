@@ -3933,6 +3933,71 @@ jQuery(document).ready(function () {
             $(this).find('input[type=hidden]').attr('name', `media[question_${questionId}][answer_${answerId}][option_${i}]`);
             $(this).find('.answer-option-input').attr('data-autoresize', 'data-autoresize');
         });
+
+        if (mainQuestion.data('question-type') == 11) {
+            var minSelect = window.questionSelected.find(`select.min-value-${mainId}`);
+            var maxSelect = window.questionSelected.find(`select.max-value-${mainId}`);
+            var minLabel = window.questionSelected.find(`label.min-content-${mainId}`);
+            var maxLabel = window.questionSelected.find(`label.max-content-${mainId}`);
+            var minInput = window.questionSelected.find(`input.min-content-${mainId}`);
+            var maxInput = window.questionSelected.find(`input.max-content-${mainId}`);
+            var mainMinValue = $(mainQuestion).find(`select.min-value-${mainId}`).val();
+            var mainMaxValue = $(mainQuestion).find(`select.max-value-${mainId}`).val();
+
+            minSelect.attr('name', `min_value_${questionId}`);
+            minSelect.val(mainMinValue);
+            minSelect.addClass(`min-value-${questionId}`);
+            minSelect.find(`select.min-value-${mainId}`).removeClass(`min-value-${mainId}`);
+
+            maxSelect.attr('name', `max_value_${questionId}`);
+            maxSelect.val(mainMaxValue);
+            maxSelect.addClass(`max-value-${questionId}`);
+            maxSelect.removeClass(`max-value-${mainId}`);
+
+            minLabel.attr('for', `min-content-${questionId}`);
+            minLabel.addClass(`min-content-${questionId}`);
+            minLabel.removeClass(`min-content-${mainId}`);
+
+            maxLabel.attr('for', `max-content-${questionId}`);
+            maxLabel.addClass(`max-content-${questionId}`);
+            maxLabel.removeClass(`max-content-${mainId}`);
+
+            minInput.attr('name', `min_content_${questionId}`);
+            minInput.addClass(`min-content-${questionId}`);
+            minInput.removeClass(`min-content-${mainId}`);
+
+            maxInput.attr('name', `max_content_${questionId}`);
+            maxInput.addClass(`max-content-${questionId}`);
+            maxInput.removeClass(`max-content-${mainId}`);
+
+            onChangeSelectElement(
+                questionId,
+                $(window.questionSelected).find(`select.min-value-${questionId}`),
+                $(window.questionSelected).find(`select.max-value-${questionId}`),
+                window.questionSelected
+            );
+        }
+
+        if (mainQuestion.data('question-type') == 12) {
+            var listOfRow = $(window.questionSelected).find(`div.list-of-row-${mainId}`);
+            var listOfColumn = $(window.questionSelected).find(`div.list-of-column-${mainId}`);
+            var subQuestions = listOfRow.find(`.sub-question-input`);
+            var subOptions = listOfColumn.find(`.sub-question-option`);
+
+            subQuestions.each(function (key, value) {
+                $(value).attr('row-question', $(value).attr('row-question').replace(mainId, questionId));
+                $(value).attr('name', $(value).attr('name').replace(mainId, questionId));
+            })
+
+            subOptions.each(function (key, value) {
+                $(value).attr('col-value', $(value).attr('col-value').replace(mainId, questionId));
+                $(value).attr('name', $(value).attr('name').replace(mainId, questionId));
+            })
+
+            listOfRow.attr('class', listOfRow.attr('class').replace(mainId, questionId));
+            listOfColumn.attr('class', listOfColumn.attr('class').replace(mainId, questionId));
+        }
+
         cloneElement.removeClass('remove-softable');
 
         // select duplicating question
