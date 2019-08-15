@@ -52,7 +52,7 @@
                     @else
                     <td class="owner-name">{{$survey->owner_name}}</td>
                     <td>{{date('d-m-Y H:i:s', strtotime($survey->start_time))}}</td>
-                    <td>{{date('d-m-Y H:i:s', strtotime($survey->end_time))}}</td>
+                    <td>{{ $survey->end_time ? date('d-m-Y H:i:s', strtotime($survey->end_time)) : '-- -- --'}}</td>
                     @endif
                     <td>
                         <a href="{{ route('survey.management', $survey->token_manage) }}" class="btn btn-info" data-toggle="tooltip" title="@lang('lang.setting')">
