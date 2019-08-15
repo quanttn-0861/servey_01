@@ -13,7 +13,7 @@
                 <label class="content-column">
                     <div class="item-content-column">{{ $i }}</div>
                     <div class="item-content-column-input block-hover">
-                        {!! Form::radio('answer', '', false, [
+                        {!! Form::radio('answer-' . $question->id, '', false, [
                             'class' => 'group-radio-answer',
                             $detailResult->content == $i ? 'checked' : '',
                             'disabled',
