@@ -29,12 +29,18 @@ class ExportController extends Controller
 
             $data = $this->surveyRepository->getResultExport($survey, $request->month);
             $title = $request->name ? str_limit($request->name, config('settings.limit_title_excel')) : str_limit($survey->title, config('settings.limit_title_excel'));
+            $orderQuestion = [];
 
-            return Excel::create($title, function ($excel) use ($title, $data, $survey) {
+            foreach ($data['questions']->groupBy('section_id') as $questionOfSection) {;
+                $orderQuestion = array_merge($orderQuestion, $questionOfSection->sortBy('order')->pluck('id')->toArray());
+            }
+
+            return Excel::create($title, function ($excel) use ($title, $data, $survey, $orderQuestion) {
                 if (isset($data['questions'])) {
-                    $excel->sheet($title, function ($sheet) use ($title, $data, $survey) {
+                    $excel->sheet($title, function ($sheet) use ($title, $data, $survey, $orderQuestion) {
                         $data['title'] = $title;
-                        $sheet->loadView('clients.export.excel', compact('data', 'survey'));
+                        $data['questions'] = $data['questions']->groupBy('section_id');
+                        $sheet->loadView('clients.export.excel', compact('data', 'survey', 'orderQuestion'));
                         $sheet->setOrientation('landscape')
                             ->getDefaultStyle()
                             ->getAlignment()
